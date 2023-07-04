@@ -7,7 +7,8 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Checkbox from "@mui/material/Checkbox";
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+
 
 export default function LoginInputs() {
   const [mostrarContraseña, setMostrarContraseña] = useState(false);
@@ -15,6 +16,7 @@ export default function LoginInputs() {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -27,7 +29,8 @@ export default function LoginInputs() {
       .then((res: any) => {
         if (res) {
           alert("Usuario logeado exitosamente");
-          window.location.href = "/";
+          navigate("/home");
+
         } else {
           alert("Error al iniciar sesion");
         }
@@ -144,15 +147,21 @@ export default function LoginInputs() {
               <Button variant="contained" type="submit">
                 Acceder
               </Button>
-              <NavLink
-                to="/register"
-                style={{
-                  textDecoration: "none",
-                  color: "inherit",
-                  fontWeight: "bold",
-                }}
+              <NavLink 
+              to="/register"
+              style={{
+                textDecoration: "none",
+                outline: "none",
+                color: "gray",
+                
+                fontSize: "1rem",
+                fontFamily: "Roboto",
+                maskMode: "none",
+              }}
               >
-                ¿No tienes cuenta? Registrate
+                
+                  ¿No tienes cuenta? Registrate
+                
               </NavLink>
             </Grid>
           </CardActions>

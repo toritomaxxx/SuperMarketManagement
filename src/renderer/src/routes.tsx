@@ -1,7 +1,7 @@
 import { createHashRouter } from "react-router-dom";
-import Login from "./views/Login.tsx";
-import Register from "./views/Register.tsx";
-import Home from "./views/Home.tsx";
+import Login from "./views/Login";
+import Register from "./views/Register";
+import Home from "./views/Home";
 
 export const router = createHashRouter([
     {
