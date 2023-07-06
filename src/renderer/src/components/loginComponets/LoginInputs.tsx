@@ -8,13 +8,15 @@ import Grid from "@mui/material/Grid";
 import Checkbox from "@mui/material/Checkbox";
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-
+import { Context } from "../../context/Context";
+import { useContext } from "react";
 
 export default function LoginInputs() {
+  const { login } = useContext(Context);
   const [mostrarContraseña, setMostrarContraseña] = useState(false);
   const [user, setUser] = useState({
-    email: "",
-    password: "",
+    email: "admin@admin",
+    password: "1234",
   });
   const navigate = useNavigate();
 
@@ -28,20 +30,16 @@ export default function LoginInputs() {
       .invoke("login", user)
       .then((res: any) => {
         if (res) {
-          alert("Usuario logeado exitosamente");
-          navigate("/home");
+          login(res);
 
+          navigate("/home");
         } else {
           alert("Error al iniciar sesion");
         }
-      }
-      )
-      .catch((err: any) => {
+      })
+      .catch(() => {
         alert("Usuario no existente");
-      }
-      );
-      
-
+      });
   };
 
   const MostrarContraseña = () => {
@@ -74,7 +72,6 @@ export default function LoginInputs() {
           onSubmit={(e) => {
             e.preventDefault();
             handleSubmit(e);
-            console.log(user);
           }}
         >
           <CardContent>
@@ -147,21 +144,18 @@ export default function LoginInputs() {
               <Button variant="contained" type="submit">
                 Acceder
               </Button>
-              <NavLink 
-              to="/register"
-              style={{
-                textDecoration: "none",
-                outline: "none",
-                color: "gray",
-                
-                fontSize: "1rem",
-                fontFamily: "Roboto",
-                maskMode: "none",
-              }}
+              <NavLink
+                to="/register"
+                style={{
+                  textDecoration: "none",
+                  outline: "none",
+                  color: "gray",
+                  fontSize: "1rem",
+                  fontFamily: "Roboto",
+                  maskMode: "none",
+                }}
               >
-                
-                  ¿No tienes cuenta? Registrate
-                
+                ¿No tienes cuenta? Registrate
               </NavLink>
             </Grid>
           </CardActions>
