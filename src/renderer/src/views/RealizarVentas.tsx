@@ -1,10 +1,11 @@
-import { NavLink } from "react-router-dom";
+import Header from "@renderer/components/Header";
 
 export default function RealizarVentas() {
   return (
     <>
-      <h1>Realizar</h1>
-      <NavLink to="/home">Home</NavLink>
+      <Header
+        title="Ventas"
+      />
     </>
   );
 }
