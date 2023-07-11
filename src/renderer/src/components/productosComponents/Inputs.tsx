@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
@@ -12,24 +12,21 @@ export default function Inputs() {
       style={{
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
-        width: "100vw",
-        height: "90vh",
+        paddingTop: "20px",
       }}
+
     >
       <Box
         component="form"
         style={{
-          backgroundColor: "#f5f5f5",
-          boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
-          borderRadius: "10px",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
           alignItems: "center",
           width: "350px",
-          height: "400px",
-          gap: "20px",
+          backgroundColor: "#ffffff",
+          borderRadius: "10px",
+          boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+          padding: "20px",
         }}
       >
         <Typography
@@ -42,23 +39,30 @@ export default function Inputs() {
             color: "#000000",
           }}
         >
-          Agregar productos
+          Agregar producto nuevo
         </Typography>
 
         <TextField
           id="outlined-basic"
           label="Nombre del producto"
           variant="outlined"
+          style={{
+            paddingBottom: "20px",
+          }}
         />
         <TextField
           id="outlined-basic"
           label="Codigo de barras"
           variant="outlined"
+          style={{
+            paddingBottom: "20px",
+          }}
         />
 
         <FormControl
           sx={{
             width: "230px",
+            paddingBottom: "20px",
           }}
         >
           <InputLabel htmlFor="outlined-adornment-amount">Precio</InputLabel>

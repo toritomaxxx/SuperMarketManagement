@@ -34,12 +34,13 @@ export default function Header(props) {
   return (
     <Box
       sx={{
-        flexGrow: 1,
-        height: "10vh",
+
+        width: "100vw",
       }}
     >
       <AppBar
-        position="relative"
+        position="static"
+        
         style={{
           backgroundColor: "#2E3B55",
         }}
