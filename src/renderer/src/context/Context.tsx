@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import React from "react";
 type User = {
   name: string;
@@ -10,9 +10,12 @@ type User = {
 type contextProps = {
   login: (user: any) => void;
   logout: () => void;
-  user: User | null ;
+  user: User | null;
   auth: boolean;
+  products: any;
+  productsTable: () => void;
 };
+
 
 export const Context = createContext({} as contextProps);
 
@@ -23,6 +26,7 @@ type ContextProps = {
 export const ContextProvider = ({ children }: ContextProps) => {
   const [user, setUser] = useState(null);
   const [auth, setAuth] = useState(false);
+  const [products, setProducts] = useState(null);
   const login = (user: any) => {
     setUser(user);
     setAuth(true);
@@ -32,8 +36,20 @@ export const ContextProvider = ({ children }: ContextProps) => {
     setAuth(false);
   };
 
+  useEffect(() => {
+    if (!auth) return;
+    productsTable();
+  }, [auth]);
+
+  const productsTable = () => {
+    window.electron.ipcRenderer.invoke("get-products").then((res: any) => {
+      console.log(res);
+      setProducts(res);
+    });
+  };
+
   return (
-    <Context.Provider value={{ login, user, logout, auth }}>
+    <Context.Provider value={{ login, user, logout, auth, products,productsTable }}>
       {children}
     </Context.Provider>
   );

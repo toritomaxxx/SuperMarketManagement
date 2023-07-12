@@ -9,17 +9,15 @@ export default function AgregarProductos() {
         backgroundColor: "#F5F5F5",
         height: "100vh",
         width: "100vw",
-
-
       }}
     >
       <Header title="Agregar productos" />
-      <Grid  container>
+      <Grid container>
         <Grid
           item
           xs={12}
           sm={12}
-          md={5}
+          md={12}
           lg={4}
           xl={3}
           style={{
@@ -32,7 +30,7 @@ export default function AgregarProductos() {
           item
           xs={12}
           sm={12}
-          md={7}
+          md={12}
           lg={8}
           xl={9}
           style={{

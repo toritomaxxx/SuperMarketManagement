@@ -32,12 +32,14 @@ export default function HeaderHome() {
   };
 
   return (
-    <Box sx={{ 
-      flexGrow: 1,
-      height: "10vh",
-      }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        width: "100vw",
+      }}
+    >
       <AppBar
-        position="relative"
+        position="static"
         style={{
           backgroundColor: "#2E3B55",
         }}

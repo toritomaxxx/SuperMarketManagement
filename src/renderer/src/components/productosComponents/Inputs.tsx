@@ -1,12 +1,48 @@
 import { Button, Typography } from "@mui/material";
+import React, { useState, useContext } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import { Context } from "@renderer/context/Context";
 
 export default function Inputs() {
+  const { productsTable } = useContext(Context);
+  const [values, setValues] = useState({
+    nameProduct: "",
+    codBar: "",
+    price: "",
+    cant: 0,
+  });
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    if (
+      values.nameProduct === "" ||
+      values.codBar === "" ||
+      values.price === ""
+    ) {
+      alert("Por favor llene todos los campos");
+      return;
+    }
+
+    window.electron.ipcRenderer
+      .invoke("create-product", values)
+      .then((res: any) => {
+        if (res) {
+          alert("Producto agregado");
+          productsTable();
+        } else {
+          alert("Error al agregar producto");
+        }
+      })
+      .catch(() => {
+        alert("Producto existente");
+      });
+  };
+
   return (
     <div
       style={{
@@ -14,10 +50,14 @@ export default function Inputs() {
         justifyContent: "center",
         paddingTop: "20px",
       }}
-
     >
       <Box
         component="form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit(e);
+          console.log(values);
+        }}
         style={{
           display: "flex",
           flexDirection: "column",
@@ -41,9 +81,12 @@ export default function Inputs() {
         >
           Agregar producto nuevo
         </Typography>
-
+     
         <TextField
           id="outlined-basic"
+          onChange={(e) => {
+            setValues({ ...values, nameProduct: e.target.value });
+          }}
           label="Nombre del producto"
           variant="outlined"
           style={{
@@ -52,13 +95,15 @@ export default function Inputs() {
         />
         <TextField
           id="outlined-basic"
+          onChange={(e) => {
+            setValues({ ...values, codBar: e.target.value });
+          }}
           label="Codigo de barras"
           variant="outlined"
           style={{
             paddingBottom: "20px",
           }}
         />
-
         <FormControl
           sx={{
             width: "230px",
@@ -68,13 +113,17 @@ export default function Inputs() {
           <InputLabel htmlFor="outlined-adornment-amount">Precio</InputLabel>
           <OutlinedInput
             id="outlined-adornment-amount"
+            onChange={(e) => {
+              setValues({ ...values, price: e.target.value });
+            }}
             startAdornment={<InputAdornment position="start">$</InputAdornment>}
             label="Amount"
           />
         </FormControl>
-
         <Button
           variant="contained"
+          type="submit"
+          
           style={{
             backgroundColor: "#000000",
             color: "#ffffff",

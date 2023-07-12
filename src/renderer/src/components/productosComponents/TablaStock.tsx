@@ -1,194 +1,138 @@
+import { Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Context } from "../../context/Context";
+import { useContext, useState } from "react";
 
-const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 70, align: "center" },
-  { field: "productName", headerName: "Nombre del producto", align: "center" },
-  {
-    field: "codBarra",
-    headerName: "Codigo de barras",
-    type: "number",
-    align: "center",
-  },
-  {
-    field: "precio",
-    headerName: "Precio",
-    type: "number",
-    align: "center",
-  },
-];
-
-const rows = [
-  { id: 1, productName: "Snow", codBarra: 35, precio: 35 },
-  { id: 2, productName: "Lannister", codBarra: 42, precio: 42 },
-  { id: 3, productName: "Lannister", codBarra: 45, precio: 45 },
-  { id: 4, productName: "Stark", codBarra: 16, precio: 16 },
-  { id: 5, productName: "Targaryen", codBarra: null, precio: 150 },
-  { id: 6, productName: "Melisandre", codBarra: 150, precio: 150 },
-  { id: 7, productName: "Clifford", codBarra: 44, precio: 44 },
-  { id: 8, productName: "Frances", codBarra: 36, precio: 36 },
-  { id: 9, productName: "Roxie", codBarra: 65, precio: 65 },
-  { id: 10, productName: "Snow", codBarra: 35, precio: 35 },
-  { id: 11, productName: "Lannister", codBarra: 42, precio: 42 },
-  { id: 12, productName: "Lannister", codBarra: 45, precio: 45 },
-  { id: 13, productName: "Stark", codBarra: 16, precio: 16 },
-  { id: 14, productName: "Targaryen", codBarra: null, precio: 150 },
-  { id: 15, productName: "Melisandre", codBarra: 150, precio: 150 },
-  { id: 16, productName: "Clifford", codBarra: 44, precio: 44 },
-  { id: 17, productName: "Frances", codBarra: 36, precio: 36 },
-  { id: 18, productName: "Roxie", codBarra: 65, precio: 65 },
-  { id: 1, productName: "Snow", codBarra: 35, precio: 35 },
-  { id: 2, productName: "Lannister", codBarra: 42, precio: 42 },
-  { id: 3, productName: "Lannister", codBarra: 45, precio: 45 },
-  { id: 4, productName: "Stark", codBarra: 16, precio: 16 },
-  { id: 5, productName: "Targaryen", codBarra: null, precio: 150 },
-  { id: 6, productName: "Melisandre", codBarra: 150, precio: 150 },
-  { id: 7, productName: "Clifford", codBarra: 44, precio: 44 },
-  { id: 8, productName: "Frances", codBarra: 36, precio: 36 },
-  { id: 9, productName: "Roxie", codBarra: 65, precio: 65 },
-  { id: 10, productName: "Snow", codBarra: 35, precio: 35 },
-  { id: 11, productName: "Lannister", codBarra: 42, precio: 42 },
-  { id: 12, productName: "Lannister", codBarra: 45, precio: 45 },
-  { id: 13, productName: "Stark", codBarra: 16, precio: 16 },
-  { id: 14, productName: "Targaryen", codBarra: null, precio: 150 },
-  { id: 15, productName: "Melisandre", codBarra: 150, precio: 150 },
-  { id: 16, productName: "Clifford", codBarra: 44, precio: 44 },
-  { id: 17, productName: "Frances", codBarra: 36, precio: 36 },
-  { id: 18, productName: "Roxie", codBarra: 65, precio: 65 },
-  { id: 1, productName: "Snow", codBarra: 35, precio: 35 },
-  { id: 2, productName: "Lannister", codBarra: 42, precio: 42 },
-  { id: 3, productName: "Lannister", codBarra: 45, precio: 45 },
-  { id: 4, productName: "Stark", codBarra: 16, precio: 16 },
-  { id: 5, productName: "Targaryen", codBarra: null, precio: 150 },
-  { id: 6, productName: "Melisandre", codBarra: 150, precio: 150 },
-  { id: 7, productName: "Clifford", codBarra: 44, precio: 44 },
-  { id: 8, productName: "Frances", codBarra: 36, precio: 36 },
-  { id: 9, productName: "Roxie", codBarra: 65, precio: 65 },
-  { id: 10, productName: "Snow", codBarra: 35, precio: 35 },
-  { id: 11, productName: "Lannister", codBarra: 42, precio: 42 },
-  { id: 12, productName: "Lannister", codBarra: 45, precio: 45 },
-  { id: 13, productName: "Stark", codBarra: 16, precio: 16 },
-  { id: 14, productName: "Targaryen", codBarra: null, precio: 150 },
-  { id: 15, productName: "Melisandre", codBarra: 150, precio: 150 },
-  { id: 16, productName: "Clifford", codBarra: 44, precio: 44 },
-  { id: 17, productName: "Frances", codBarra: 36, precio: 36 },
-  { id: 18, productName: "Roxie", codBarra: 65, precio: 65 },
-  { id: 1, productName: "Snow", codBarra: 35, precio: 35 },
-  { id: 2, productName: "Lannister", codBarra: 42, precio: 42 },
-  { id: 3, productName: "Lannister", codBarra: 45, precio: 45 },
-  { id: 4, productName: "Stark", codBarra: 16, precio: 16 },
-  { id: 5, productName: "Targaryen", codBarra: null, precio: 150 },
-  { id: 6, productName: "Melisandre", codBarra: 150, precio: 150 },
-  { id: 7, productName: "Clifford", codBarra: 44, precio: 44 },
-  { id: 8, productName: "Frances", codBarra: 36, precio: 36 },
-  { id: 9, productName: "Roxie", codBarra: 65, precio: 65 },
-  { id: 10, productName: "Snow", codBarra: 35, precio: 35 },
-  { id: 11, productName: "Lannister", codBarra: 42, precio: 42 },
-  { id: 12, productName: "Lannister", codBarra: 45, precio: 45 },
-  { id: 13, productName: "Stark", codBarra: 16, precio: 16 },
-  { id: 14, productName: "Targaryen", codBarra: null, precio: 150 },
-  { id: 15, productName: "Melisandre", codBarra: 150, precio: 150 },
-  { id: 16, productName: "Clifford", codBarra: 44, precio: 44 },
-  { id: 17, productName: "Frances", codBarra: 36, precio: 36 },
-  { id: 18, productName: "Roxie", codBarra: 65, precio: 65 },
-  { id: 1, productName: "Snow", codBarra: 35, precio: 35 },
-  { id: 2, productName: "Lannister", codBarra: 42, precio: 42 },
-  { id: 3, productName: "Lannister", codBarra: 45, precio: 45 },
-  { id: 4, productName: "Stark", codBarra: 16, precio: 16 },
-  { id: 5, productName: "Targaryen", codBarra: null, precio: 150 },
-  { id: 6, productName: "Melisandre", codBarra: 150, precio: 150 },
-  { id: 7, productName: "Clifford", codBarra: 44, precio: 44 },
-  { id: 8, productName: "Frances", codBarra: 36, precio: 36 },
-  { id: 9, productName: "Roxie", codBarra: 65, precio: 65 },
-  { id: 10, productName: "Snow", codBarra: 35, precio: 35 },
-  { id: 11, productName: "Lannister", codBarra: 42, precio: 42 },
-  { id: 12, productName: "Lannister", codBarra: 45, precio: 45 },
-  { id: 13, productName: "Stark", codBarra: 16, precio: 16 },
-  { id: 14, productName: "Targaryen", codBarra: null, precio: 150 },
-  { id: 15, productName: "Melisandre", codBarra: 150, precio: 150 },
-  { id: 16, productName: "Clifford", codBarra: 44, precio: 44 },
-  { id: 17, productName: "Frances", codBarra: 36, precio: 36 },
-  { id: 18, productName: "Roxie", codBarra: 65, precio: 65 },
-  { id: 1, productName: "Snow", codBarra: 35, precio: 35 },
-  { id: 2, productName: "Lannister", codBarra: 42, precio: 42 },
-  { id: 3, productName: "Lannister", codBarra: 45, precio: 45 },
-  { id: 4, productName: "Stark", codBarra: 16, precio: 16 },
-  { id: 5, productName: "Targaryen", codBarra: null, precio: 150 },
-  { id: 6, productName: "Melisandre", codBarra: 150, precio: 150 },
-  { id: 7, productName: "Clifford", codBarra: 44, precio: 44 },
-  { id: 8, productName: "Frances", codBarra: 36, precio: 36 },
-  { id: 9, productName: "Roxie", codBarra: 65, precio: 65 },
-  { id: 10, productName: "Snow", codBarra: 35, precio: 35 },
-  { id: 11, productName: "Lannister", codBarra: 42, precio: 42 },
-  { id: 12, productName: "Lannister", codBarra: 45, precio: 45 },
-  { id: 13, productName: "Stark", codBarra: 16, precio: 16 },
-  { id: 14, productName: "Targaryen", codBarra: null, precio: 150 },
-  { id: 15, productName: "Melisandre", codBarra: 150, precio: 150 },
-  { id: 16, productName: "Clifford", codBarra: 44, precio: 44 },
-  { id: 17, productName: "Frances", codBarra: 36, precio: 36 },
-  { id: 18, productName: "Roxie", codBarra: 65, precio: 65 },
-  { id: 1, productName: "Snow", codBarra: 35, precio: 35 },
-  { id: 2, productName: "Lannister", codBarra: 42, precio: 42 },
-  { id: 3, productName: "Lannister", codBarra: 45, precio: 45 },
-  { id: 4, productName: "Stark", codBarra: 16, precio: 16 },
-  { id: 5, productName: "Targaryen", codBarra: null, precio: 150 },
-  { id: 6, productName: "Melisandre", codBarra: 150, precio: 150 },
-  { id: 7, productName: "Clifford", codBarra: 44, precio: 44 },
-  { id: 8, productName: "Frances", codBarra: 36, precio: 36 },
-  { id: 9, productName: "Roxie", codBarra: 65, precio: 65 },
-  { id: 10, productName: "Snow", codBarra: 35, precio: 35 },
-  { id: 11, productName: "Lannister", codBarra: 42, precio: 42 },
-  { id: 12, productName: "Lannister", codBarra: 45, precio: 45 },
-  { id: 13, productName: "Stark", codBarra: 16, precio: 16 },
-  { id: 14, productName: "Targaryen", codBarra: null, precio: 150 },
-  { id: 15, productName: "Melisandre", codBarra: 150, precio: 150 },
-  { id: 16, productName: "Clifford", codBarra: 44, precio: 44 },
-  { id: 17, productName: "Frances", codBarra: 36, precio: 36 },
-  { id: 18, productName: "Roxie", codBarra: 65, precio: 65 },
-  { id: 1, productName: "Snow", codBarra: 35, precio: 35 },
-  { id: 2, productName: "Lannister", codBarra: 42, precio: 42 },
-  { id: 3, productName: "Lannister", codBarra: 45, precio: 45 },
-  { id: 4, productName: "Stark", codBarra: 16, precio: 16 },
-  { id: 5, productName: "Targaryen", codBarra: null, precio: 150 },
-  { id: 6, productName: "Melisandre", codBarra: 150, precio: 150 },
-  { id: 7, productName: "Clifford", codBarra: 44, precio: 44 },
-  { id: 8, productName: "Frances", codBarra: 36, precio: 36 },
-  { id: 9, productName: "Roxie", codBarra: 65, precio: 65 },
-  { id: 10, productName: "Snow", codBarra: 35, precio: 35 },
-  { id: 11, productName: "Lannister", codBarra: 42, precio: 42 },
-  { id: 12, productName: "Lannister", codBarra: 45, precio: 45 },
-  { id: 13, productName: "Stark", codBarra: 16, precio: 16 },
-  { id: 14, productName: "Targaryen", codBarra: null, precio: 150 },
-  { id: 15, productName: "Melisandre", codBarra: 150, precio: 150 },
-  { id: 16, productName: "Clifford", codBarra: 44, precio: 44 },
-  { id: 17, productName: "Frances", codBarra: 36, precio: 36 },
-  { id: 18, productName: "Roxie", codBarra: 65, precio: 65 },
-  { id: 1, productName: "Snow", codBarra: 35, precio: 35 },
-  { id: 2, productName: "Lannister", codBarra: 42, precio: 42 },
-  { id: 3, productName: "Lannister", codBarra: 45, precio: 45 },
-  { id: 4, productName: "Stark", codBarra: 16, precio: 16 },
-  { id: 5, productName: "Targaryen", codBarra: null, precio: 150 },
-  { id: 6, productName: "Melisandre", codBarra: 150, precio: 150 },
-  { id: 7, productName: "Clifford", codBarra: 44, precio: 44 },
-  { id: 8, productName: "Frances", codBarra: 36, precio: 36 },
-  { id: 9, productName: "Roxie", codBarra: 65, precio: 65 },
-  { id: 10, productName: "Snow", codBarra: 35, precio: 35 },
-  { id: 11, productName: "Lannister", codBarra: 42, precio: 42 },
-  { id: 12, productName: "Lannister", codBarra: 45, precio: 45 },
-  { id: 13, productName: "Stark", codBarra: 16, precio: 16 },
-  { id: 14, productName: "Targaryen", codBarra: null, precio: 150 },
-  { id: 15, productName: "Melisandre", codBarra: 150, precio: 150 },
-  { id: 16, productName: "Clifford", codBarra: 44, precio: 44 },
-  { id: 17, productName: "Frances", codBarra: 36, precio: 36 },
-  { id: 18, productName: "Roxie", codBarra: 65, precio: 65 },
-];
 
 export default function TablaStock() {
+  const { productsTable, products } = useContext(Context);
+
+
+
+  const columns: GridColDef[] = [
+    {
+      field: "nameProduct",
+      headerName: "Nombre",
+      flex: 1,
+      minWidth: 100,
+    },
+    {
+      field: "codBar",
+      headerName: "Codigo de barras",
+      type: "number",
+      align: "center",
+      flex: 1,
+      headerAlign: "center",
+      minWidth: 150,
+    },
+    {
+      field: "cant",
+      headerName: "Cantidad en stock",
+      type: "number",
+      flex: 1,
+      align: "center",
+      headerAlign: "center",
+      minWidth: 150,
+    },
+    {
+      field: "price",
+      headerName: "Precio",
+      type: "number",
+      align: "center",
+      headerAlign: "center",
+
+      minWidth: 80,
+      flex: 1,
+      renderCell: (params) => (
+        <div>
+          <Typography variant="body1" align="center">
+            ${params.row.price}
+          </Typography>
+        </div>
+      ),
+    },
+    {
+      field: "acciones",
+      headerName: "Acciones",
+      align: "center",
+      headerAlign: "center",
+      flex: 1,
+      minWidth: 80,
+      renderCell: (params) => (
+        <div>
+          <IconButton color="primary" aria-label="Editar">
+            <EditIcon />
+          </IconButton>
+          <IconButton color="secondary" aria-label="Borrar">
+            <DeleteIcon
+              onClick={() => {
+                window.electron.ipcRenderer
+                  .invoke("delete-product", { _id: params.row._id })
+                  .then((res: any) => {
+                    if (res) {
+                      alert("Producto eliminado");
+                      productsTable();
+                    } else {
+                      alert("Error al eliminar producto");
+                    }
+                  })
+                  .catch(() => {
+                    alert("Error al eliminar producto");
+                  });
+              }}
+            />
+          </IconButton>
+        </div>
+      ),
+    },
+  ];
+
   return (
-    <div style={{ height: "70vh", width: "100%" }}>
+    <div
+      style={{
+        height: "70vh",
+        width: "90%",
+        margin: "auto",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginBottom: "10px",
+        }}
+      >
+        <Typography
+          variant="h5"
+          fontFamily={"Roboto"}
+          style={{
+            color: "#000",
+            fontWeight: "bold",
+            backgroundColor: "#fff",
+            borderRadius: "10px",
+            padding: "10px",
+            boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+          Stock Actual
+        </Typography>
+      </div>
+
       <DataGrid
-        rows={rows}
+        rows={products ? products : ""}
+        localeText={{
+          noRowsLabel: "Actualmente no hay productos cargados",
+        }}
+        getRowId={(row) => row._id}
         columns={columns}
         density="compact"
+        hideFooter
         style={{
           borderRadius: "10px",
           boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
