@@ -1,7 +1,6 @@
 import { ipcMain } from "electron";
 import Datastore from "nedb";
 
-
 const usersDB = new Datastore({
   filename: "./src/main/DataBase/users.db",
   autoload: true,
@@ -100,7 +99,6 @@ export const getProductsIpc = () => {
           return;
         }
         resolve(docs);
-        
       });
     });
   });
@@ -118,18 +116,29 @@ export const deleteProductIpc = () => {
       });
     });
   });
-}
+};
 
 export const updateProductIpc = () => {
   ipcMain.handle("update-product", (event, args) => {
     return new Promise((resolve, reject) => {
-      productsDB.update({ _id: args._id }, { $set: args }, {}, (err, docs) => {
-        if (err) {
-          reject(err);
-          return;
+     console.log(args)
+      productsDB.update(
+        { _id: args._id },
+        {
+            nameProduct: args.nameProduct,
+            codBar: args.codBar,
+            price: args.price,
+            cant: args.cant,
+          
+        },
+        (err, docs) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+          resolve(docs);
         }
-        resolve(docs);
-      });
+      );
     });
   });
-}
+};
