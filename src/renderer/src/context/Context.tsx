@@ -14,8 +14,11 @@ type contextProps = {
   auth: boolean;
   products: any;
   productsTable: () => void;
+  listaCompras: any;
+  setListaCompras: any;
+  addNewProduct: (product: any) => void;
+  substractProduct: (product: any) => void;
 };
-
 
 export const Context = createContext({} as contextProps);
 
@@ -26,6 +29,7 @@ type ContextProps = {
 export const ContextProvider = ({ children }: ContextProps) => {
   const [user, setUser] = useState(null);
   const [auth, setAuth] = useState(false);
+  const [listaCompras, setListaCompras] = useState<any[]>([]);
   const [products, setProducts] = useState(null);
   const login = (user: any) => {
     setUser(user);
@@ -48,8 +52,60 @@ export const ContextProvider = ({ children }: ContextProps) => {
     });
   };
 
+  const addNewProduct = (product: any) => {
+    const encontro =
+      listaCompras.filter(
+        (productLista: any) => productLista.codBar === product.codBar
+      ).length > 0;
+    if (encontro) {
+      const newLista = listaCompras.map((productLista: any) => {
+        if (productLista.codBar === product.codBar) {
+          productLista.cant += 1;
+        }
+        return productLista;
+      });
+      setListaCompras(newLista);
+    } else {
+      setListaCompras((prev: any) => [...prev, { ...product, cant: 1 }]);
+    }
+  };
+
+  const substractProduct = (product: any) => {
+    const newLista = listaCompras.map((productLista: any) => {
+      if (productLista.codBar === product.codBar) {
+
+        productLista.cant -= 1;
+      }
+
+      return productLista;
+    }
+    );
+    newLista.filter((productLista: any) => productLista.cant <= 0).map((productLista: any) => {
+      const index = newLista.indexOf(productLista);
+      newLista.splice(index, 1);
+    })
+    
+
+    setListaCompras(newLista);
+
+
+  }
+
   return (
-    <Context.Provider value={{ login, user, logout, auth, products,productsTable }}>
+    <Context.Provider
+      value={{
+        login,
+        user,
+        logout,
+        auth,
+        products,
+        productsTable,
+        setListaCompras,
+        listaCompras,
+        addNewProduct,
+        substractProduct
+      }}
+    >
       {children}
     </Context.Provider>
   );
