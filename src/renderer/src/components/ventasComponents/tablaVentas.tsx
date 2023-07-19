@@ -1,20 +1,15 @@
-import { Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import { Context } from "@renderer/context/Context";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import Button from "@mui/material/Button";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 export default function TablaVentas() {
-  const { listaCompras, addNewProduct, substractProduct } = useContext(Context);
-  const sizeDefault = 13;
-  const [tablaLlena, setTablaLlena] = useState(sizeDefault);
+  const { listaCompras, addNewProduct, substractProduct, editProduct } =
+    useContext(Context);
 
   const totalListaCompra = () => {
     let total = 0;
@@ -24,13 +19,106 @@ export default function TablaVentas() {
     return total;
   };
 
-  useEffect(() => {
-    if (listaCompras.length < sizeDefault) {
-      setTablaLlena(sizeDefault - listaCompras.length);
-    } else {
-      setTablaLlena(0);
-    }
-  }, [listaCompras]);
+  const columns: GridColDef[] = [
+    {
+      field: "cant",
+      headerName: "Cantidad",
+      width: 100,
+      headerAlign: "center",
+      renderCell: (params) => (
+        <div>
+          <TextField
+            variant="outlined"
+            size="small"
+            type="number"
+            value={params.row.cant}
+            onChange={(e) => {
+              editProduct(params.row, e.target.value);
+              if (e.target.value <0) {
+                editProduct(params.row, 0);
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "m" || e.key === "M") {
+                editProduct(params.row, Number(params.row.cant) + 1);
+                
+              }
+
+              if (e.key === "n" || e.key === "N") {
+                editProduct(params.row, params.row.cant - 1);
+                if (params.row.cant < 0) {
+                  editProduct(params.row, 0);
+                }
+              }
+            }}
+          />
+        </div>
+      ),
+    },
+
+    {
+      field: "nameProduct",
+      headerName: "Producto",
+      minWidth: 200,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "codBar",
+      headerName: "Codigo de barras",
+      width: 200,
+      headerAlign: "center",
+      align: "center",
+    },
+    {
+      field: "price",
+      headerName: "Precio Unidad",
+      minWidth: 110,
+      headerAlign: "center",
+      align: "center",
+      flex: 1,
+
+      renderCell: (params) => (
+        <Typography variant="body1" align="center" m={2}>
+          ${params.row.price}
+        </Typography>
+      ),
+    },
+    {
+      field: "priceT",
+      headerName: "Precio total",
+      minWidth: 150,
+      headerAlign: "center",
+      align: "center",
+      flex: 1,
+      renderCell: (params) => (
+        <Typography variant="body1" align="center" m={2}>
+          ${params.row.price * params.row.cant}
+        </Typography>
+      ),
+    },
+    {
+      field: "actions",
+      headerName: "Acciones",
+      width: 100,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <DeleteOutlineIcon
+          onClick={() => {
+            params.row.cant = 1;
+            substractProduct(params.row);
+          }}
+          sx={{
+            color: "error.main",
+            fontSize: "30px",
+          }}
+        />
+      ),
+    },
+  ];
+
   return (
     <Box
       sx={{
@@ -55,106 +143,29 @@ export default function TablaVentas() {
           boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
         }}
       >
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead
-              sx={{
-                boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
-              }}
-            >
-              <TableRow>
-                <TableCell align="center">Cantidad</TableCell>
-                <TableCell align="center">Producto</TableCell>
-                <TableCell align="center">Codigo de barras</TableCell>
-                <TableCell align="center">Precio unidad</TableCell>
-                <TableCell align="center">Precio total</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody
-              sx={{
-                "& > :not(style)": {
-                  borderBottom: "none",
-                },
-              }}
-            >
-              {listaCompras.map((product: any) => (
-                <TableRow key={product.nameProduct}>
-                  <TableCell
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-around",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Button
-                      variant="contained"
-                      color="error"
-                      onClick={() => {
-                        substractProduct(product);
-                      }}
-                      style={{
-                        fontSize: "40px",
-                        fontWeight: "bold",
-                        height: "40px",
-                        width: "40px",
-                        minWidth: "40px",
-                        borderRadius: "50%",
-                        padding: "0px",
-                        margin: "0px",
-                        lineHeight: "0px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      -
-                    </Button>
-                    {product.cant}
-                    <Button
-                      variant="contained"
-                      color="success"
-                      onClick={() => {
-                        addNewProduct(product);
-                      }}
-                      style={{
-                        fontSize: "40px",
-                        fontWeight: "bold",
-                        height: "40px",
-                        width: "40px",
-                        minWidth: "40px",
-                        borderRadius: "50%",
-                        padding: "0px",
-                        margin: "0px",
-                        lineHeight: "0px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      +
-                    </Button>
-                  </TableCell>
-                  <TableCell align="center">{product.nameProduct}</TableCell>
-                  <TableCell align="center">{product.codBar}</TableCell>
-                  <TableCell align="center">${product.price}</TableCell>
-                  <TableCell align="center">
-                    ${product.cant * product.price}
-                  </TableCell>
-                </TableRow>
-              ))}
-              {tablaLlena > 0 &&
-                [...Array(tablaLlena)].map((_, i) => (
-                  <TableRow key={i}>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                    <TableCell align="center"></TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <Box
+          sx={{
+            height: "100%",
+            width: "100%",
+            "& .MuiDataGrid-cell": {
+              border: "none",
+            },
+          }}
+        >
+          <DataGrid
+            getRowId={(row) => row.codBar}
+            rows={listaCompras ? listaCompras : ""}
+            columns={columns}
+            style={{
+              height: "100%",
+              width: "100%",
+            }}
+            hideFooter
+            localeText={{
+              noRowsLabel: "Actualmente no hay productos cargados",
+            }}
+          />
+        </Box>
         <div
           style={{
             display: "flex",

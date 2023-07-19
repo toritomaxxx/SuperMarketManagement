@@ -18,6 +18,7 @@ type contextProps = {
   setListaCompras: any;
   addNewProduct: (product: any) => void;
   substractProduct: (product: any) => void;
+  editProduct:(product:any,newCant:number) => void;
 };
 
 export const Context = createContext({} as contextProps);
@@ -73,23 +74,29 @@ export const ContextProvider = ({ children }: ContextProps) => {
   const substractProduct = (product: any) => {
     const newLista = listaCompras.map((productLista: any) => {
       if (productLista.codBar === product.codBar) {
-
         productLista.cant -= 1;
       }
 
       return productLista;
-    }
-    );
-    newLista.filter((productLista: any) => productLista.cant <= 0).map((productLista: any) => {
-      const index = newLista.indexOf(productLista);
-      newLista.splice(index, 1);
-    })
-    
+    });
+    newLista
+      .filter((productLista: any) => productLista.cant <= 0)
+      .map((productLista: any) => {
+        const index = newLista.indexOf(productLista);
+        newLista.splice(index, 1);
+      });
 
     setListaCompras(newLista);
-
-
-  }
+  };
+  const editProduct = (product: any, newCant: number) => {
+    const newLista = listaCompras.map((e) => {
+      if (e.codBar === product.codBar) {
+        e.cant = newCant;
+      }
+      return e;
+    });
+    setListaCompras(newLista);
+  };
 
   return (
     <Context.Provider
@@ -103,7 +110,8 @@ export const ContextProvider = ({ children }: ContextProps) => {
         setListaCompras,
         listaCompras,
         addNewProduct,
-        substractProduct
+        substractProduct,
+        editProduct,
       }}
     >
       {children}
