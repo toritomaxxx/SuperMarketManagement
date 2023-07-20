@@ -6,16 +6,38 @@ import { useContext } from "react";
 import Button from "@mui/material/Button";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { useState } from "react";
+import CancelarCompra from "../AlertasVarias/cancelarCompra";
+import ModalPagar from "../productosComponents/ModalPagar";
+import PagarListaVacia from "../AlertasVarias/pagarListaVacia";
 
 export default function TablaVentas() {
-  const { listaCompras, addNewProduct, substractProduct, editProduct } =
-    useContext(Context);
+  const [openAlertCancel, setOpen] = useState(false);
+  const [openM, setOpenM] = useState(false);
+  const [openP, setOpenP] = useState(false);
+ 
+
+  const handleOpenM = () => setOpenM(true);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleCloseP = () => {
+    setOpenP(false);
+  };
+
+  const { listaCompras, substractProduct, editProduct } = useContext(Context);
 
   const totalListaCompra = () => {
     let total = 0;
     listaCompras.forEach((product: any) => {
       total += product.price * product.cant;
     });
+  
     return total;
   };
 
@@ -33,15 +55,14 @@ export default function TablaVentas() {
             type="number"
             value={params.row.cant}
             onChange={(e) => {
-              editProduct(params.row, e.target.value);
-              if (e.target.value <0) {
+              editProduct(params.row, Number(e.target.value));
+              if (Number(e.target.value) < 0) {
                 editProduct(params.row, 0);
               }
             }}
             onKeyDown={(e) => {
               if (e.key === "m" || e.key === "M") {
                 editProduct(params.row, Number(params.row.cant) + 1);
-                
               }
 
               if (e.key === "n" || e.key === "N") {
@@ -205,6 +226,9 @@ export default function TablaVentas() {
                 padding: "10px",
                 fontSize: "20px",
               }}
+              onClick={() => {
+                handleClickOpen();
+              }}
             >
               Cancelar
             </Button>
@@ -216,12 +240,36 @@ export default function TablaVentas() {
                 padding: "10px",
                 fontSize: "20px",
               }}
+              onClick={() => {
+                if (listaCompras.length === 0) {
+                  setOpenP(true);
+                } else {
+                  handleOpenM();
+                }
+              }}
             >
               Pagar
             </Button>
           </Box>
         </div>
       </Paper>
+      <CancelarCompra
+        open={openAlertCancel}
+        setOpen={setOpen}
+        handleClose={handleClose}
+      />
+
+      <PagarListaVacia
+        open={openP}
+        setOpen={setOpenP}
+        handleClose={handleCloseP}
+      />
+      <ModalPagar
+        open={openM}
+        setOpen={setOpenM}
+        handleOpenM={handleOpenM}
+        valorTotal={totalListaCompra()}
+      />
     </Box>
   );
 }

@@ -19,6 +19,7 @@ type contextProps = {
   addNewProduct: (product: any) => void;
   substractProduct: (product: any) => void;
   editProduct:(product:any,newCant:number) => void;
+  setProducts:any;
 };
 
 export const Context = createContext({} as contextProps);
@@ -112,6 +113,7 @@ export const ContextProvider = ({ children }: ContextProps) => {
         addNewProduct,
         substractProduct,
         editProduct,
+        setProducts
       }}
     >
       {children}
