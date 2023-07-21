@@ -8,6 +8,8 @@ import {
   createProductIpc,
   deleteProductIpc,
   updateProductIpc,
+  createSaleIpc,
+  getUsersIpc
 } from "./IpcFunctions";
 
 function createWindow(): void {
@@ -70,4 +72,6 @@ app.whenReady().then(() => {
   getProductsIpc();
   deleteProductIpc();
   updateProductIpc();
+  createSaleIpc();
+  getUsersIpc();
 });

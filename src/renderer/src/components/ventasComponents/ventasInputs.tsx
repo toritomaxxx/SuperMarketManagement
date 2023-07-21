@@ -3,13 +3,19 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Context } from "@renderer/context/Context";
-import { useContext } from "react";
-
+import { useContext, useEffect } from "react";
+import { useState } from "react";
 
 export default function VentasInputs() {
-  const { products,addNewProduct } = useContext(Context);
+  const { products, addNewProduct } = useContext(Context);
+  const [value, setValue] = useState(null);
+  const [inputValue, setInputValue] = useState("");
 
-
+  useEffect(() => {
+    if (inputValue === "") return;
+    setInputValue("");
+    setValue(null);
+  }, [value, inputValue]);
 
   return (
     <Box
@@ -33,12 +39,15 @@ export default function VentasInputs() {
         }}
       >
         <Autocomplete
-          disablePortal
-          id="combo-box-demo"
           options={products}
+          value={value}
+          inputValue={inputValue}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+          }}
           onChange={(event: any, newValue: any) => {
-            // setListaCompras((prev: any) => [...prev, newValue]);
             addNewProduct(newValue);
+            setValue(newValue);
           }}
           getOptionLabel={(product: any) =>
             product.nameProduct + " (" + product.codBar + ")"

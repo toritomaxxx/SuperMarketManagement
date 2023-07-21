@@ -34,13 +34,11 @@ export default function Header(props) {
   return (
     <Box
       sx={{
-
         width: "100vw",
       }}
     >
       <AppBar
         position="static"
-        
         style={{
           backgroundColor: "#2E3B55",
         }}
@@ -75,7 +73,7 @@ export default function Header(props) {
             </Typography>
           </IconButton>
 
-          <IconButton edge="start" color="inherit" aria-label="menu">
+          <>
             <div>
               <IconButton
                 size="large"
@@ -106,7 +104,7 @@ export default function Header(props) {
                 <MenuItem onClick={handleLogout}>Cerrar sesíon</MenuItem>
               </Menu>
             </div>
-          </IconButton>
+          </>
         </Toolbar>
       </AppBar>
     </Box>

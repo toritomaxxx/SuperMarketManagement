@@ -7,6 +7,8 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import HistoryIcon from "@mui/icons-material/History";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { Context } from "@renderer/context/Context";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -28,11 +30,8 @@ const WrapItem = ({ Icon, title, onClick }) => {
         style={{
           fontSize: 200,
         }}
-        />
-      <Typography
-        variant="h5"
-        fontWeight="bold"
-        >
+      />
+      <Typography variant="h5" fontWeight="bold">
         {title}
       </Typography>
     </Item>
@@ -40,6 +39,7 @@ const WrapItem = ({ Icon, title, onClick }) => {
 };
 
 export default function DirectionStack() {
+  const { user } = useContext(Context);
   const navigate = useNavigate();
   return (
     <Box
@@ -67,17 +67,32 @@ export default function DirectionStack() {
         <WrapItem
           title="Agregar productos"
           Icon={AddBusinessIcon}
-          onClick={() => navigate("/productos")}
+          onClick={() => {
+            if (!user?.isAdmin) {
+              alert("No tienes permisos para acceder a esta seccion");
+              return;
+            }
+
+            navigate("/productos");
+          }}
         />
         <WrapItem
           title="Realizar ventas"
           Icon={AddShoppingCartIcon}
-          onClick={() => navigate("/ventas")}
+          onClick={() => {
+            navigate("/ventas");
+          }}
         />
         <WrapItem
           title="Ver Historial"
           Icon={HistoryIcon}
-          onClick={() => navigate("/historial")}
+          onClick={() => {
+            if (!user?.isAdmin) {
+              alert("No tienes permisos para acceder a esta seccion");
+              return;
+            }
+            navigate("/historial");
+          }}
         />
       </Stack>
     </Box>

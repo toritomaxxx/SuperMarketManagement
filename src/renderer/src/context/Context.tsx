@@ -18,8 +18,9 @@ type contextProps = {
   setListaCompras: any;
   addNewProduct: (product: any) => void;
   substractProduct: (product: any) => void;
-  editProduct:(product:any,newCant:number) => void;
-  setProducts:any;
+  editProduct: (product: any, newCant: number) => void;
+  setProducts: any;
+  revisarUsers: () => Promise<boolean>;
 };
 
 export const Context = createContext({} as contextProps);
@@ -35,6 +36,7 @@ export const ContextProvider = ({ children }: ContextProps) => {
   const [products, setProducts] = useState(null);
   const login = (user: any) => {
     setUser(user);
+    console.log(user);
     setAuth(true);
   };
   const logout = () => {
@@ -49,9 +51,17 @@ export const ContextProvider = ({ children }: ContextProps) => {
 
   const productsTable = () => {
     window.electron.ipcRenderer.invoke("get-products").then((res: any) => {
-      console.log(res);
       setProducts(res);
     });
+  };
+
+  const revisarUsers = async () => {
+    const res = await window.electron.ipcRenderer.invoke("get-users");
+    if (res.length !== 0 ) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   const addNewProduct = (product: any) => {
@@ -113,7 +123,8 @@ export const ContextProvider = ({ children }: ContextProps) => {
         addNewProduct,
         substractProduct,
         editProduct,
-        setProducts
+        setProducts,
+        revisarUsers,
       }}
     >
       {children}

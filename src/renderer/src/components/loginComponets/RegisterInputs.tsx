@@ -85,7 +85,7 @@ export default function RegisterInputs() {
               gap={2}
             >
               <NavLink
-                to="/"
+                to="/login"
                 style={{
                   width: "100%",
                   display: "flex",

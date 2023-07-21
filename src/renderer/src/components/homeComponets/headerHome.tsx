@@ -55,7 +55,7 @@ export default function HeaderHome() {
             Inicio
           </Typography>
 
-          <IconButton edge="start" color="inherit" aria-label="menu">
+          <>
             <div>
               <IconButton
                 size="large"
@@ -86,7 +86,7 @@ export default function HeaderHome() {
                 <MenuItem onClick={handleLogout}>Cerrar sesíon</MenuItem>
               </Menu>
             </div>
-          </IconButton>
+          </>
         </Toolbar>
       </AppBar>
     </Box>

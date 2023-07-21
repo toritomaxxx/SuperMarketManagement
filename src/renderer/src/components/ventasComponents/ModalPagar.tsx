@@ -4,7 +4,8 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useState } from "react";
 import Modal from "@mui/material/Modal";
-
+import { Context } from "@renderer/context/Context";
+import { useContext } from "react";
 
 const style = {
   position: "absolute" as "absolute",
@@ -18,9 +19,11 @@ const style = {
 };
 
 export default function ModalPagar(props) {
+  const { listaCompras, substractProduct, products } = useContext(Context);
   const { open, setOpen, valorTotal } = props;
   const [optionSelected, setOptionSelected] = useState({ value: "" });
   const [vuelto, setVuelto] = useState(0);
+  const [efectivo, setEfectivo] = useState("");
 
   const handleCloseM = () => setOpen(false);
   const MediosPagoLista = [
@@ -30,7 +33,53 @@ export default function ModalPagar(props) {
     { label: "Uala", value: "Uala" },
   ];
 
+  function BajarStock() {
+    listaCompras.forEach((product: any) => {
+      const index = products.findIndex((p: any) => p.codBar === product.codBar);
+      const newProducts = [...products];
+      if(newProducts[index].cant === 0){
+        alert("Actualizar stock de " + newProducts[index].nameProduct);
+      }
+      newProducts[index].cant = newProducts[index].cant - product.cant;
+      window.electron.ipcRenderer.invoke("update-product", newProducts[index]);
+    });
+  }
 
+  function CargarVenta() {
+    if (optionSelected.value === "") {
+      alert("Seleccione un medio de pago");
+      return;
+    } else if (optionSelected.value === "Efectivo" && efectivo === "") {
+      alert("Ingrese el efectivo con el que va a pagar");
+    } else {
+      window.electron.ipcRenderer
+        .invoke("create-sale", {
+          fecha: new Date().toLocaleDateString(),
+          hora: new Date().toLocaleTimeString(),
+          productos: listaCompras,
+          total: valorTotal,
+          medioPago: optionSelected.value,
+          vuelto: optionSelected.value === "Efectivo" ? vuelto : 0,
+        })
+        .then((res: any) => {
+          if (res) {
+            alert("Venta cargada exitosamente");
+          } else {
+            alert("Error al cargar la venta");
+          }
+        })
+        .catch((err: any) => {
+          alert("Error al cargar la venta");
+        });
+      BajarStock();
+      listaCompras.forEach((product: any) => {
+        product.cant = 1;
+        substractProduct(product);
+      });
+
+      handleCloseM();
+    }
+  }
 
   return (
     <div>
@@ -98,6 +147,7 @@ export default function ModalPagar(props) {
                 variant="outlined"
                 type="number"
                 onChange={(e) => {
+                  setEfectivo(e.target.value);
                   setVuelto(Number(e.target.value) - valorTotal);
                 }}
               />
@@ -124,7 +174,9 @@ export default function ModalPagar(props) {
               variant="contained"
               color="success"
               fullWidth
-              onClick={handleCloseM}
+              onClick={() => {
+                CargarVenta();
+              }}
             >
               Pagar
             </Button>

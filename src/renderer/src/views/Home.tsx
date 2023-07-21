@@ -7,22 +7,15 @@ export default function Home() {
         backgroundColor: "#f5f5f5",
         height: "100vh",
         width: "100vw",
-
       }}
     >
       <HeaderHome />
       <div
         style={{
           display: "flex",
-          
-          
+
           backgroundColor: "#f5f5f5",
-        
-
-
-
         }}
-          
       >
         <MenuHome />
       </div>

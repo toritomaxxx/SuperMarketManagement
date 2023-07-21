@@ -9,6 +9,10 @@ const productsDB = new Datastore({
   filename: "./src/main/DataBase/products.db",
   autoload: true,
 });
+const salesDB = new Datastore({
+  filename: "./src/main/DataBase/sales.db",
+  autoload: true,
+});
 
 export const registerIpc = () => {
   ipcMain.handle("register", (event, args) => {
@@ -29,6 +33,20 @@ export const registerIpc = () => {
           }
           resolve(doc);
         });
+      });
+    });
+  });
+};
+
+export const getUsersIpc = () => {
+  ipcMain.handle("get-users", (event, args) => {
+    return new Promise((resolve, reject) => {
+      usersDB.find({}, (err, docs) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(docs);
       });
     });
   });
@@ -142,5 +160,19 @@ export const updateProductIpc = () => {
     });
   });
 };
+
+export const createSaleIpc = () => {
+  ipcMain.handle("create-sale", (event, args) => {
+    return new Promise((resolve, reject) => {
+      salesDB.insert(args, (err, doc) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(doc);
+      });
+    });
+  });
+}
 
 

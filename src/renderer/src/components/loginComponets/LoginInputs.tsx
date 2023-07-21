@@ -7,11 +7,13 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Checkbox from "@mui/material/Checkbox";
 import { useState, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { Context } from "../../context/Context";
 import { useContext } from "react";
+import ModalAdmin from "./ModalAdmin";
 
 export default function LoginInputs() {
+  const [open, setOpen] = useState(false);
   const { login } = useContext(Context);
   const [mostrarContraseña, setMostrarContraseña] = useState(false);
   const [user, setUser] = useState({
@@ -44,10 +46,12 @@ export default function LoginInputs() {
 
   const MostrarContraseña = () => {
     setMostrarContraseña(!mostrarContraseña);
+    
+   
   };
 
   useEffect(() => {
-    console.log(mostrarContraseña);
+    
   }, [mostrarContraseña]);
   return (
     <div
@@ -68,10 +72,12 @@ export default function LoginInputs() {
           widthMin: "500px",
         }}
       >
+        
         <form
           onSubmit={(e) => {
             e.preventDefault();
             handleSubmit(e);
+            console.log(user);
           }}
         >
           <CardContent>
@@ -144,23 +150,37 @@ export default function LoginInputs() {
               <Button variant="contained" type="submit">
                 Acceder
               </Button>
-              <NavLink
-                to="/register"
-                style={{
+              <Typography
+                color="text.secondary"
+                gutterBottom
+                variant="h6"
+                onClick={() => {
+                  setOpen(true);
+                }}
+                aria-disabled="true"
+                sx={{
                   textDecoration: "none",
                   outline: "none",
                   color: "gray",
                   fontSize: "1rem",
                   fontFamily: "Roboto",
                   maskMode: "none",
+                  cursor: "pointer",
                 }}
               >
                 ¿No tienes cuenta? Registrate
-              </NavLink>
+              </Typography>
+
+
+
             </Grid>
           </CardActions>
         </form>
       </Card>
+      <ModalAdmin 
+        open={open}
+        setOpen={setOpen}
+      />
     </div>
   );
 }

@@ -8,14 +8,13 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { useState } from "react";
 import CancelarCompra from "../AlertasVarias/cancelarCompra";
-import ModalPagar from "../productosComponents/ModalPagar";
+import ModalPagar from "./ModalPagar";
 import PagarListaVacia from "../AlertasVarias/pagarListaVacia";
 
 export default function TablaVentas() {
   const [openAlertCancel, setOpen] = useState(false);
   const [openM, setOpenM] = useState(false);
   const [openP, setOpenP] = useState(false);
- 
 
   const handleOpenM = () => setOpenM(true);
   const handleClickOpen = () => {
@@ -37,7 +36,7 @@ export default function TablaVentas() {
     listaCompras.forEach((product: any) => {
       total += product.price * product.cant;
     });
-  
+
     return total;
   };
 
@@ -227,7 +226,11 @@ export default function TablaVentas() {
                 fontSize: "20px",
               }}
               onClick={() => {
-                handleClickOpen();
+                if (listaCompras.length === 0) {
+                  setOpenP(true);
+                } else {
+                  handleClickOpen();
+                }
               }}
             >
               Cancelar
