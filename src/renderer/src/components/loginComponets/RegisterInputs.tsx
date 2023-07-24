@@ -10,8 +10,11 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
+import { AlertRed } from "../AlertasVarias/alertaVarias";
 
 export default function RegisterInputs() {
+  const [alerta1, setAlerta1] = useState(false);
+  const [alerta2, setAlerta2] = useState(false);
   const [user, setUser] = useState({
     name: "",
     lastName: "",
@@ -24,7 +27,7 @@ export default function RegisterInputs() {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (user.password !== user.confirmPassword) {
-      alert("Las contraseñas no coinciden");
+      setAlerta1(true);
       return;
     }
     if (
@@ -34,7 +37,7 @@ export default function RegisterInputs() {
       user.password === "" ||
       user.confirmPassword === ""
     ) {
-      alert("Por favor llene todos los campos");
+      setAlerta2(true);
       return;
     }
     window.electron.ipcRenderer
@@ -61,6 +64,16 @@ export default function RegisterInputs() {
         height: "100vh",
       }}
     >
+      <AlertRed
+        open={alerta1}
+        setOpen={setAlerta1}
+        text="Las contraseñas no coinciden"
+      />
+      <AlertRed
+        open={alerta2}
+        setOpen={setAlerta2}
+        text="Rellene todos los campos"
+      />
       <Card
         sx={{
           gap: "1rem",

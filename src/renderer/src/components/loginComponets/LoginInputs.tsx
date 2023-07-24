@@ -7,12 +7,15 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Checkbox from "@mui/material/Checkbox";
 import { useState, useEffect } from "react";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../../context/Context";
 import { useContext } from "react";
 import ModalAdmin from "./ModalAdmin";
+import { AlertRed } from "../AlertasVarias/alertaVarias";
 
 export default function LoginInputs() {
+  const [alerta, setAlerta] = useState(false);
+  const [alerta1, setAlerta1] = useState(false);
   const [open, setOpen] = useState(false);
   const { login } = useContext(Context);
   const [mostrarContraseña, setMostrarContraseña] = useState(false);
@@ -25,7 +28,8 @@ export default function LoginInputs() {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (user.email === "" || user.password === "") {
-      alert("Por favor llene todos los campos");
+      setAlerta(true);
+
       return;
     }
     window.electron.ipcRenderer
@@ -33,26 +37,19 @@ export default function LoginInputs() {
       .then((res: any) => {
         if (res) {
           login(res);
-
           navigate("/home");
-        } else {
-          alert("Error al iniciar sesion");
         }
       })
       .catch(() => {
-        alert("Usuario no existente");
+        setAlerta1(true);
       });
   };
 
   const MostrarContraseña = () => {
     setMostrarContraseña(!mostrarContraseña);
-    
-   
   };
 
-  useEffect(() => {
-    
-  }, [mostrarContraseña]);
+  useEffect(() => {}, [mostrarContraseña]);
   return (
     <div
       style={{
@@ -62,6 +59,16 @@ export default function LoginInputs() {
         height: "100vh",
       }}
     >
+      <AlertRed
+        open={alerta}
+        setOpen={setAlerta}
+        text="Rellene todos los campos"
+      />
+      <AlertRed
+        open={alerta1}
+        setOpen={setAlerta1}
+        text="Usuario o contraseña incorrectos"
+      />
       <Card
         sx={{
           gap: "1rem",
@@ -72,12 +79,10 @@ export default function LoginInputs() {
           widthMin: "500px",
         }}
       >
-        
         <form
           onSubmit={(e) => {
             e.preventDefault();
             handleSubmit(e);
-            console.log(user);
           }}
         >
           <CardContent>
@@ -170,17 +175,11 @@ export default function LoginInputs() {
               >
                 ¿No tienes cuenta? Registrate
               </Typography>
-
-
-
             </Grid>
           </CardActions>
         </form>
       </Card>
-      <ModalAdmin 
-        open={open}
-        setOpen={setOpen}
-      />
+      <ModalAdmin open={open} setOpen={setOpen} />
     </div>
   );
 }

@@ -315,9 +315,6 @@ export default function TablaStock() {
 
       <DataGrid
         rows={products ? products : []}
-        localeText={{
-          noRowsLabel: "Actualmente no hay productos cargados",
-        }}
         getRowId={(row) => row._id}
         columns={columns}
         density="compact"

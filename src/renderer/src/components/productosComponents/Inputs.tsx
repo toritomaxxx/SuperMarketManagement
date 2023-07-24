@@ -7,9 +7,11 @@ import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { Context } from "@renderer/context/Context";
+import { AlertRed } from "../AlertasVarias/alertaVarias";
 
 export default function Inputs() {
   const { productsTable } = useContext(Context);
+  const [alerta, setAlerta] = useState(false);
   const [values, setValues] = useState({
     nameProduct: "",
     codBar: "",
@@ -24,7 +26,7 @@ export default function Inputs() {
       values.codBar === "" ||
       values.price === ""
     ) {
-      alert("Por favor llene todos los campos");
+      setAlerta(true);
       return;
     }
 
@@ -51,6 +53,11 @@ export default function Inputs() {
         paddingTop: "20px",
       }}
     >
+      <AlertRed
+        open={alerta}
+        setOpen={setAlerta}
+        text="Rellene todos los campos"
+      />
       <Box
         component="form"
         onSubmit={(e) => {

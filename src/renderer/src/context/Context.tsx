@@ -21,6 +21,8 @@ type contextProps = {
   editProduct: (product: any, newCant: number) => void;
   setProducts: any;
   revisarUsers: () => Promise<boolean>;
+
+
 };
 
 export const Context = createContext({} as contextProps);
@@ -30,6 +32,7 @@ type ContextProps = {
 };
 
 export const ContextProvider = ({ children }: ContextProps) => {
+
   const [user, setUser] = useState(null);
   const [auth, setAuth] = useState(false);
   const [listaCompras, setListaCompras] = useState<any[]>([]);
@@ -125,6 +128,7 @@ export const ContextProvider = ({ children }: ContextProps) => {
         editProduct,
         setProducts,
         revisarUsers,
+
       }}
     >
       {children}
