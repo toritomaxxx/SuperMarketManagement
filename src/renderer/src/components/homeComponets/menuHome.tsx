@@ -12,7 +12,7 @@ import { Context } from "@renderer/context/Context";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
-  padding: theme.spacing(8),
+  padding: theme.spacing(4),
   textAlign: "center",
   backgroundColor: "#F5F5F5",
   borderRadius: "10px",
@@ -28,7 +28,9 @@ const WrapItem = ({ Icon, title, onClick }) => {
     <Item onClick={onClick}>
       <Icon
         style={{
-          fontSize: 200,
+          fontSize: window.innerWidth < 1000 ? "100px" : "200px",
+          color: "#000000",
+
         }}
       />
       <Typography variant="h5" fontWeight="bold">
@@ -57,11 +59,14 @@ export default function DirectionStack() {
         flexWrap="wrap"
         sx={{
           width: "100vw",
-          height: "90vh",
-          flexDirection: "row",
+          height: "70vh",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          
+          padding:"auto",
+          marginTop:"10vh",
+
         }}
       >
         <WrapItem

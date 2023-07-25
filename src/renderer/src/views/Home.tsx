@@ -13,6 +13,7 @@ export default function Home() {
       <div
         style={{
           display: "flex",
+          
 
           backgroundColor: "#f5f5f5",
         }}

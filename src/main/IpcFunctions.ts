@@ -13,6 +13,10 @@ const salesDB = new Datastore({
   filename: "./src/main/DataBase/sales.db",
   autoload: true,
 });
+const reportsDB = new Datastore({
+  filename: "./src/main/DataBase/reports.db",
+  autoload: true,
+});
 
 export const registerIpc = () => {
   ipcMain.handle("register", (event, args) => {
@@ -139,15 +143,14 @@ export const deleteProductIpc = () => {
 export const updateProductIpc = () => {
   ipcMain.handle("update-product", (event, args) => {
     return new Promise((resolve, reject) => {
-     console.log(args)
+      console.log(args);
       productsDB.update(
         { _id: args._id },
         {
-            nameProduct: args.nameProduct,
-            codBar: args.codBar,
-            price: args.price,
-            cant: args.cant,
-          
+          nameProduct: args.nameProduct,
+          codBar: args.codBar,
+          price: args.price,
+          cant: args.cant,
         },
         (err, docs) => {
           if (err) {
@@ -173,6 +176,45 @@ export const createSaleIpc = () => {
       });
     });
   });
-}
+};
+export const getSalesIpc = () => {
+  ipcMain.handle("get-sales", (event, args) => {
+    return new Promise((resolve, reject) => {
+      salesDB.find({}, (err, docs) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(docs);
+      });
+    });
+  });
+};
 
+export const getReportsIpc = () => {
+  ipcMain.handle("get-reports", (event, args) => {
+    return new Promise((resolve, reject) => {
+      reportsDB.find({}, (err, docs) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(docs);
+      });
+    });
+  });
+};
 
+export const createReportIpc = () => {
+  ipcMain.handle("create-report", (event, args) => {
+    return new Promise((resolve, reject) => {
+      reportsDB.insert(args, (err, doc) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(doc);
+      });
+    });
+  });
+};

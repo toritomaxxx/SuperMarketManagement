@@ -6,9 +6,7 @@ import TablaVentas from "@renderer/components/ventasComponents/tablaVentas";
 export default function RealizarVentas() {
   return (
     <>
-      <Header
-        title="Ventas"
-      />
+      <Header title="Ventas" />
       <Grid container>
         <Grid
           item
@@ -37,8 +35,6 @@ export default function RealizarVentas() {
           <TablaVentas />
         </Grid>
       </Grid>
-      
-
     </>
   );
 }

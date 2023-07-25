@@ -140,23 +140,11 @@ export default function TablaVentas() {
   ];
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-
-        flexWrap: "wrap",
-        "& > :not(style)": {
-          m: 1,
-          width: "100%",
-          height: "70vh",
-        },
-      }}
-    >
+    <Box>
       <Paper
         elevation={3}
         sx={{
-          width: "100%",
-          height: "100%",
+          height: "70vh",
           justifyContent: "space-between",
           flexDirection: "column",
           display: "flex",
@@ -167,9 +155,7 @@ export default function TablaVentas() {
           sx={{
             height: "100%",
             width: "100%",
-            "& .MuiDataGrid-cell": {
-              border: "none",
-            },
+            
           }}
         >
           <DataGrid

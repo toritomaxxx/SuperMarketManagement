@@ -21,8 +21,10 @@ type contextProps = {
   editProduct: (product: any, newCant: number) => void;
   setProducts: any;
   revisarUsers: () => Promise<boolean>;
-
-
+  reportsTableProducts: () => void;
+  reportsTableSales: () => void;
+  reportsProducts: any;
+  reportsSales: any;
 };
 
 export const Context = createContext({} as contextProps);
@@ -32,14 +34,14 @@ type ContextProps = {
 };
 
 export const ContextProvider = ({ children }: ContextProps) => {
-
   const [user, setUser] = useState(null);
   const [auth, setAuth] = useState(false);
   const [listaCompras, setListaCompras] = useState<any[]>([]);
   const [products, setProducts] = useState(null);
+  const [reportsProducts, setReportsProducts] = useState<any[]>([]);
+  const [reportsSales, setReportsSales] = useState<any[]>([]);
   const login = (user: any) => {
     setUser(user);
-    console.log(user);
     setAuth(true);
   };
   const logout = () => {
@@ -50,6 +52,7 @@ export const ContextProvider = ({ children }: ContextProps) => {
   useEffect(() => {
     if (!auth) return;
     productsTable();
+    
   }, [auth]);
 
   const productsTable = () => {
@@ -58,9 +61,20 @@ export const ContextProvider = ({ children }: ContextProps) => {
     });
   };
 
+  const reportsTableProducts = () => {
+    window.electron.ipcRenderer.invoke("get-reports").then((res: any) => {
+      setReportsProducts(res);
+    });
+  };
+  const reportsTableSales = () => {
+    window.electron.ipcRenderer.invoke("get-sales").then((res: any) => {
+      setReportsSales(res);
+    });
+  };
+
   const revisarUsers = async () => {
     const res = await window.electron.ipcRenderer.invoke("get-users");
-    if (res.length !== 0 ) {
+    if (res.length !== 0) {
       return true;
     } else {
       return false;
@@ -128,6 +142,10 @@ export const ContextProvider = ({ children }: ContextProps) => {
         editProduct,
         setProducts,
         revisarUsers,
+        reportsProducts,
+        reportsSales,
+        reportsTableProducts,
+        reportsTableSales,
 
       }}
     >

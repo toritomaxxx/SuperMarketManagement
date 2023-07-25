@@ -9,7 +9,11 @@ import {
   deleteProductIpc,
   updateProductIpc,
   createSaleIpc,
-  getUsersIpc
+  getUsersIpc,
+  getReportsIpc,
+  createReportIpc,
+  getSalesIpc,
+  
 } from "./IpcFunctions";
 
 function createWindow(): void {
@@ -74,4 +78,8 @@ app.whenReady().then(() => {
   updateProductIpc();
   createSaleIpc();
   getUsersIpc();
+  getReportsIpc();
+  createReportIpc();
+  getSalesIpc();
+ 
 });

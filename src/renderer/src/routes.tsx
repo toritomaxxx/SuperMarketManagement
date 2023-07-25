@@ -18,7 +18,6 @@ export default function Routers() {
     revisarUsers().then((res) => {
       setSearch(true);
       setHasUsers(res);
-      console.log(res);
     });
   }, []);
 
