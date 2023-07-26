@@ -7,6 +7,7 @@ export const AlertRed = (props) => {
     event?: React.SyntheticEvent | Event,
     reason?: string
   ) => {
+    console.log(event);
     if (reason === "clickaway") {
       return;
     }
@@ -29,6 +30,7 @@ export const AlertGreen = (props) => {
     event?: React.SyntheticEvent | Event,
     reason?: string
   ) => {
+    console.log(event);
     if (reason === "clickaway") {
       return;
     }
@@ -48,9 +50,11 @@ export const AlertGreen = (props) => {
 export const AlertYellow = (props) => {
   const { open, setOpen, text } = props;
   const handleClose = (
+    
     event?: React.SyntheticEvent | Event,
     reason?: string
   ) => {
+    console.log(event);
     if (reason === "clickaway") {
       return;
     }
@@ -73,6 +77,7 @@ export const AlertBlue = (props) => {
     event?: React.SyntheticEvent | Event,
     reason?: string
   ) => {
+    console.log(event);
     if (reason === "clickaway") {
       return;
     }

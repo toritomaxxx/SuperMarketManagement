@@ -51,6 +51,7 @@ export default function RegisterInputs() {
         }
       })
       .catch((err: any) => {
+        console.log(err);
         alert("Usuario ya existente");
       });
   };

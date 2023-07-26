@@ -268,6 +268,16 @@ export default function TablaStock() {
                     productsTable();
                   }
                 });
+              window.electron.ipcRenderer.invoke("create-report", {
+                fecha: new Date().toLocaleDateString(),
+                hora: new Date().toLocaleTimeString(),
+                accion: "Eliminado",
+                usuario: { nombreCompleto },
+                producto: params.row.nameProduct,
+                codBar: params.row.codBar,
+                cantidad: params.row.cant,
+                precio: params.row.price,
+              });
             }}
           >
             <DeleteIcon />
@@ -474,7 +484,7 @@ export default function TablaStock() {
                   window.electron.ipcRenderer.invoke("create-report", {
                     fecha: new Date().toLocaleDateString(),
                     hora: new Date().toLocaleTimeString(),
-                    accion: "Se actualizo un producto",
+                    accion: "Actualizado",
                     usuario: { nombreCompleto },
                     producto: selectedProduct.nameProduct,
                     codBar: selectedProduct.codBar,

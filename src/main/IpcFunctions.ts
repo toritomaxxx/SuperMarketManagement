@@ -20,6 +20,8 @@ const reportsDB = new Datastore({
 
 export const registerIpc = () => {
   ipcMain.handle("register", (event, args) => {
+    console.log(args);
+    console.log(event);
     return new Promise((resolve, reject) => {
       usersDB.find({ email: args.email }, (err, docs) => {
         if (err) {
@@ -44,6 +46,8 @@ export const registerIpc = () => {
 
 export const getUsersIpc = () => {
   ipcMain.handle("get-users", (event, args) => {
+    console.log(args);
+    console.log(event);
     return new Promise((resolve, reject) => {
       usersDB.find({}, (err, docs) => {
         if (err) {
@@ -58,6 +62,8 @@ export const getUsersIpc = () => {
 
 export const createProductIpc = () => {
   ipcMain.handle("create-product", (event, args) => {
+    console.log(args);
+    console.log(event);
     return new Promise((resolve, reject) => {
       productsDB.find({ nameProduct: args.nameProduct }, (err, docs) => {
         if (err) {
@@ -92,6 +98,8 @@ export const createProductIpc = () => {
 };
 export const loginIpc = () => {
   ipcMain.handle("login", (event, args) => {
+    console.log(args);
+    console.log(event);
     return new Promise((resolve, reject) => {
       usersDB.find({ email: args.email }, (err, docs) => {
         if (err) {
@@ -114,6 +122,8 @@ export const loginIpc = () => {
 
 export const getProductsIpc = () => {
   ipcMain.handle("get-products", (event, args) => {
+    console.log(args);
+    console.log(event);
     return new Promise((resolve, reject) => {
       productsDB.find({}, (err, docs) => {
         if (err) {
@@ -128,6 +138,8 @@ export const getProductsIpc = () => {
 
 export const deleteProductIpc = () => {
   ipcMain.handle("delete-product", (event, args) => {
+    console.log(args);
+    console.log(event);
     return new Promise((resolve, reject) => {
       productsDB.remove({ _id: args._id }, (err, docs) => {
         if (err) {
@@ -142,6 +154,8 @@ export const deleteProductIpc = () => {
 
 export const updateProductIpc = () => {
   ipcMain.handle("update-product", (event, args) => {
+    console.log(args);
+    console.log(event);
     return new Promise((resolve, reject) => {
       console.log(args);
       productsDB.update(
@@ -166,6 +180,8 @@ export const updateProductIpc = () => {
 
 export const createSaleIpc = () => {
   ipcMain.handle("create-sale", (event, args) => {
+    console.log(args);
+    console.log(event);
     return new Promise((resolve, reject) => {
       salesDB.insert(args, (err, doc) => {
         if (err) {
@@ -179,6 +195,8 @@ export const createSaleIpc = () => {
 };
 export const getSalesIpc = () => {
   ipcMain.handle("get-sales", (event, args) => {
+    console.log(args);
+    console.log(event);
     return new Promise((resolve, reject) => {
       salesDB.find({}, (err, docs) => {
         if (err) {
@@ -193,6 +211,8 @@ export const getSalesIpc = () => {
 
 export const getReportsIpc = () => {
   ipcMain.handle("get-reports", (event, args) => {
+    console.log(args);
+    console.log(event);
     return new Promise((resolve, reject) => {
       reportsDB.find({}, (err, docs) => {
         if (err) {
@@ -207,6 +227,8 @@ export const getReportsIpc = () => {
 
 export const createReportIpc = () => {
   ipcMain.handle("create-report", (event, args) => {
+    console.log(args);
+    console.log(event);
     return new Promise((resolve, reject) => {
       reportsDB.insert(args, (err, doc) => {
         if (err) {

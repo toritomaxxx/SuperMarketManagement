@@ -1,86 +1,105 @@
-import * as React from "react";
+import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import Typography from "@mui/material/Typography";
+import { Context } from "@renderer/context/Context";
+import { useContext, useEffect } from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
-const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 90 },
-  {
-    field: "firstName",
-    headerName: "First name",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "lastName",
-    headerName: "Last name",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    width: 110,
-    editable: true,
-  },
-  {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
-    sortable: false,
-    width: 160,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-  },
-];
 
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
+function createData(
+  fecha: string,
+  hora: string,
+  usuario: any,
+  accion: string,
+  producto: any
+) {
+  return {
+    fecha,
+    hora,
+    usuario,
+    accion,
+    producto,
+  };
+}
+
+function Row(props: { row: ReturnType<typeof createData> }) {
+  const { row } = props;
+  return (
+    <>
+      <TableRow>
+        <TableCell align="center">{row.fecha}</TableCell>
+        <TableCell align="center">{row.hora}</TableCell>
+        <TableCell align="center">{row.usuario.nombreCompleto}</TableCell>
+        <TableCell align="center">{row.accion}</TableCell>
+        <TableCell align="center">{(row.producto).substring(0,30)}</TableCell>
+      </TableRow>
+    </>
+  );
+}
 
 export default function TablaProducts() {
+  const { reportsProducts, reportsTableProducts } = useContext(Context);
+
+  useEffect(() => {
+    reportsTableProducts();
+  }, []);
+
   return (
     <Box
       style={{
         padding: "20px",
         boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
-        borderRadius: "5px",
       }}
     >
       <Typography
         variant="h5"
         fontWeight="bold"
-        fontFamily={"Roboto"}
         align="center"
         style={{
           backgroundColor: "#F5F5F5",
           boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
           borderRadius: "5px",
+          padding: "10px",
+          marginBottom: "20px",
         }}
       >
-        Historial de productos
+        Historial de Productos
       </Typography>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        density="compact"
-        hideFooter
+
+      <TableContainer
+        component={Paper}
         style={{
-          marginTop: "4px",
+          height: "calc(90vh - 200px)",
           boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
-          height: "calc(100vh - 200px)",
           padding: "2px",
         }}
-      />
+      >
+        <Table aria-label="collapsible table">
+          <TableHead>
+            <TableRow
+              style={{
+                backgroundColor: "#F5F5F5",
+              }}
+            >
+              <TableCell align="center">Fecha</TableCell>
+              <TableCell align="center">Hora</TableCell>
+              <TableCell align="center">Usuario</TableCell>
+              <TableCell align="center">Accion</TableCell>
+              <TableCell align="center">Producto</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {reportsProducts.map((row) => (
+              <Row key={row._id} row={row} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Box>
   );
 }

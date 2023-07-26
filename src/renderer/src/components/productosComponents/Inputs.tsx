@@ -48,7 +48,7 @@ export default function Inputs() {
       .invoke("create-report", {
         fecha: new Date().toLocaleDateString(),
         hora: new Date().toLocaleTimeString(),
-        accion: "Se agrego un producto nuevo",
+        accion: "Nuevo",
         usuario: { nombreCompleto },
         producto: values.nameProduct,
         codBar: values.codBar,

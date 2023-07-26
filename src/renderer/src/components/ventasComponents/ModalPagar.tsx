@@ -20,7 +20,7 @@ const style = {
 };
 
 export default function ModalPagar(props) {
-  const { listaCompras, substractProduct, products } = useContext(Context);
+  const { listaCompras, substractProduct, products,user } = useContext(Context);
   const { open, setOpen, valorTotal } = props;
   const [optionSelected, setOptionSelected] = useState({ value: "" });
   const [vuelto, setVuelto] = useState(0);
@@ -63,6 +63,7 @@ export default function ModalPagar(props) {
         .invoke("create-sale", {
           fecha: new Date().toLocaleDateString(),
           hora: new Date().toLocaleTimeString(),
+          usuario: user?.name+" "+user?.lastName,
           productos: listaCompras,
           total: valorTotal,
           medioPago: optionSelected.value,
@@ -136,6 +137,7 @@ export default function ModalPagar(props) {
                 <TextField {...params} label="Medios de pago" />
               )}
               onChange={(event: any, newValue: any) => {
+                console.log(event)
                 if (newValue === null) {
                   setOptionSelected({ value: "" });
                 } else {

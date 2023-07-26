@@ -43,9 +43,11 @@ export default function VentasInputs() {
           value={value}
           inputValue={inputValue}
           onInputChange={(event, newInputValue) => {
+            console.log(event);
             setInputValue(newInputValue);
           }}
           onChange={(event: any, newValue: any) => {
+            console.log(event);
             addNewProduct(newValue);
             setValue(newValue);
           }}
