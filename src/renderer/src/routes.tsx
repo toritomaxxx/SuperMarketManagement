@@ -4,7 +4,7 @@ import Home from "./views/Home";
 import Historial from "./views/Historial";
 import AgregarProductos from "./views/AgregarProductos";
 import RealizarVentas from "./views/RealizarVentas";
-import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate,HashRouter } from "react-router-dom";
 import { Context } from "./context/Context";
 import { useContext, useEffect, useState } from "react";
 
@@ -24,7 +24,7 @@ export default function Routers() {
   if (!search) return null;
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         {hasUsers ? (
           <Route path="/" element={<Navigate to="/login" />} />
@@ -38,6 +38,6 @@ export default function Routers() {
         <Route path="/ventas" element={<RealizarVentas />} />
         <Route path="/historial" element={<Historial />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }

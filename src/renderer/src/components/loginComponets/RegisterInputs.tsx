@@ -10,11 +10,16 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
-import { AlertRed } from "../AlertasVarias/alertaVarias";
+import { AlertRed,AlertGreen,AlertYellow } from "../AlertasVarias/alertaVarias";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterInputs() {
   const [alerta1, setAlerta1] = useState(false);
   const [alerta2, setAlerta2] = useState(false);
+  const [alerta3, setAlerta3] = useState(false);
+  const [alerta4, setAlerta4] = useState(false);
+  const [alerta5, setAlerta5] = useState(false);
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     name: "",
     lastName: "",
@@ -44,15 +49,15 @@ export default function RegisterInputs() {
       .invoke("register", user)
       .then((res: any) => {
         if (res) {
-          alert("Usuario creado exitosamente");
-          window.location.href = "/";
+          setAlerta4(true);
+          navigate("/login");
         } else {
-          alert("Error al crear el usuario");
+          setAlerta3(true);
         }
       })
       .catch((err: any) => {
         console.log(err);
-        alert("Usuario ya existente");
+        setAlerta5(true);
       });
   };
 
@@ -74,6 +79,21 @@ export default function RegisterInputs() {
         open={alerta2}
         setOpen={setAlerta2}
         text="Rellene todos los campos"
+      />
+      <AlertRed
+        open={alerta3}
+        setOpen={setAlerta3}
+        text="Error al crear el usuario"
+      />
+      <AlertGreen
+        open={alerta4}
+        setOpen={setAlerta4}
+        text="Usuario creado exitosamente"
+      />
+      <AlertYellow
+        open={alerta5}
+        setOpen={setAlerta5}
+        text="Usuario ya existente"
       />
       <Card
         sx={{
