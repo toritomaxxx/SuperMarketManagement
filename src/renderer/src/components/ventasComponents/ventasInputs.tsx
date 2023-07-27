@@ -3,18 +3,30 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Context } from "@renderer/context/Context";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { useState } from "react";
+import { AlertYellow } from "../AlertasVarias/alertaVarias";
 
 export default function VentasInputs() {
   const { products, addNewProduct } = useContext(Context);
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState("");
+  const [openAlert, setOpenAlert] = useState(false);
+
+  const inputAutoFocus = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (inputValue === "") return;
+    setTimeout(() => {
+      inputAutoFocus.current?.focus();
+    }, 100);
+  }, [inputAutoFocus]);
+
+  useEffect(() => {
+    if (value === null) return;
     setInputValue("");
     setValue(null);
+    console.log(value);
+    console.log(inputValue);
   }, [value, inputValue]);
 
   return (
@@ -38,9 +50,17 @@ export default function VentasInputs() {
           padding: "10px",
         }}
       >
+        <AlertYellow
+          open={openAlert}
+          setOpen={setOpenAlert}
+          text="No se encontro el producto"
+        />
+
         <Autocomplete
           options={products}
           value={value}
+          ref={inputAutoFocus}
+        
           inputValue={inputValue}
           onInputChange={(event, newInputValue) => {
             console.log(event);
@@ -50,6 +70,25 @@ export default function VentasInputs() {
             console.log(event);
             addNewProduct(newValue);
             setValue(newValue);
+          }}
+          onKeyDown={(event: any) => {
+            console.log(event);
+
+            if (event.key === "Enter") {
+              if (inputValue === "") return;
+              const product = products.find(
+                (product) =>
+                  product.nameProduct === inputValue ||
+                  product.codBar === inputValue
+              );
+              if (product === undefined) {
+                setOpenAlert(true);
+                return;
+              }
+              addNewProduct(product);
+              setValue(product);
+              setInputValue("");
+            }
           }}
           getOptionLabel={(product: any) =>
             product.nameProduct + " (" + product.codBar + ")"
@@ -78,6 +117,7 @@ export default function VentasInputs() {
             <TextField
               {...params}
               label="Ingrese el codigo de barras o nombre del producto"
+              autoFocus
               InputProps={{
                 ...params.InputProps,
                 autoComplete: "new-password", // disable autocomplete and autofill

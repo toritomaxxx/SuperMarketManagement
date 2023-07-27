@@ -46,12 +46,14 @@ export default function TablaVentas() {
       headerName: "Cantidad",
       width: 100,
       headerAlign: "center",
+      align: "center",
       renderCell: (params) => (
         <div>
           <TextField
             variant="outlined"
             size="small"
             type="number"
+            
             value={params.row.cant}
             onChange={(e) => {
               editProduct(params.row, Number(e.target.value));

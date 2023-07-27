@@ -10,8 +10,14 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
-import { AlertRed,AlertGreen,AlertYellow } from "../AlertasVarias/alertaVarias";
+import {
+  AlertRed,
+  AlertGreen,
+  AlertYellow,
+} from "../AlertasVarias/alertaVarias";
 import { useNavigate } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { Context } from "../../context/Context";
 
 export default function RegisterInputs() {
   const [alerta1, setAlerta1] = useState(false);
@@ -60,6 +66,20 @@ export default function RegisterInputs() {
         setAlerta5(true);
       });
   };
+
+  const { revisarUsers } = useContext(Context);
+
+  const [hasUsers, setHasUsers] = useState(true);
+  const [search, setSearch] = useState(false);
+
+  useEffect(() => {
+    revisarUsers().then((res) => {
+      setSearch(true);
+      setHasUsers(res);
+    });
+  }, []);
+
+  if (!search) return null;
 
   return (
     <div
@@ -118,27 +138,29 @@ export default function RegisterInputs() {
               alignItems="center"
               gap={2}
             >
-              <NavLink
-                to="/login"
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                  gap: "1rem",
-                  textDecoration: "none",
-                  color: "gray",
-                  fontSize: "1rem",
-                  fontFamily: "Roboto",
-                }}
-              >
-                <KeyboardArrowLeftIcon
-                  sx={{
-                    fontSize: "2rem",
+              {hasUsers && (
+                <NavLink
+                  to="/login"
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                    gap: "1rem",
+                    textDecoration: "none",
+                    color: "gray",
+                    fontSize: "1rem",
+                    fontFamily: "Roboto",
                   }}
-                />
-                Volver
-              </NavLink>
+                >
+                  <KeyboardArrowLeftIcon
+                    sx={{
+                      fontSize: "2rem",
+                    }}
+                  />
+                  Volver
+                </NavLink>
+              )}
               <Typography
                 color="text.secondary"
                 gutterBottom

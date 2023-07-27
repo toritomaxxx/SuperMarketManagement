@@ -3,10 +3,13 @@ import Header from "@renderer/components/Header";
 import VentasInputs from "@renderer/components/ventasComponents/ventasInputs";
 import TablaVentas from "@renderer/components/ventasComponents/tablaVentas";
 
+
 export default function RealizarVentas() {
+
   return (
     <>
       <Header title="Ventas" />
+
       <Grid container>
         <Grid
           item
@@ -19,7 +22,10 @@ export default function RealizarVentas() {
             padding: "20px",
           }}
         >
-          <VentasInputs />
+          <VentasInputs 
+       
+
+          />
         </Grid>
         <Grid
           item

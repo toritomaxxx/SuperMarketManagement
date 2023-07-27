@@ -195,6 +195,18 @@ export default function TablaStock() {
   const [alerta, setAlerta] = useState(false);
   const [alerta1, setAlerta1] = useState(false);
 
+  function cambiarColor(props){
+
+    if(props <= 0){
+      return "red"
+    }else if(props <= 10){
+      return "#F67171"
+    }
+    else{
+      return "black"
+    }
+  }
+
   const columns: GridColDef[] = [
     {
       field: "nameProduct",
@@ -219,6 +231,21 @@ export default function TablaStock() {
       align: "center",
       headerAlign: "center",
       minWidth: 150,
+      renderCell: (params) => (
+        <div>
+          <Typography variant="body1" align="center">
+            {params.row.cant <= 0 ? (
+              <Typography variant="body1" align="center" color={cambiarColor(params.row.cant)}>
+                Sin stock
+              </Typography>
+            ) : (
+              <Typography variant="body1" align="center" color={cambiarColor(params.row.cant)}>
+                {params.row.cant}
+              </Typography>
+            )}
+          </Typography>
+        </div>
+      ),
     },
     {
       field: "price",
@@ -411,6 +438,7 @@ export default function TablaStock() {
                   id="outlined-required"
                   label="Codigo de barras"
                   variant="outlined"
+                  type="number"
                   defaultValue={selectedProduct?.codBar}
                   onChange={(e) => {
                     setSelectedProduct({
@@ -432,6 +460,7 @@ export default function TablaStock() {
                   id="outlined-required"
                   label="Cantidad"
                   variant="outlined"
+                  type="number"
                   defaultValue={selectedProduct?.cant}
                   onChange={(e) => {
                     setSelectedProduct({
@@ -444,6 +473,7 @@ export default function TablaStock() {
                   id="outlined-required"
                   label="Precio"
                   variant="outlined"
+                  type="number"
                   defaultValue={selectedProduct?.price}
                   onChange={(e) => {
                     setSelectedProduct({
@@ -479,6 +509,7 @@ export default function TablaStock() {
                       if (res) {
                         setAlerta1(true);
                         productsTable();
+                        setOpen(false);
                       }
                     });
                   window.electron.ipcRenderer.invoke("create-report", {

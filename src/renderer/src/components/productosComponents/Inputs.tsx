@@ -1,4 +1,4 @@
-import { Button, Typography } from "@mui/material";
+import { Button, FormControlLabel, Typography } from "@mui/material";
 import { useState, useContext } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -8,12 +8,14 @@ import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { Context } from "@renderer/context/Context";
 import { AlertRed, AlertBlue, AlertGreen } from "../AlertasVarias/alertaVarias";
+import Switch from "@mui/material/Switch";
 
 export default function Inputs() {
   const { productsTable, user } = useContext(Context);
   const [alerta, setAlerta] = useState(false);
   const [alerta1, setAlerta1] = useState(false);
   const [alerta2, setAlerta2] = useState(false);
+  const [state, setState] = useState(false);
   const [values, setValues] = useState({
     nameProduct: "",
     codBar: "",
@@ -21,6 +23,15 @@ export default function Inputs() {
     cant: 0,
   });
   const nombreCompleto = user?.name + " " + user?.lastName;
+
+  function sinCodBar() {
+    if (state){
+      setValues({ ...values, codBar: values.codBar });
+    }else{
+      setValues({ ...values, codBar: "Sin codigo de barras" });
+    }
+
+  }
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -123,21 +134,42 @@ export default function Inputs() {
           }}
           label="Nombre del producto"
           variant="outlined"
-          style={{
-            paddingBottom: "20px",
-          }}
         />
-        <TextField
-          id="outlined-basic"
-          onChange={(e) => {
-            setValues({ ...values, codBar: e.target.value });
-          }}
-          label="Codigo de barras"
-          variant="outlined"
+        <div
           style={{
-            paddingBottom: "20px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            backgroundColor: "#FFFFFF",
+            padding: "20px",
           }}
-        />
+        >
+          <Typography variant="h6">Tiene codigo de barras?</Typography>
+          <FormControlLabel
+            control={
+              <Switch
+                onChange={(e) => {
+                  setState(e.target.checked);
+                  sinCodBar();
+                }}
+              />
+            }
+            label="Habilitado"
+          />
+          {state && (
+            <TextField
+              id="outlined-basic"
+              onChange={(e) => {
+                setValues({ ...values, codBar: e.target.value });
+              }}
+              label="Codigo de barras"
+              variant="outlined"
+              style={{
+                paddingBottom: "10px",
+              }}
+            />
+          )}
+        </div>
         <FormControl
           sx={{
             width: "230px",
