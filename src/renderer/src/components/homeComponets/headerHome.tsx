@@ -10,6 +10,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { Context } from "../../context/Context";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 export default function HeaderHome() {
   const { user, logout } = useContext(Context);
@@ -81,9 +82,30 @@ export default function HeaderHome() {
                 }}
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
+                style={{
+                  alignContent: "center",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  alignSelf: "center",
+                }}
               >
-                <MenuItem>{nombreCompleto}</MenuItem>
-                <MenuItem onClick={handleLogout}>Cerrar sesíon</MenuItem>
+                <MenuItem onClick={() => navigate("/ajustes")}>
+                  <SettingsIcon
+                    style={{
+                      marginRight: 10,
+                    }}
+                  />
+                  {nombreCompleto}
+                </MenuItem>
+
+                <MenuItem
+                  onClick={handleLogout}
+                  style={{
+                    justifyContent: "center",
+                  }}
+                >
+                  Cerrar sesíon
+                </MenuItem>
               </Menu>
             </div>
           </>

@@ -11,6 +11,8 @@ import { Context } from "../context/Context";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { useLocation } from "react-router-dom";
 
 export default function Header(props) {
   const { title } = props;
@@ -18,6 +20,7 @@ export default function Header(props) {
   const navigate = useNavigate();
   const nombreCompleto = user?.name + " " + user?.lastName;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const location = useLocation();
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -73,38 +76,61 @@ export default function Header(props) {
             </Typography>
           </IconButton>
 
-          <>
-            <div>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle style={{ fontSize: 40 }} />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "center",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "center",
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem>{nombreCompleto}</MenuItem>
-                <MenuItem onClick={handleLogout}>Cerrar sesíon</MenuItem>
-              </Menu>
-            </div>
-          </>
+          {location.pathname !== "/ajustes" ? (
+            <>
+              <div>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircle style={{ fontSize: 40 }} />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "center",
+                  }}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                  style={{
+                    alignContent: "center",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    alignSelf: "center",
+                  }}
+                >
+                  <MenuItem onClick={() => navigate("/ajustes")}>
+                    <SettingsIcon
+                      style={{
+                        marginRight: 10,
+                      }}
+                    />
+                    {nombreCompleto}
+                  </MenuItem>
+
+                  <MenuItem
+                    onClick={handleLogout}
+                    style={{
+                      justifyContent: "center",
+                    }}
+                  >
+                    Cerrar sesíon
+                  </MenuItem>
+                </Menu>
+              </div>
+            </>
+          ) : null}
         </Toolbar>
       </AppBar>
     </Box>

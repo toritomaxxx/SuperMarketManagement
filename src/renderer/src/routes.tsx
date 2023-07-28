@@ -4,6 +4,7 @@ import Home from "./views/Home";
 import Historial from "./views/Historial";
 import AgregarProductos from "./views/AgregarProductos";
 import RealizarVentas from "./views/RealizarVentas";
+import Ajustes from "./views/Ajustes";
 import { Routes, Route, Navigate,HashRouter } from "react-router-dom";
 import { Context } from "./context/Context";
 import { useContext, useEffect, useState } from "react";
@@ -37,6 +38,7 @@ export default function Routers() {
         <Route path="/productos" element={<AgregarProductos />} />
         <Route path="/ventas" element={<RealizarVentas />} />
         <Route path="/historial" element={<Historial />} />
+        <Route path="/ajustes" element={<Ajustes />} />
       </Routes>
     </HashRouter>
   );

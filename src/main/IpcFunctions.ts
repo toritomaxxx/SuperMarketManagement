@@ -60,6 +60,23 @@ export const getUsersIpc = () => {
   });
 };
 
+export const deleteUserIpc = () => {
+  ipcMain.handle("delete-user", (event, args) => {
+    console.log(args);
+    console.log(event);
+    return new Promise((resolve, reject) => {
+      usersDB.remove({ _id: args._id }, (err, docs) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(docs);
+      });
+    });
+  });
+};
+
+
 export const createProductIpc = () => {
   ipcMain.handle("create-product", (event, args) => {
     console.log(args);

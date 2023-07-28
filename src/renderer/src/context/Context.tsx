@@ -25,6 +25,9 @@ type contextProps = {
   reportsTableSales: () => void;
   reportsProducts: any;
   reportsSales: any;
+  userList: any;
+  setUserList: any;
+  usersTable: () => void;
 };
 
 export const Context = createContext({} as contextProps);
@@ -40,6 +43,7 @@ export const ContextProvider = ({ children }: ContextProps) => {
   const [products, setProducts] = useState(null);
   const [reportsProducts, setReportsProducts] = useState<any[]>([]);
   const [reportsSales, setReportsSales] = useState<any[]>([]);
+  const [userList, setUserList] = useState<any[]>([]);
   const login = (user: any) => {
     setUser(user);
     setAuth(true);
@@ -54,6 +58,12 @@ export const ContextProvider = ({ children }: ContextProps) => {
     productsTable();
     
   }, [auth]);
+
+  const usersTable = () => {
+    window.electron.ipcRenderer.invoke("get-users").then((res: any) => {
+      setUserList(res);
+    });};
+
 
   const productsTable = () => {
     window.electron.ipcRenderer.invoke("get-products").then((res: any) => {
@@ -146,7 +156,9 @@ export const ContextProvider = ({ children }: ContextProps) => {
         reportsSales,
         reportsTableProducts,
         reportsTableSales,
-
+        userList,
+        setUserList,
+        usersTable,
       }}
     >
       {children}

@@ -13,6 +13,7 @@ import {
   getReportsIpc,
   createReportIpc,
   getSalesIpc,
+  deleteUserIpc
   
 } from "./IpcFunctions";
 
@@ -81,5 +82,5 @@ app.whenReady().then(() => {
   getReportsIpc();
   createReportIpc();
   getSalesIpc();
- 
+  deleteUserIpc();
 });
