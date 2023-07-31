@@ -17,6 +17,10 @@ const reportsDB = new Datastore({
   filename: "./src/main/DataBase/reports.db",
   autoload: true,
 });
+const medioPagosDB = new Datastore({
+  filename: "./src/main/DataBase/medioPagos.db",
+  autoload: true,
+});
 
 export const registerIpc = () => {
   ipcMain.handle("register", (event, args) => {
@@ -76,6 +80,31 @@ export const deleteUserIpc = () => {
   });
 };
 
+export const updateUserIpc = () => {
+  ipcMain.handle("update-user", (event, args) => {
+    console.log(args);
+    console.log(event);
+    return new Promise((resolve, reject) => {
+      console.log(args);
+      usersDB.update(
+        { _id: args._id },
+        {
+          name: args.name,
+          lastName: args.lastName,
+          email: args.email,
+          password: args.password,
+        },
+        (err, docs) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+          resolve(docs);
+        }
+      );
+    });
+  });
+};
 
 export const createProductIpc = () => {
   ipcMain.handle("create-product", (event, args) => {
@@ -256,4 +285,92 @@ export const createReportIpc = () => {
       });
     });
   });
+};
+
+export const createMedioPagosIpc = () => {
+  ipcMain.handle("create-mediopago", (event, args) => {
+    console.log(args);
+    console.log(event);
+    return new Promise((resolve, reject) => {
+      medioPagosDB.insert(args, (err, doc) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(doc);
+      });
+    });
+  });
+};
+
+export const getMedioPagosIpc = () => {
+  ipcMain.handle("get-mediopagos", (event, args) => {
+    console.log(args);
+    console.log(event);
+    return new Promise((resolve, reject) => {
+      medioPagosDB.find({}, (err, docs) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(docs);
+      });
+    });
+  });
+};
+
+export const deleteMedioPagoIpc = () => {
+  ipcMain.handle("delete-mediopago", (event, args) => {
+    console.log(args);
+    console.log(event);
+    return new Promise((resolve, reject) => {
+      medioPagosDB.remove({ _id: args._id }, (err, docs) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(docs);
+      });
+    });
+  });
+};
+
+export const updateMedioPagoIpc = () => {
+  ipcMain.handle("update-mediopago", (event, args) => {
+    console.log(args);
+    console.log(event);
+    return new Promise((resolve, reject) => {
+      console.log(args);
+      medioPagosDB.update(
+        { _id: args._id },
+        {
+          name: args.name,
+        },
+        (err, docs) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+          resolve(docs);
+        }
+      );
+    });
+  });
+};
+
+export const cargarMedioPagosIpc = () => {
+  console.log("Cargando datos");
+  if (
+    medioPagosDB.count({}, (err, count) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (count === 0) {
+        medioPagosDB.insert({ label: "Efectivo", value: "Efectivo" });
+      }
+    })
+  ) {
+    console.log("Datos cargados");
+  }
 };

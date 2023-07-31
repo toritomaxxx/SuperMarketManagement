@@ -3,8 +3,8 @@
 {"nameProduct":"Peras","codBar":"101010","price":"123","cant":-9,"_id":"88JjOo9Rt9LlT8GN"}
 {"nameProduct":"Arroz","codBar":"123123132","price":"1000","cant":-1,"_id":"8jaOG0Yk5CCL8AjM"}
 {"nameProduct":"Matecocido Taragui","codBar":"123123138","price":"100","cant":"9","_id":"ByXSIese6gV1Cfd5"}
-{"nameProduct":"dsadasddghdr","codBar":"2312333","price":"213","cant":0,"_id":"NCW58dLOlkPxpMFA"}
-{"nameProduct":"Porotos","codBar":"123123134","price":"100","cant":0,"_id":"QdMY771SDdQmmnVv"}
+{"nameProduct":"dsadasddghdr","codBar":"2312333","price":"213","cant":-2,"_id":"NCW58dLOlkPxpMFA"}
+{"nameProduct":"Porotos","codBar":"123123134","price":"100","cant":-1,"_id":"QdMY771SDdQmmnVv"}
 {"nameProduct":"Fideos","codBar":"111111111111112","price":"500","cant":-8,"_id":"U7FXjcBAv6vluidU"}
 {"nameProduct":"Carne","codBar":"111111111111113","price":"500","cant":0,"_id":"VG0CVAGc9tTRXobt"}
 {"nameProduct":"Cafe Morenita Intenso","codBar":"7790170904668","price":"1000","cant":0,"_id":"Vv576kBCNnfj5uzL"}

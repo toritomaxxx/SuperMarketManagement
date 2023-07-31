@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useLocation } from "react-router-dom";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function Header(props) {
   const { title } = props;
@@ -37,7 +38,7 @@ export default function Header(props) {
   return (
     <Box
       sx={{
-        width: "100vw",
+        width: "100%",
       }}
     >
       <AppBar
@@ -121,10 +122,15 @@ export default function Header(props) {
 
                   <MenuItem
                     onClick={handleLogout}
-                    style={{
-                      justifyContent: "center",
-                    }}
+                    
                   >
+                    <LogoutIcon
+                      style={{
+                        marginRight: 10,
+                        
+                      }}
+                    />
+
                     Cerrar sesíon
                   </MenuItem>
                 </Menu>

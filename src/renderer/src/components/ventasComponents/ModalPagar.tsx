@@ -20,7 +20,7 @@ const style = {
 };
 
 export default function ModalPagar(props) {
-  const { listaCompras, substractProduct, products,user } = useContext(Context);
+  const { listaCompras, substractProduct, products,user,mediosDePago } = useContext(Context);
   const { open, setOpen, valorTotal } = props;
   const [optionSelected, setOptionSelected] = useState({ value: "" });
   const [vuelto, setVuelto] = useState(0);
@@ -32,13 +32,8 @@ export default function ModalPagar(props) {
 
   const handleCloseM = () => {
     setOpen(false);
+    console.log(mediosDePago);
   };
-  const MediosPagoLista = [
-    { label: "Efectivo", value: "Efectivo" },
-    { label: "Tarjeta", value: "Tarjeta" },
-    { label: "Mercado Pago", value: "Mercado Pago" },
-    { label: "Uala", value: "Uala" },
-  ];
 
   function BajarStock() {
     listaCompras.forEach((product: any) => {
@@ -132,7 +127,8 @@ export default function ModalPagar(props) {
             <Autocomplete
               disablePortal
               id="combo-box-demo"
-              options={MediosPagoLista}
+              options={mediosDePago}
+             
               renderInput={(params) => (
                 <TextField {...params} label="Medios de pago" />
               )}

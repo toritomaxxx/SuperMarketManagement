@@ -13,7 +13,13 @@ import {
   getReportsIpc,
   createReportIpc,
   getSalesIpc,
-  deleteUserIpc
+  deleteUserIpc,
+  updateUserIpc,
+  createMedioPagosIpc,
+  getMedioPagosIpc,
+  deleteMedioPagoIpc,
+  updateMedioPagoIpc,
+  cargarMedioPagosIpc
   
 } from "./IpcFunctions";
 
@@ -83,4 +89,10 @@ app.whenReady().then(() => {
   createReportIpc();
   getSalesIpc();
   deleteUserIpc();
+  updateUserIpc();
+  createMedioPagosIpc();
+  getMedioPagosIpc();
+  deleteMedioPagoIpc();
+  updateMedioPagoIpc();
+  cargarMedioPagosIpc();
 });

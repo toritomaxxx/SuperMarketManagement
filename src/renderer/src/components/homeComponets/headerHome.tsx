@@ -11,6 +11,7 @@ import { Context } from "../../context/Context";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import SettingsIcon from "@mui/icons-material/Settings";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 export default function HeaderHome() {
   const { user, logout } = useContext(Context);
@@ -104,6 +105,11 @@ export default function HeaderHome() {
                     justifyContent: "center",
                   }}
                 >
+                  <LogoutIcon
+                    style={{
+                      marginRight: 10,
+                    }}
+                  />
                   Cerrar sesíon
                 </MenuItem>
               </Menu>

@@ -28,6 +28,9 @@ type contextProps = {
   userList: any;
   setUserList: any;
   usersTable: () => void;
+  mediosDePago: any;
+  setMediosDePago: any;
+  mediosDePagoTable: () => void;
 };
 
 export const Context = createContext({} as contextProps);
@@ -44,6 +47,7 @@ export const ContextProvider = ({ children }: ContextProps) => {
   const [reportsProducts, setReportsProducts] = useState<any[]>([]);
   const [reportsSales, setReportsSales] = useState<any[]>([]);
   const [userList, setUserList] = useState<any[]>([]);
+  const [mediosDePago, setMediosDePago] = useState<any[]>([]);
   const login = (user: any) => {
     setUser(user);
     setAuth(true);
@@ -56,8 +60,17 @@ export const ContextProvider = ({ children }: ContextProps) => {
   useEffect(() => {
     if (!auth) return;
     productsTable();
+    mediosDePagoTable();
+
     
   }, [auth]);
+
+  const mediosDePagoTable = () => {
+    window.electron.ipcRenderer.invoke("get-mediopagos").then((res: any) => {
+      setMediosDePago(res);
+
+    });
+  };
 
   const usersTable = () => {
     window.electron.ipcRenderer.invoke("get-users").then((res: any) => {
@@ -159,6 +172,9 @@ export const ContextProvider = ({ children }: ContextProps) => {
         userList,
         setUserList,
         usersTable,
+        mediosDePago,
+        setMediosDePago,
+        mediosDePagoTable,
       }}
     >
       {children}
