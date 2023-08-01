@@ -93,6 +93,8 @@ export const updateUserIpc = () => {
           lastName: args.lastName,
           email: args.email,
           password: args.password,
+          confirmPassword: args.confirmPassword,
+          isAdmin: args.isAdmin,
         },
         (err, docs) => {
           if (err) {
@@ -344,7 +346,8 @@ export const updateMedioPagoIpc = () => {
       medioPagosDB.update(
         { _id: args._id },
         {
-          name: args.name,
+          label: args.label,
+          value: args.value,
         },
         (err, docs) => {
           if (err) {
