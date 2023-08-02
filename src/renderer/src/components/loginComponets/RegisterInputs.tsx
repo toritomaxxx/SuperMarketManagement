@@ -29,11 +29,11 @@ export default function RegisterInputs() {
   const [alerta5, setAlerta5] = useState(false);
   const navigate = useNavigate();
   const [user, setUser] = useState({
-    name: "a",
-    lastName: "a",
-    email: "admin@admin",
-    password: "1234",
-    confirmPassword: "1234",
+    name: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
     isAdmin: hasUsers ? true : false,
   });
 
