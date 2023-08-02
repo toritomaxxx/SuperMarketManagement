@@ -20,6 +20,8 @@ import { useContext, useEffect } from "react";
 import { Context } from "../../context/Context";
 
 export default function RegisterInputs() {
+  const [hasUsers, setHasUsers] = useState(true);
+  const [search, setSearch] = useState(false);
   const [alerta1, setAlerta1] = useState(false);
   const [alerta2, setAlerta2] = useState(false);
   const [alerta3, setAlerta3] = useState(false);
@@ -27,16 +29,19 @@ export default function RegisterInputs() {
   const [alerta5, setAlerta5] = useState(false);
   const navigate = useNavigate();
   const [user, setUser] = useState({
-    name: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    name: "a",
+    lastName: "a",
+    email: "admin@admin",
+    password: "1234",
+    confirmPassword: "1234",
     isAdmin: false,
   });
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    console.log(user)
+    console.log(hasUsers)
+    return
     if (user.password !== user.confirmPassword) {
       setAlerta1(true);
       return;
@@ -69,8 +74,6 @@ export default function RegisterInputs() {
 
   const { revisarUsers } = useContext(Context);
 
-  const [hasUsers, setHasUsers] = useState(true);
-  const [search, setSearch] = useState(false);
 
   useEffect(() => {
     revisarUsers().then((res) => {
@@ -183,6 +186,7 @@ export default function RegisterInputs() {
                 <TextField
                   label="Nombre"
                   type="text"
+                  value={user.name}
                   onChange={(e) => {
                     setUser({ ...user, name: e.target.value });
                   }}
@@ -193,6 +197,7 @@ export default function RegisterInputs() {
                 <TextField
                   label="Apellido"
                   type="text"
+                  value={user.lastName}
                   onChange={(e) => {
                     setUser({ ...user, lastName: e.target.value });
                   }}
@@ -203,6 +208,7 @@ export default function RegisterInputs() {
                 <TextField
                   label="Email"
                   type="email"
+                  value={user.email}
                   onChange={(e) => {
                     setUser({ ...user, email: e.target.value });
                   }}
@@ -214,6 +220,7 @@ export default function RegisterInputs() {
                 <TextField
                   label="Contraseña"
                   type="password"
+                  value={user.password}
                   onChange={(e) => {
                     setUser({ ...user, password: e.target.value });
                   }}
@@ -224,6 +231,7 @@ export default function RegisterInputs() {
                 <TextField
                   label="Confirmar Contraseña"
                   type="password"
+                  value={user.confirmPassword}
                   onChange={(e) => {
                     setUser({ ...user, confirmPassword: e.target.value });
                   }}
@@ -253,6 +261,13 @@ export default function RegisterInputs() {
                       <Typography>No</Typography>
                       <Switch
                         type="checkbox"
+                        disabled={!hasUsers}
+                        checked={
+                          !hasUsers
+                        }
+                        value={
+                          hasUsers ? user.isAdmin : true
+                        }
                         onChange={(e) => {
                           setUser({ ...user, isAdmin: e.target.checked });
                         }}

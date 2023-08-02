@@ -14,8 +14,8 @@ import { useContext } from "react";
 import { Context } from "@renderer/context/Context";
 
 export default function BoxMediosPago(props: any) {
-  const { mediosDePagoTable } = useContext(Context);
-  const { handleOpenAdd, mediosDePago, handleOpenAdd1, setEdit } = props;
+  const { mediosDePagoTable, user } = useContext(Context);
+  const { handleOpenAdd, mediosDePago, handleOpenAdd1, setEdit,setAlert6 } = props;
 
   function deletePaymentMethod(id: string) {
     window.electron.ipcRenderer
@@ -24,7 +24,7 @@ export default function BoxMediosPago(props: any) {
       })
       .then(() => {
         mediosDePagoTable();
-        console.log("Medio de pago eliminado");
+        setAlert6(true);
       });
   }
 
@@ -67,19 +67,21 @@ export default function BoxMediosPago(props: any) {
           }}
         >
           Medios de Pago
-          <IconButton
-            onClick={() => {
-              handleOpenAdd();
-            }}
-          >
-            <AddBoxIcon
-              style={{
-                fontSize: "2rem",
-                alignSelf: "center",
-                color: "white",
+          {user?.isAdmin && (
+            <IconButton
+              onClick={() => {
+                handleOpenAdd();
               }}
-            />
-          </IconButton>
+            >
+              <AddBoxIcon
+                style={{
+                  fontSize: "2rem",
+                  alignSelf: "center",
+                  color: "white",
+                }}
+              />
+            </IconButton>
+          )}
         </Typography>
       </div>
       <TableContainer
@@ -94,10 +96,12 @@ export default function BoxMediosPago(props: any) {
             {mediosDePago.map((medioDePago: any) => (
               <TableRow key={medioDePago._id}>
                 <TableCell size="small" style={{ fontSize: "1rem" }}>
-                  {medioDePago.label}
+                  <Typography variant="h6" fontWeight={"bold"}>
+                    {medioDePago.label}
+                  </Typography>
                 </TableCell>
                 <TableCell align="right">
-                  {medioDePago.label !== "Efectivo" && (
+                  {medioDePago.label !== "Efectivo" && user?.isAdmin && (
                     <div>
                       <IconButton
                         color="primary"

@@ -9,16 +9,14 @@ import BoxMediosPago from "@renderer/components/ajustesComponentes/boxMediosPago
 import TablaUsuarios from "@renderer/components/ajustesComponentes/tablaUsuarios";
 import { useState } from "react";
 import {
-  AlertBlue,
   AlertRed,
   AlertGreen,
   AlertYellow,
+  AlertBlue,
 } from "@renderer/components/AlertasVarias/alertaVarias";
-import { Modal } from "@mui/material";
 
 export default function Ajustes() {
-  const { user, userList, usersTable, mediosDePago, mediosDePagoTable } =
-    useContext(Context);
+  const { user, userList, usersTable, mediosDePago } = useContext(Context);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -35,7 +33,11 @@ export default function Ajustes() {
   const [alert, setAlert] = useState(false);
   const [alert1, setAlert1] = useState(false);
   const [alert2, setAlert2] = useState(false);
-
+  const [alert3, setAlert3] = useState(false);
+  const [alert4, setAlert4] = useState(false);
+  const [alert5, setAlert5] = useState(false);
+  const [alert6, setAlert6] = useState(false);
+  const [alert7, setAlert7] = useState(false);
 
   useEffect(() => {
     usersTable();
@@ -58,6 +60,32 @@ export default function Ajustes() {
         setOpen={setAlert2}
         text="Usuario modificado correctamente"
       />
+      <AlertGreen
+        open={alert3}
+        setOpen={setAlert3}
+        text="Medio de pago cargado correctamente"
+      />
+      <AlertBlue
+        open={alert4}
+        setOpen={setAlert4}
+        text="Ya existe un medio de pago con ese nombre"
+      />
+      <AlertGreen
+        open={alert5}
+        setOpen={setAlert5}
+        text="Medio de pago editado correctamente"
+      />
+      <AlertGreen
+        open={alert6}
+        setOpen={setAlert6}
+        text="Medio de pago eliminado correctamente"
+      />
+      <AlertGreen
+        open={alert7}
+        setOpen={setAlert7}
+        text="Usuario eliminado correctamente"
+      />
+
 
       <Header title="Ajustes" />
       <ModalModificarUsuario
@@ -73,6 +101,10 @@ export default function Ajustes() {
       <ModalAgregarMedioPago
         openAdd={openAdd}
         handleCloseAdd={handleCloseAdd}
+        setAlert={setAlert}
+        setAlert3={setAlert3}
+        setAlert4={setAlert4}
+        setAlert5={setAlert5}
         titulo="Agregar medio de pago"
       />
       <ModalAgregarMedioPago
@@ -87,6 +119,11 @@ export default function Ajustes() {
           flexDirection: "column",
           gap: "1rem",
           padding: "2rem",
+      
+          height: "94vh",
+          justifyContent:"center"
+
+
         }}
       >
         <div
@@ -94,7 +131,7 @@ export default function Ajustes() {
             display: "flex",
             flexDirection: "row",
             gap: "1rem",
-            width: "100%",
+            width: "100%",      
           }}
         >
           <BoxUserData handleOpen={handleOpen} />
@@ -103,9 +140,16 @@ export default function Ajustes() {
             mediosDePago={mediosDePago}
             handleOpenAdd1={handleOpenAdd1}
             setEdit={setEdit}
+            setAlert6={setAlert6}
+            
           />
         </div>
-        <TablaUsuarios userList={userList} usersTable={usersTable} />
+
+        {user?.isAdmin && (
+          <TablaUsuarios userList={userList} usersTable={usersTable} 
+          setAlert7={setAlert7}
+          />
+        )}
       </Box>
     </>
   );

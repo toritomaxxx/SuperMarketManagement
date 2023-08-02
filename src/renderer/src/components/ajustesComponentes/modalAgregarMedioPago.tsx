@@ -5,7 +5,16 @@ import { Context } from "@renderer/context/Context";
 import { useContext } from "react";
 
 export default function modalAgregarMedioPago(props: any) {
-  const { openAdd, handleCloseAdd, titulo, edit } = props;
+  const {
+    openAdd,
+    handleCloseAdd,
+    titulo,
+    edit,
+    setAlert,
+    setAlert3,
+    setAlert4,
+    setAlert5,
+  } = props;
   const { mediosDePago, mediosDePagoTable } = useContext(Context);
   const [paymentMethod, setPaymentMethod] = useState({
     value: "",
@@ -19,7 +28,7 @@ export default function modalAgregarMedioPago(props: any) {
 
   function addPaymentMethod() {
     if (paymentMethod.label === "") {
-      alert("Por favor complete todos los campos");
+      setAlert(true);
       return;
     }
     if (
@@ -27,7 +36,7 @@ export default function modalAgregarMedioPago(props: any) {
         (e) => e.label.toLowerCase() === paymentMethod.label.toLowerCase()
       )
     ) {
-      alert("Ya existe un medio de pago con ese nombre");
+      setAlert4(true);
       return;
     }
 
@@ -35,18 +44,16 @@ export default function modalAgregarMedioPago(props: any) {
       .invoke("create-mediopago", paymentMethod)
       .then((res: any) => {
         if (res) {
-          alert("Medio de pago creado correctamente");
+          setAlert3(true);
           mediosDePagoTable();
           handleCloseAdd();
-        } else {
-          alert("Error al crear medio de pago");
         }
       });
   }
 
   function editPaymentMethod() {
     if (paymentMethod.label === "") {
-      alert("Por favor complete todos los campos");
+      setAlert(true);
       return;
     }
     if (
@@ -54,7 +61,7 @@ export default function modalAgregarMedioPago(props: any) {
         (e) => e.label.toLowerCase() === paymentMethod.label.toLowerCase()
       )
     ) {
-      alert("Ya existe un medio de pago con ese nombre");
+      setAlert4(true);
       return;
     }
 
@@ -62,11 +69,9 @@ export default function modalAgregarMedioPago(props: any) {
       .invoke("update-mediopago", paymentMethod)
       .then((res: any) => {
         if (res) {
-          alert("Medio de pago editado correctamente");
+          setAlert5(true);
           mediosDePagoTable();
           handleCloseAdd();
-        } else {
-          alert("Error al editar medio de pago");
         }
       });
   }

@@ -7,9 +7,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import PersonIcon from "@mui/icons-material/Person";
 import { IconButton, Table, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
+import { Context } from "@renderer/context/Context";
+import { useContext } from "react";
 
 export default function TablaUsuarios(props: any) {
-  const { userList, usersTable, user } = props;
+  const { userList, usersTable,setAlert7 } = props;
+  const { user } = useContext(Context);
 
   function createData(
     name: string,
@@ -34,7 +37,11 @@ export default function TablaUsuarios(props: any) {
             {row.isAdmin ? "Administrador" : "Usuario"}
           </TableCell>
           <TableCell align="center">{row.email}</TableCell>
-          {user?.email !== row.email ? (
+
+          { 
+
+          user?.email !== row.email ?
+          (
             <TableCell align="center">
               <IconButton
                 aria-label="delete"
@@ -48,7 +55,7 @@ export default function TablaUsuarios(props: any) {
                     })
                     .then(() => {
                       usersTable();
-                      console.log("Usuario eliminado");
+                      setAlert7(true);
                     });
                 }}
               >
@@ -152,7 +159,8 @@ export default function TablaUsuarios(props: any) {
                 ></TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
+            <TableBody 
+            >
               {userList?.map((row: any) => (
                 <Row key={row._id} row={row} />
               ))}
