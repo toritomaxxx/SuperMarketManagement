@@ -14,8 +14,8 @@ import { useContext } from "react";
 import { Context } from "@renderer/context/Context";
 
 export default function BoxMediosPago(props: any) {
-  const { mediosDePagoTable, user } = useContext(Context);
-  const { handleOpenAdd, mediosDePago, handleOpenAdd1, setEdit,setAlert6 } = props;
+  const { mediosDePagoTable, user,addNewAlerta } = useContext(Context);
+  const { handleOpenAdd, mediosDePago, handleOpenAdd1, setEdit } = props;
 
   function deletePaymentMethod(id: string) {
     window.electron.ipcRenderer
@@ -24,7 +24,7 @@ export default function BoxMediosPago(props: any) {
       })
       .then(() => {
         mediosDePagoTable();
-        setAlert6(true);
+        addNewAlerta({ text: "Medio de pago eliminado", severity: "success" });
       });
   }
 
@@ -61,9 +61,10 @@ export default function BoxMediosPago(props: any) {
             display: "flex",
             justifyContent: "space-between",
             paddingLeft: "1rem",
-
+            paddingRight: "1rem",
             justifyItems: "center",
             alignItems: "center",
+            height: "3.5rem",
           }}
         >
           Medios de Pago

@@ -5,13 +5,11 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { Context } from "@renderer/context/Context";
 import { useContext, useEffect, useRef } from "react";
 import { useState } from "react";
-import { AlertYellow } from "../AlertasVarias/alertaVarias";
 
 export default function VentasInputs() {
-  const { products, addNewProduct } = useContext(Context);
+  const { products, addNewProduct ,addNewAlerta} = useContext(Context);
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState("");
-  const [openAlert, setOpenAlert] = useState(false);
 
   const inputAutoFocus = useRef<HTMLInputElement>(null);
 
@@ -50,11 +48,7 @@ export default function VentasInputs() {
           padding: "10px",
         }}
       >
-        <AlertYellow
-          open={openAlert}
-          setOpen={setOpenAlert}
-          text="No se encontro el producto"
-        />
+       
 
         <Autocomplete
           options={products}
@@ -82,7 +76,10 @@ export default function VentasInputs() {
                   product.codBar === inputValue
               );
               if (product === undefined) {
-                setOpenAlert(true);
+                addNewAlerta({
+                  text: "No se encontro el producto",
+                  severity: "warning",
+                });
                 return;
               }
               addNewProduct(product);

@@ -11,13 +11,10 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../../context/Context";
 import { useContext } from "react";
 import ModalAdmin from "./ModalAdmin";
-import { AlertRed } from "../AlertasVarias/alertaVarias";
 
 export default function LoginInputs() {
-  const [alerta, setAlerta] = useState(false);
-  const [alerta1, setAlerta1] = useState(false);
   const [open, setOpen] = useState(false);
-  const { login } = useContext(Context);
+  const { login, addNewAlerta } = useContext(Context);
   const [mostrarContraseña, setMostrarContraseña] = useState(false);
   const [user, setUser] = useState({
     email: "admin@admin",
@@ -28,8 +25,7 @@ export default function LoginInputs() {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (user.email === "" || user.password === "") {
-      setAlerta(true);
-
+      addNewAlerta({ text: "Rellene todos los campos", severity: "warning" });
       return;
     }
     window.electron.ipcRenderer
@@ -41,7 +37,10 @@ export default function LoginInputs() {
         }
       })
       .catch(() => {
-        setAlerta1(true);
+        addNewAlerta({
+          text: "Usuario o contraseña incorrectos",
+          severity: "error",
+        });
       });
   };
 
@@ -59,16 +58,6 @@ export default function LoginInputs() {
         height: "100vh",
       }}
     >
-      <AlertRed
-        open={alerta}
-        setOpen={setAlerta}
-        text="Rellene todos los campos"
-      />
-      <AlertRed
-        open={alerta1}
-        setOpen={setAlerta1}
-        text="Usuario o contraseña incorrectos"
-      />
       <Card
         sx={{
           gap: "1rem",

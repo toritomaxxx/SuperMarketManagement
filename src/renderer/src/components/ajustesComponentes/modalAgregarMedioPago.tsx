@@ -10,12 +10,8 @@ export default function modalAgregarMedioPago(props: any) {
     handleCloseAdd,
     titulo,
     edit,
-    setAlert,
-    setAlert3,
-    setAlert4,
-    setAlert5,
   } = props;
-  const { mediosDePago, mediosDePagoTable } = useContext(Context);
+  const { mediosDePago, mediosDePagoTable,addNewAlerta } = useContext(Context);
   const [paymentMethod, setPaymentMethod] = useState({
     value: "",
     label: "",
@@ -28,7 +24,10 @@ export default function modalAgregarMedioPago(props: any) {
 
   function addPaymentMethod() {
     if (paymentMethod.label === "") {
-      setAlert(true);
+        addNewAlerta({
+            text: "El campo no puede estar vacio",
+            severity: "error",
+        });
       return;
     }
     if (
@@ -36,7 +35,10 @@ export default function modalAgregarMedioPago(props: any) {
         (e) => e.label.toLowerCase() === paymentMethod.label.toLowerCase()
       )
     ) {
-      setAlert4(true);
+        addNewAlerta({
+            text: "El medio de pago ya existe",
+            severity: "error",
+        });
       return;
     }
 
@@ -44,7 +46,10 @@ export default function modalAgregarMedioPago(props: any) {
       .invoke("create-mediopago", paymentMethod)
       .then((res: any) => {
         if (res) {
-          setAlert3(true);
+            addNewAlerta({
+                text: "Medio de pago agregado correctamente",
+                severity: "success",
+            });
           mediosDePagoTable();
           handleCloseAdd();
         }
@@ -53,7 +58,10 @@ export default function modalAgregarMedioPago(props: any) {
 
   function editPaymentMethod() {
     if (paymentMethod.label === "") {
-      setAlert(true);
+      addNewAlerta({
+        text: "El campo no puede estar vacio",
+        severity: "error",
+      });
       return;
     }
     if (
@@ -61,7 +69,10 @@ export default function modalAgregarMedioPago(props: any) {
         (e) => e.label.toLowerCase() === paymentMethod.label.toLowerCase()
       )
     ) {
-      setAlert4(true);
+      addNewAlerta({
+        text: "El medio de pago ya existe",
+        severity: "error",
+      });
       return;
     }
 
@@ -69,7 +80,10 @@ export default function modalAgregarMedioPago(props: any) {
       .invoke("update-mediopago", paymentMethod)
       .then((res: any) => {
         if (res) {
-          setAlert5(true);
+          addNewAlerta({
+            text: "Medio de pago editado correctamente",
+            severity: "success",
+          });
           mediosDePagoTable();
           handleCloseAdd();
         }

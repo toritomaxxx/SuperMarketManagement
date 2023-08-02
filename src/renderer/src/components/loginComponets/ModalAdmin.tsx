@@ -8,25 +8,20 @@ import { Context } from "@renderer/context/Context";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { AlertRed } from "../AlertasVarias/alertaVarias";
 
 export default function ModalAdmin(props) {
-  const [alerta, setAlerta] = useState(false);
-  const [alerta1, setAlerta1] = useState(false);
   const navigate = useNavigate();
-  const { login} = useContext(Context);
+  const { login,addNewAlerta} = useContext(Context);
 
   const { open, setOpen } = props;
   const [codigo, setCodigo] = useState("");
   const handleClose = () => {
     setOpen(false);
-    setAlerta(false);
-    setAlerta1(false);
   };
 
   const handleSubmit = (e: any) => {
     if (codigo === "") {
-      setAlerta(true);
+      addNewAlerta({ text: "Por favor rellene todos los campos", severity: "warning" });
       return;
     }
 
@@ -40,12 +35,10 @@ export default function ModalAdmin(props) {
         if (res) {
           login(res);
           navigate("/register");
-        } else {
-          alert("Error al iniciar sesion");
-        }
+        } 
       })
       .catch(() => {
-        setAlerta1(true);
+      
         setCodigo("");
       });
   };
@@ -54,16 +47,7 @@ export default function ModalAdmin(props) {
     <div>
       <Modal open={open} onClose={handleClose}>
         <>
-          <AlertRed
-            open={alerta}
-            setOpen={setAlerta}
-            text="Rellene todos los campos"
-          />
-          <AlertRed
-            open={alerta1}
-            setOpen={setAlerta1}
-            text="Codigo incorrecto"  
-          />
+          
 
           <Fade in={open}>
             <Box

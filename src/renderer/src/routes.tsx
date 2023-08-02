@@ -5,7 +5,7 @@ import Historial from "./views/Historial";
 import AgregarProductos from "./views/AgregarProductos";
 import RealizarVentas from "./views/RealizarVentas";
 import Ajustes from "./views/Ajustes";
-import { Routes, Route, Navigate,HashRouter } from "react-router-dom";
+import { Routes, Route, Navigate, HashRouter } from "react-router-dom";
 import { Context } from "./context/Context";
 import { useContext, useEffect, useState } from "react";
 
@@ -27,11 +27,8 @@ export default function Routers() {
   return (
     <HashRouter>
       <Routes>
-        {hasUsers ? (
-          <Route path="/" element={<Navigate to="/login" />} />
-        ) : (
-          <Route path="/" element={<Navigate to="/register" />} />
-        )}
+
+        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />

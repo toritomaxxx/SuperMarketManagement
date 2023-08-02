@@ -9,7 +9,6 @@ import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { AlertGreen, AlertRed } from "../AlertasVarias/alertaVarias";
 
 const localizedTextsMap = {
   noRowsLabel: "Sin filas",
@@ -188,22 +187,18 @@ const localizedTextsMap = {
 };
 
 export default function TablaStock() {
-  const { productsTable, products, user } = useContext(Context);
+  const { productsTable, products, user, addNewAlerta } = useContext(Context);
   const [open, setOpen] = useState(false);
   const nombreCompleto = user?.name + " " + user?.lastName;
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
-  const [alerta, setAlerta] = useState(false);
-  const [alerta1, setAlerta1] = useState(false);
 
-  function cambiarColor(props){
-
-    if(props <= 0){
-      return "red"
-    }else if(props <= 10){
-      return "#F67171"
-    }
-    else{
-      return "black"
+  function cambiarColor(props) {
+    if (props <= 0) {
+      return "red";
+    } else if (props <= 10) {
+      return "#F67171";
+    } else {
+      return "black";
     }
   }
 
@@ -235,11 +230,19 @@ export default function TablaStock() {
         <div>
           <Typography variant="body1" align="center">
             {params.row.cant <= 0 ? (
-              <Typography variant="body1" align="center" color={cambiarColor(params.row.cant)}>
+              <Typography
+                variant="body1"
+                align="center"
+                color={cambiarColor(params.row.cant)}
+              >
                 Sin stock
               </Typography>
             ) : (
-              <Typography variant="body1" align="center" color={cambiarColor(params.row.cant)}>
+              <Typography
+                variant="body1"
+                align="center"
+                color={cambiarColor(params.row.cant)}
+              >
                 {params.row.cant}
               </Typography>
             )}
@@ -291,7 +294,10 @@ export default function TablaStock() {
                 .invoke("delete-product", { _id: params.row._id })
                 .then((res: any) => {
                   if (res) {
-                    setAlerta(true);
+                    addNewAlerta({
+                      text: "Producto eliminado",
+                      severity: "success",
+                    });
                     productsTable();
                   }
                 });
@@ -322,12 +328,7 @@ export default function TablaStock() {
         margin: "auto",
       }}
     >
-      <AlertRed open={alerta} setOpen={setAlerta} text={"Producto eliminado"} />
-      <AlertGreen
-        open={alerta1}
-        setOpen={setAlerta1}
-        text={"Producto Actualizado"}
-      />
+    
 
       <div
         style={{
@@ -507,7 +508,10 @@ export default function TablaStock() {
                     })
                     .then((res: any) => {
                       if (res) {
-                        setAlerta1(true);
+                        addNewAlerta({
+                          text: "Producto actualizado",
+                          severity: "success",
+                        });
                         productsTable();
                         setOpen(false);
                       }

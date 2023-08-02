@@ -7,14 +7,11 @@ import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { Context } from "@renderer/context/Context";
-import { AlertRed, AlertBlue, AlertGreen } from "../AlertasVarias/alertaVarias";
 import Switch from "@mui/material/Switch";
 
 export default function Inputs() {
-  const { productsTable, user } = useContext(Context);
-  const [alerta, setAlerta] = useState(false);
-  const [alerta1, setAlerta1] = useState(false);
-  const [alerta2, setAlerta2] = useState(false);
+  const { productsTable, user ,addNewAlerta} = useContext(Context);
+
   const [state, setState] = useState(false);
   const [values, setValues] = useState({
     nameProduct: "",
@@ -40,7 +37,7 @@ export default function Inputs() {
       values.codBar === "" ||
       values.price === ""
     ) {
-      setAlerta(true);
+     addNewAlerta({ text: "Rellene todos los campos", severity: "warning" });
       return;
     }
 
@@ -48,12 +45,18 @@ export default function Inputs() {
       .invoke("create-product", values)
       .then((res: any) => {
         if (res) {
-          setAlerta2(true);
+          addNewAlerta({
+            text: "Producto agregado correctamente",
+            severity: "success",
+          });
           productsTable();
         }
       })
       .catch(() => {
-        setAlerta1(true);
+        addNewAlerta({
+          text: "El producto ya existe",
+          severity: "info",
+        });
       });
     window.electron.ipcRenderer
       .invoke("create-report", {
@@ -82,21 +85,6 @@ export default function Inputs() {
         paddingTop: "20px",
       }}
     >
-      <AlertRed
-        open={alerta}
-        setOpen={setAlerta}
-        text="Rellene todos los campos"
-      />
-      <AlertBlue
-        open={alerta1}
-        setOpen={setAlerta1}
-        text="Los datos cargados coinciden con un producto ya existente"
-      />
-      <AlertGreen
-        open={alerta2}
-        setOpen={setAlerta2}
-        text="Producto agregado"
-      />
       <Box
         component="form"
         onSubmit={(e) => {

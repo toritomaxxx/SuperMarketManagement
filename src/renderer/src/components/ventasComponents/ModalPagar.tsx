@@ -6,7 +6,6 @@ import { useState } from "react";
 import Modal from "@mui/material/Modal";
 import { Context } from "@renderer/context/Context";
 import { useContext } from "react";
-import { AlertBlue, AlertGreen } from "../AlertasVarias/alertaVarias";
 
 const style = {
   position: "absolute" as "absolute",
@@ -20,15 +19,18 @@ const style = {
 };
 
 export default function ModalPagar(props) {
-  const { listaCompras, substractProduct, products,user,mediosDePago } = useContext(Context);
+  const {
+    listaCompras,
+    substractProduct,
+    products,
+    user,
+    mediosDePago,
+    addNewAlerta,
+  } = useContext(Context);
   const { open, setOpen, valorTotal } = props;
   const [optionSelected, setOptionSelected] = useState({ value: "" });
   const [vuelto, setVuelto] = useState(0);
   const [efectivo, setEfectivo] = useState("");
-  const [alerta, setAlerta] = useState(false);
-  const [alert1, setAlert1] = useState(false);
-  const [alert2, setAlert2] = useState(false);
-  const [alert3, setAlert3] = useState(false);
 
   const handleCloseM = () => {
     setOpen(false);
@@ -40,7 +42,10 @@ export default function ModalPagar(props) {
       const index = products.findIndex((p: any) => p.codBar === product.codBar);
       const newProducts = [...products];
       if (newProducts[index].cant === 0) {
-        setAlerta(true);
+        addNewAlerta({
+          text: "No hay stock de " + product.name,
+          severity: "warning",
+        });
       }
       newProducts[index].cant = newProducts[index].cant - product.cant;
       window.electron.ipcRenderer.invoke("update-product", newProducts[index]);
@@ -49,16 +54,22 @@ export default function ModalPagar(props) {
 
   function CargarVenta() {
     if (optionSelected.value === "") {
-      setAlert1(true);
+      addNewAlerta({
+        text: "Por favor rellene todos los campos",
+        severity: "warning",
+      });
       return;
     } else if (optionSelected.value === "Efectivo" && efectivo === "") {
-      setAlert2(true);
+      addNewAlerta({
+        text: "Por favor rellene todos los campos",
+        severity: "warning",
+      });
     } else {
       window.electron.ipcRenderer
         .invoke("create-sale", {
           fecha: new Date().toLocaleDateString(),
           hora: new Date().toLocaleTimeString(),
-          usuario: user?.name+" "+user?.lastName,
+          usuario: user?.name + " " + user?.lastName,
           productos: listaCompras,
           total: valorTotal,
           medioPago: optionSelected.value,
@@ -66,7 +77,10 @@ export default function ModalPagar(props) {
         })
         .then((res: any) => {
           if (res) {
-            setAlert3(true);
+            addNewAlerta({
+              text: "Venta cargada correctamente",
+              severity: "success",
+            });
           }
         });
 
@@ -82,11 +96,6 @@ export default function ModalPagar(props) {
 
   return (
     <div>
-      <AlertGreen
-        open={alert3}
-        setOpen={setAlert3}
-        text={"Venta cargada correctamente"}
-      />
       <Modal
         open={open}
         onClose={() => {
@@ -98,21 +107,6 @@ export default function ModalPagar(props) {
         aria-describedby="modal-modal-description"
       >
         <>
-          <AlertBlue
-            open={alerta}
-            setOpen={setAlerta}
-            text={"Actualizar stock de " + products.nameProduct}
-          />
-          <AlertBlue
-            open={alert1}
-            setOpen={setAlert1}
-            text={"Seleccione un medio de pago"}
-          />
-          <AlertBlue
-            open={alert2}
-            setOpen={setAlert2}
-            text={"Ingrese el efectivo con el que va a pagar"}
-          />
           <Box sx={style} borderRadius={2}>
             <Typography
               id="modal-modal-title"
@@ -128,12 +122,11 @@ export default function ModalPagar(props) {
               disablePortal
               id="combo-box-demo"
               options={mediosDePago}
-             
               renderInput={(params) => (
                 <TextField {...params} label="Medios de pago" />
               )}
               onChange={(event: any, newValue: any) => {
-                console.log(event)
+                console.log(event);
                 if (newValue === null) {
                   setOptionSelected({ value: "" });
                 } else {

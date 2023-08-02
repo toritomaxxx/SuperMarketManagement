@@ -21,11 +21,8 @@ export default function ModalModificarUsuario(props: any) {
     handleClose,
     user,
     usersTable,
-    setAlert,
-    setAlert1,
-    setAlert2,
   } = props;
-  const { login } = useContext(Context);
+  const { login ,addNewAlerta} = useContext(Context);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -47,9 +44,9 @@ export default function ModalModificarUsuario(props: any) {
       userUpdate.password === "" ||
       userUpdate.confirmPassword === ""
     ) {
-      setAlert(true);
+      addNewAlerta({ text: "Por favor rellene todos los campos", severity: "warning" });
     } else if (userUpdate.password !== userUpdate.confirmPassword) {
-      setAlert1(true);
+      addNewAlerta({ text: "Las contraseñas no coinciden", severity: "warning" });
     } else {
       window.electron.ipcRenderer
         .invoke("update-user", {
@@ -65,7 +62,7 @@ export default function ModalModificarUsuario(props: any) {
           usersTable();
           login(userUpdate);
           handleClose();
-          setAlert2(true);
+          addNewAlerta({ text: "Usuario modificado correctamente", severity: "success" });
         });
     }
   }

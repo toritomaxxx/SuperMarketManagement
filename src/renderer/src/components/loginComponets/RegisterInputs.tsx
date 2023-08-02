@@ -10,11 +10,6 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
-import {
-  AlertRed,
-  AlertGreen,
-  AlertYellow,
-} from "../AlertasVarias/alertaVarias";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { Context } from "../../context/Context";
@@ -22,11 +17,6 @@ import { Context } from "../../context/Context";
 export default function RegisterInputs() {
   const [hasUsers, setHasUsers] = useState(true);
   const [search, setSearch] = useState(false);
-  const [alerta1, setAlerta1] = useState(false);
-  const [alerta2, setAlerta2] = useState(false);
-  const [alerta3, setAlerta3] = useState(false);
-  const [alerta4, setAlerta4] = useState(false);
-  const [alerta5, setAlerta5] = useState(false);
   const navigate = useNavigate();
   const [user, setUser] = useState({
     name: "",
@@ -39,7 +29,10 @@ export default function RegisterInputs() {
 
   const handleSubmit = (e: any) => {
     if (user.password !== user.confirmPassword) {
-      setAlerta1(true);
+      addNewAlerta({
+        text: "Las contraseñas no coinciden",
+        severity: "warning",
+      });
       return;
     }
     if (
@@ -49,27 +42,36 @@ export default function RegisterInputs() {
       user.password === "" ||
       user.confirmPassword === ""
     ) {
-      setAlerta2(true);
+      addNewAlerta({ text: "Rellene todos los campos", severity: "warning" });
       return;
     }
     window.electron.ipcRenderer
       .invoke("register", user)
       .then((res: any) => {
         if (res) {
-          setAlerta4(true);
+          addNewAlerta({
+            text: "Usuario registrado correctamente",
+            severity: "success",
+          });
+
           navigate("/login");
         } else {
-          setAlerta3(true);
+          addNewAlerta({
+            text: "El usuario ya existe",
+            severity: "warning",
+          });
         }
       })
       .catch((err: any) => {
         console.log(err);
-        setAlerta5(true);
+        addNewAlerta({
+          text: "Error al registrar el usuario",
+          severity: "error",
+        });
       });
   };
 
-  const { revisarUsers } = useContext(Context);
-
+  const { revisarUsers, addNewAlerta } = useContext(Context);
 
   useEffect(() => {
     revisarUsers().then((res) => {
@@ -89,31 +91,6 @@ export default function RegisterInputs() {
         height: "100vh",
       }}
     >
-      <AlertRed
-        open={alerta1}
-        setOpen={setAlerta1}
-        text="Las contraseñas no coinciden"
-      />
-      <AlertRed
-        open={alerta2}
-        setOpen={setAlerta2}
-        text="Rellene todos los campos"
-      />
-      <AlertRed
-        open={alerta3}
-        setOpen={setAlerta3}
-        text="Error al crear el usuario"
-      />
-      <AlertGreen
-        open={alerta4}
-        setOpen={setAlerta4}
-        text="Usuario creado exitosamente"
-      />
-      <AlertYellow
-        open={alerta5}
-        setOpen={setAlerta5}
-        text="Usuario ya existente"
-      />
       <Card
         sx={{
           gap: "1rem",
@@ -260,7 +237,6 @@ export default function RegisterInputs() {
                         type="checkbox"
                         checked={user.isAdmin}
                         value={user.isAdmin}
-                        defaultChecked={!hasUsers}
                         disabled={!hasUsers}
                         onChange={(e) => {
                           setUser({ ...user, isAdmin: e.target.checked });
