@@ -34,14 +34,10 @@ export default function RegisterInputs() {
     email: "admin@admin",
     password: "1234",
     confirmPassword: "1234",
-    isAdmin: false,
+    isAdmin: hasUsers ? true : false,
   });
 
   const handleSubmit = (e: any) => {
-    e.preventDefault();
-    console.log(user)
-    console.log(hasUsers)
-    return
     if (user.password !== user.confirmPassword) {
       setAlerta1(true);
       return;
@@ -239,6 +235,7 @@ export default function RegisterInputs() {
                     width: "48%",
                   }}
                 />
+
                 <FormControlLabel
                   value="start"
                   labelPlacement="start"
@@ -261,13 +258,10 @@ export default function RegisterInputs() {
                       <Typography>No</Typography>
                       <Switch
                         type="checkbox"
+                        checked={user.isAdmin}
+                        value={user.isAdmin}
+                        defaultChecked={!hasUsers}
                         disabled={!hasUsers}
-                        checked={
-                          !hasUsers
-                        }
-                        value={
-                          hasUsers ? user.isAdmin : true
-                        }
                         onChange={(e) => {
                           setUser({ ...user, isAdmin: e.target.checked });
                         }}
