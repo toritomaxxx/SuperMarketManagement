@@ -28,7 +28,7 @@ export default function RegisterInputs() {
     confirmPassword: "",
     isAdmin: hasUsers ? true : false,
   });
-
+  // @ts-ignore
   const handleSubmit = (e: any) => {
     if (user.password !== user.confirmPassword) {
       enqueueSnackbar("Las contraseñas no coinciden", {
@@ -64,7 +64,6 @@ export default function RegisterInputs() {
             preventDuplicate: true,
           });
 
-
           navigate("/login");
         } else {
           enqueueSnackbar("Error al registrar el usuario", {
@@ -74,13 +73,13 @@ export default function RegisterInputs() {
           });
         }
       })
+      // @ts-ignore
       .catch((err: any) => {
-        console.log(err);
         enqueueSnackbar("Error al registrar el usuario", {
           variant: "error",
           autoHideDuration: 3000,
           preventDuplicate: true,
-      })
+        });
       });
   };
 

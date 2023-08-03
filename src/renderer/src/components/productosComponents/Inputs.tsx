@@ -11,25 +11,33 @@ import Switch from "@mui/material/Switch";
 import { useSnackbar } from "notistack";
 
 export default function Inputs() {
-  const {enqueueSnackbar} = useSnackbar();
-  const { productsTable, user } = useContext(Context);
+  const { enqueueSnackbar } = useSnackbar();
+  const { productsTable, user, products } = useContext(Context);
 
   const [state, setState] = useState(false);
   const [values, setValues] = useState({
     nameProduct: "",
-    codBar: "",
+    codBar: "Sin codigo de barras",
     price: "",
     cant: 0,
   });
   const nombreCompleto = user?.name + " " + user?.lastName;
 
-  function sinCodBar() {
-    if (state){
+  function sinCodBar(checked: boolean) {
+    if (checked) {
       setValues({ ...values, codBar: values.codBar });
-    }else{
+    } else {
       setValues({ ...values, codBar: "Sin codigo de barras" });
     }
+  }
 
+  function coincideAlgunCampo(name: string, codBar: string): boolean {
+    for (const product of products) {
+      if (product.nameProduct === name || product.codBar === codBar) {
+        return true;
+      }
+    }
+    return false;
   }
 
   const handleSubmit = (e: any) => {
@@ -40,6 +48,14 @@ export default function Inputs() {
       values.price === ""
     ) {
       enqueueSnackbar("Los campos no pueden estar vacios", {
+        variant: "error",
+        autoHideDuration: 3000,
+        preventDuplicate: true,
+      });
+      return;
+    }
+    if (coincideAlgunCampo(values.nameProduct, values.codBar)) {
+      enqueueSnackbar("El producto ya existe", {
         variant: "error",
         autoHideDuration: 3000,
         preventDuplicate: true,
@@ -66,6 +82,7 @@ export default function Inputs() {
           preventDuplicate: true,
         });
       });
+
     window.electron.ipcRenderer
       .invoke("create-report", {
         fecha: new Date().toLocaleDateString(),
@@ -77,12 +94,10 @@ export default function Inputs() {
         cantidad: values.cant,
         precio: values.price,
       })
+      // @ts-ignore
       .then((res: any) => {
-        console.log(res);
+        
       })
-      .catch(() => {
-        console.log("error");
-      });
   };
 
   return (
@@ -146,7 +161,7 @@ export default function Inputs() {
               <Switch
                 onChange={(e) => {
                   setState(e.target.checked);
-                  sinCodBar();
+                  sinCodBar(e.target.checked);
                 }}
               />
             }

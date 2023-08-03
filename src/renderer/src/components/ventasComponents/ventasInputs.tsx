@@ -25,8 +25,6 @@ export default function VentasInputs() {
     if (value === null) return;
     setInputValue("");
     setValue(null);
-    console.log(value);
-    console.log(inputValue);
   }, [value, inputValue]);
 
   return (
@@ -50,25 +48,23 @@ export default function VentasInputs() {
           padding: "10px",
         }}
       >
-       
-
         <Autocomplete
           options={products}
           value={value}
           ref={inputAutoFocus}
-        
           inputValue={inputValue}
+          // @ts-ignore
           onInputChange={(event, newInputValue) => {
-            console.log(event);
             setInputValue(newInputValue);
           }}
+          // @ts-ignore
           onChange={(event: any, newValue: any) => {
-            console.log(event);
+          
             addNewProduct(newValue);
             setValue(newValue);
           }}
           onKeyDown={(event: any) => {
-            console.log(event);
+        
 
             if (event.key === "Enter") {
               if (inputValue === "") return;

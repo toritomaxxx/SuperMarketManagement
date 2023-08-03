@@ -1,4 +1,16 @@
-{"fecha":"3/8/2023","hora":"08:57:00","accion":"Nuevo","usuario":{"nombreCompleto":"admin admin"},"producto":"papas","codBar":"Sin codigo de barras","cantidad":0,"precio":"200","_id":"lJAcixHWGdMOjR5f"}
+{"fecha":"3/8/2023","hora":"10:38:07","accion":"Eliminado","usuario":{"nombreCompleto":"admin admin"},"producto":"Papass","codBar":"100000","cantidad":0,"precio":"100","_id":"0zEVFxPQ8oDk9cwB"}
+{"fecha":"3/8/2023","hora":"10:38:08","accion":"Eliminado","usuario":{"nombreCompleto":"admin admin"},"producto":"Papas","codBar":"Sin codigo de barras","cantidad":0,"precio":"100","_id":"2iGgr6mOUOwoijF6"}
 {"fecha":"3/8/2023","hora":"08:57:20","accion":"Nuevo","usuario":{"nombreCompleto":"admin admin"},"producto":"papas","codBar":"1000","cantidad":0,"precio":"200","_id":"4vyKAWPWKvhl4trr"}
-{"fecha":"3/8/2023","hora":"08:57:35","accion":"Eliminado","usuario":{"nombreCompleto":"admin admin"},"producto":"papas","codBar":"Sin codigo de barras","cantidad":0,"precio":"200","_id":"reR0LlukqNxVaQZu"}
+{"fecha":"3/8/2023","hora":"10:48:52","accion":"Actualizado","usuario":{"nombreCompleto":"admin admin"},"producto":"Peras","codBar":"Sin codigo de barras","cantidad":0,"precio":"200","_id":"CynHH4LYBR6ehDAC"}
+{"fecha":"3/8/2023","hora":"10:36:33","accion":"Eliminado","usuario":{"nombreCompleto":"admin admin"},"producto":"Papas s","codBar":"Sin codigo de barras","cantidad":0,"precio":"100","_id":"QhpxBW5oVmSHg3we"}
+{"fecha":"3/8/2023","hora":"10:37:58","accion":"Nuevo","usuario":{"nombreCompleto":"admin admin"},"producto":"Papas","codBar":"Sin codigo de barras","cantidad":0,"precio":"100","_id":"ZrI1oDo9mYTTDtUv"}
+{"fecha":"3/8/2023","hora":"10:34:31","accion":"Nuevo","usuario":{"nombreCompleto":"admin admin"},"producto":"Papas s","codBar":"Sin codigo de barras","cantidad":0,"precio":"100","_id":"aqXQvBCRME9fOZL3"}
 {"fecha":"3/8/2023","hora":"08:57:36","accion":"Eliminado","usuario":{"nombreCompleto":"admin admin"},"producto":"papas","codBar":"1000","cantidad":0,"precio":"200","_id":"bJq0QdvzImo9dEZY"}
+{"fecha":"3/8/2023","hora":"10:36:33","accion":"Eliminado","usuario":{"nombreCompleto":"admin admin"},"producto":"Papas","codBar":"100","cantidad":0,"precio":"100","_id":"cUrc2yiFKxoJKRZ0"}
+{"fecha":"3/8/2023","hora":"10:48:43","accion":"Nuevo","usuario":{"nombreCompleto":"admin admin"},"producto":"Peras","codBar":"Sin codigo de barras","cantidad":0,"precio":"2000","_id":"eIacHSklQLshaoY9"}
+{"fecha":"3/8/2023","hora":"10:38:04","accion":"Nuevo","usuario":{"nombreCompleto":"admin admin"},"producto":"Papass","codBar":"100000","cantidad":0,"precio":"100","_id":"fH8dXdvWWAFzg91L"}
+{"fecha":"3/8/2023","hora":"10:34:22","accion":"Nuevo","usuario":{"nombreCompleto":"admin admin"},"producto":"Papas","codBar":"100","cantidad":0,"precio":"100","_id":"fYxGT2NL3gbufyIP"}
+{"fecha":"3/8/2023","hora":"08:57:00","accion":"Nuevo","usuario":{"nombreCompleto":"admin admin"},"producto":"papas","codBar":"Sin codigo de barras","cantidad":0,"precio":"200","_id":"lJAcixHWGdMOjR5f"}
+{"fecha":"3/8/2023","hora":"10:36:59","accion":"Nuevo","usuario":{"nombreCompleto":"admin admin"},"producto":"Papas","codBar":"Sin codigo de barras","cantidad":0,"precio":"100","_id":"rTVTYejkM7gNMVOQ"}
+{"fecha":"3/8/2023","hora":"08:57:35","accion":"Eliminado","usuario":{"nombreCompleto":"admin admin"},"producto":"papas","codBar":"Sin codigo de barras","cantidad":0,"precio":"200","_id":"reR0LlukqNxVaQZu"}
+{"fecha":"3/8/2023","hora":"10:37:50","accion":"Eliminado","usuario":{"nombreCompleto":"admin admin"},"producto":"Papas","codBar":"Sin codigo de barras","cantidad":0,"precio":"100","_id":"uaM1ZRz1GuXodCAu"}

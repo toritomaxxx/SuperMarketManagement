@@ -23,9 +23,8 @@ const medioPagosDB = new Datastore({
 });
 
 export const registerIpc = () => {
+  // @ts-ignore
   ipcMain.handle("register", (event, args) => {
-    console.log(args);
-    console.log(event);
     return new Promise((resolve, reject) => {
       usersDB.find({ email: args.email }, (err, docs) => {
         if (err) {
@@ -49,9 +48,8 @@ export const registerIpc = () => {
 };
 
 export const getUsersIpc = () => {
+  // @ts-ignore
   ipcMain.handle("get-users", (event, args) => {
-    console.log(args);
-    console.log(event);
     return new Promise((resolve, reject) => {
       usersDB.find({}, (err, docs) => {
         if (err) {
@@ -65,9 +63,8 @@ export const getUsersIpc = () => {
 };
 
 export const deleteUserIpc = () => {
+  // @ts-ignore
   ipcMain.handle("delete-user", (event, args) => {
-    console.log(args);
-    console.log(event);
     return new Promise((resolve, reject) => {
       usersDB.remove({ _id: args._id }, (err, docs) => {
         if (err) {
@@ -81,11 +78,10 @@ export const deleteUserIpc = () => {
 };
 
 export const updateUserIpc = () => {
+  // @ts-ignore
   ipcMain.handle("update-user", (event, args) => {
-    console.log(args);
-    console.log(event);
     return new Promise((resolve, reject) => {
-      console.log(args);
+      
       usersDB.update(
         { _id: args._id },
         {
@@ -109,9 +105,8 @@ export const updateUserIpc = () => {
 };
 
 export const createProductIpc = () => {
+  // @ts-ignore
   ipcMain.handle("create-product", (event, args) => {
-    console.log(args);
-    console.log(event);
     return new Promise((resolve, reject) => {
       productsDB.find({ nameProduct: args.nameProduct }, (err, docs) => {
         if (err) {
@@ -145,9 +140,8 @@ export const createProductIpc = () => {
   });
 };
 export const loginIpc = () => {
+  // @ts-ignore
   ipcMain.handle("login", (event, args) => {
-    console.log(args);
-    console.log(event);
     return new Promise((resolve, reject) => {
       usersDB.find({ email: args.email }, (err, docs) => {
         if (err) {
@@ -169,9 +163,8 @@ export const loginIpc = () => {
 };
 
 export const getProductsIpc = () => {
+  // @ts-ignore
   ipcMain.handle("get-products", (event, args) => {
-    console.log(args);
-    console.log(event);
     return new Promise((resolve, reject) => {
       productsDB.find({}, (err, docs) => {
         if (err) {
@@ -185,9 +178,8 @@ export const getProductsIpc = () => {
 };
 
 export const deleteProductIpc = () => {
+  // @ts-ignore
   ipcMain.handle("delete-product", (event, args) => {
-    console.log(args);
-    console.log(event);
     return new Promise((resolve, reject) => {
       productsDB.remove({ _id: args._id }, (err, docs) => {
         if (err) {
@@ -201,11 +193,10 @@ export const deleteProductIpc = () => {
 };
 
 export const updateProductIpc = () => {
+  // @ts-ignore
   ipcMain.handle("update-product", (event, args) => {
-    console.log(args);
-    console.log(event);
     return new Promise((resolve, reject) => {
-      console.log(args);
+    
       productsDB.update(
         { _id: args._id },
         {
@@ -227,9 +218,8 @@ export const updateProductIpc = () => {
 };
 
 export const createSaleIpc = () => {
+  // @ts-ignore
   ipcMain.handle("create-sale", (event, args) => {
-    console.log(args);
-    console.log(event);
     return new Promise((resolve, reject) => {
       salesDB.insert(args, (err, doc) => {
         if (err) {
@@ -242,9 +232,8 @@ export const createSaleIpc = () => {
   });
 };
 export const getSalesIpc = () => {
+  // @ts-ignore
   ipcMain.handle("get-sales", (event, args) => {
-    console.log(args);
-    console.log(event);
     return new Promise((resolve, reject) => {
       salesDB.find({}, (err, docs) => {
         if (err) {
@@ -258,9 +247,8 @@ export const getSalesIpc = () => {
 };
 
 export const getReportsIpc = () => {
+  // @ts-ignore
   ipcMain.handle("get-reports", (event, args) => {
-    console.log(args);
-    console.log(event);
     return new Promise((resolve, reject) => {
       reportsDB.find({}, (err, docs) => {
         if (err) {
@@ -274,9 +262,8 @@ export const getReportsIpc = () => {
 };
 
 export const createReportIpc = () => {
+  // @ts-ignore
   ipcMain.handle("create-report", (event, args) => {
-    console.log(args);
-    console.log(event);
     return new Promise((resolve, reject) => {
       reportsDB.insert(args, (err, doc) => {
         if (err) {
@@ -290,9 +277,8 @@ export const createReportIpc = () => {
 };
 
 export const createMedioPagosIpc = () => {
+  // @ts-ignore
   ipcMain.handle("create-mediopago", (event, args) => {
-    console.log(args);
-    console.log(event);
     return new Promise((resolve, reject) => {
       medioPagosDB.insert(args, (err, doc) => {
         if (err) {
@@ -306,9 +292,8 @@ export const createMedioPagosIpc = () => {
 };
 
 export const getMedioPagosIpc = () => {
+  // @ts-ignore
   ipcMain.handle("get-mediopagos", (event, args) => {
-    console.log(args);
-    console.log(event);
     return new Promise((resolve, reject) => {
       medioPagosDB.find({}, (err, docs) => {
         if (err) {
@@ -322,9 +307,8 @@ export const getMedioPagosIpc = () => {
 };
 
 export const deleteMedioPagoIpc = () => {
+  // @ts-ignore
   ipcMain.handle("delete-mediopago", (event, args) => {
-    console.log(args);
-    console.log(event);
     return new Promise((resolve, reject) => {
       medioPagosDB.remove({ _id: args._id }, (err, docs) => {
         if (err) {
@@ -338,11 +322,11 @@ export const deleteMedioPagoIpc = () => {
 };
 
 export const updateMedioPagoIpc = () => {
+  // @ts-ignore
   ipcMain.handle("update-mediopago", (event, args) => {
-    console.log(args);
-    console.log(event);
+    
     return new Promise((resolve, reject) => {
-      console.log(args);
+      
       medioPagosDB.update(
         { _id: args._id },
         {
@@ -362,11 +346,11 @@ export const updateMedioPagoIpc = () => {
 };
 
 export const cargarMedioPagosIpc = () => {
-  console.log("Cargando datos");
+
   if (
     medioPagosDB.count({}, (err, count) => {
       if (err) {
-        console.log(err);
+        
         return;
       }
       if (count === 0) {
@@ -374,6 +358,6 @@ export const cargarMedioPagosIpc = () => {
       }
     })
   ) {
-    console.log("Datos cargados");
+
   }
 };

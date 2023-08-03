@@ -48,7 +48,7 @@ export default function TablaUsuarios(props: any) {
                 size="large"
                 sx={{ cursor: "pointer" }}
                 onClick={() => {
-                  console.log(row._id);
+             
                   window.electron.ipcRenderer
                     .invoke("delete-user", {
                       _id: row._id,

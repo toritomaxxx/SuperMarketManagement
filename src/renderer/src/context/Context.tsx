@@ -147,8 +147,6 @@ export const ContextProvider = ({ children }: ContextProps) => {
     setListaCompras(newLista);
   };
 
-
-
   return (
     <Context.Provider
       value={{

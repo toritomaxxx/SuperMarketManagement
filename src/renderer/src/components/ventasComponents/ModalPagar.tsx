@@ -30,15 +30,14 @@ export default function ModalPagar(props) {
 
   const handleCloseM = () => {
     setOpen(false);
-    console.log(mediosDePago);
   };
 
   function BajarStock() {
     listaCompras.forEach((product: any) => {
       const index = products.findIndex((p: any) => p.codBar === product.codBar);
       const newProducts = [...products];
-      if (newProducts[index].cant === 0) {
-        enqueueSnackbar("No hay stock de " + product.name, {
+      if (newProducts[index].cant <= 0) {
+        enqueueSnackbar("No hay stock de " + product.nameProduct, {
           variant: "error",
           autoHideDuration: 3000,
           preventDuplicate: true,
@@ -91,8 +90,10 @@ export default function ModalPagar(props) {
         substractProduct(product);
       });
 
+      setOptionSelected({ value: "" });
       handleCloseM();
     }
+    setEfectivo("");
   }
 
   return (
@@ -102,7 +103,6 @@ export default function ModalPagar(props) {
         onClose={() => {
           handleCloseM();
           setOptionSelected({ value: "" });
-          setVuelto(0);
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -126,8 +126,8 @@ export default function ModalPagar(props) {
               renderInput={(params) => (
                 <TextField {...params} label="Medios de pago" />
               )}
+              // @ts-ignore
               onChange={(event: any, newValue: any) => {
-                console.log(event);
                 if (newValue === null) {
                   setOptionSelected({ value: "" });
                 } else {
@@ -167,6 +167,7 @@ export default function ModalPagar(props) {
                     setVuelto(Number(e.target.value) - valorTotal);
                   }}
                 />
+
                 <Typography
                   id="modal-modal-title"
                   variant="h6"

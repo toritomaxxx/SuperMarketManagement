@@ -14,7 +14,7 @@ export default function Login() {
       if (!res) {
         navigate("/register");
       }
-      console.log(res);
+   
     });
   }, []);
 
