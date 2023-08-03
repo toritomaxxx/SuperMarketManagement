@@ -8,9 +8,11 @@ import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { Context } from "@renderer/context/Context";
 import Switch from "@mui/material/Switch";
+import { useSnackbar } from "notistack";
 
 export default function Inputs() {
-  const { productsTable, user ,addNewAlerta} = useContext(Context);
+  const {enqueueSnackbar} = useSnackbar();
+  const { productsTable, user } = useContext(Context);
 
   const [state, setState] = useState(false);
   const [values, setValues] = useState({
@@ -37,7 +39,11 @@ export default function Inputs() {
       values.codBar === "" ||
       values.price === ""
     ) {
-     addNewAlerta({ text: "Rellene todos los campos", severity: "warning" });
+      enqueueSnackbar("Los campos no pueden estar vacios", {
+        variant: "error",
+        autoHideDuration: 3000,
+        preventDuplicate: true,
+      });
       return;
     }
 
@@ -45,17 +51,19 @@ export default function Inputs() {
       .invoke("create-product", values)
       .then((res: any) => {
         if (res) {
-          addNewAlerta({
-            text: "Producto agregado correctamente",
-            severity: "success",
+          enqueueSnackbar("Producto agregado", {
+            variant: "success",
+            autoHideDuration: 3000,
+            preventDuplicate: true,
           });
           productsTable();
         }
       })
       .catch(() => {
-        addNewAlerta({
-          text: "El producto ya existe",
-          severity: "info",
+        enqueueSnackbar("Error al agregar el producto", {
+          variant: "error",
+          autoHideDuration: 3000,
+          preventDuplicate: true,
         });
       });
     window.electron.ipcRenderer

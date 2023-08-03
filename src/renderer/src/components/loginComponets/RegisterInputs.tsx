@@ -13,8 +13,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { Context } from "../../context/Context";
+import { useSnackbar } from "notistack";
 
 export default function RegisterInputs() {
+  const { enqueueSnackbar } = useSnackbar();
   const [hasUsers, setHasUsers] = useState(true);
   const [search, setSearch] = useState(false);
   const navigate = useNavigate();
@@ -29,10 +31,12 @@ export default function RegisterInputs() {
 
   const handleSubmit = (e: any) => {
     if (user.password !== user.confirmPassword) {
-      addNewAlerta({
-        text: "Las contraseñas no coinciden",
-        severity: "warning",
+      enqueueSnackbar("Las contraseñas no coinciden", {
+        variant: "error",
+        autoHideDuration: 3000,
+        preventDuplicate: true,
       });
+
       return;
     }
     if (
@@ -42,36 +46,45 @@ export default function RegisterInputs() {
       user.password === "" ||
       user.confirmPassword === ""
     ) {
-      addNewAlerta({ text: "Rellene todos los campos", severity: "warning" });
+      enqueueSnackbar("Los campos no pueden estar vacios", {
+        variant: "error",
+        autoHideDuration: 3000,
+        preventDuplicate: true,
+      });
+
       return;
     }
     window.electron.ipcRenderer
       .invoke("register", user)
       .then((res: any) => {
         if (res) {
-          addNewAlerta({
-            text: "Usuario registrado correctamente",
-            severity: "success",
+          enqueueSnackbar("Usuario registrado", {
+            variant: "success",
+            autoHideDuration: 3000,
+            preventDuplicate: true,
           });
+
 
           navigate("/login");
         } else {
-          addNewAlerta({
-            text: "El usuario ya existe",
-            severity: "warning",
+          enqueueSnackbar("Error al registrar el usuario", {
+            variant: "error",
+            autoHideDuration: 3000,
+            preventDuplicate: true,
           });
         }
       })
       .catch((err: any) => {
         console.log(err);
-        addNewAlerta({
-          text: "Error al registrar el usuario",
-          severity: "error",
-        });
+        enqueueSnackbar("Error al registrar el usuario", {
+          variant: "error",
+          autoHideDuration: 3000,
+          preventDuplicate: true,
+      })
       });
   };
 
-  const { revisarUsers, addNewAlerta } = useContext(Context);
+  const { revisarUsers } = useContext(Context);
 
   useEffect(() => {
     revisarUsers().then((res) => {

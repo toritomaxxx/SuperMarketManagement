@@ -12,9 +12,11 @@ import TableRow from "@mui/material/TableRow";
 
 import { useContext } from "react";
 import { Context } from "@renderer/context/Context";
+import { useSnackbar } from "notistack";
 
 export default function BoxMediosPago(props: any) {
-  const { mediosDePagoTable, user,addNewAlerta } = useContext(Context);
+  const { mediosDePagoTable, user } = useContext(Context);
+  const {enqueueSnackbar} = useSnackbar();
   const { handleOpenAdd, mediosDePago, handleOpenAdd1, setEdit } = props;
 
   function deletePaymentMethod(id: string) {
@@ -24,7 +26,19 @@ export default function BoxMediosPago(props: any) {
       })
       .then(() => {
         mediosDePagoTable();
-        addNewAlerta({ text: "Medio de pago eliminado", severity: "success" });
+        enqueueSnackbar("Medio de pago eliminado", {
+          variant: "success",
+          autoHideDuration: 3000,
+          preventDuplicate: true,
+        });
+      })
+
+      .catch(() => {
+        enqueueSnackbar("Error al eliminar medio de pago", {
+          variant: "error",
+          autoHideDuration: 3000,
+          preventDuplicate: true,
+        });
       });
   }
 

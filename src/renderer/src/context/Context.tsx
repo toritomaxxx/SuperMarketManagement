@@ -31,9 +31,6 @@ type contextProps = {
   mediosDePago: any;
   setMediosDePago: any;
   mediosDePagoTable: () => void;
-  alertas: any[];
-  addNewAlerta: (alert: any) => void;
-  closeAlerta: (alert: any) => void;
 };
 
 export const Context = createContext({} as contextProps);
@@ -51,7 +48,6 @@ export const ContextProvider = ({ children }: ContextProps) => {
   const [reportsSales, setReportsSales] = useState<any[]>([]);
   const [userList, setUserList] = useState<any[]>([]);
   const [mediosDePago, setMediosDePago] = useState<any[]>([]);
-  const [alertas, setAlertas] = useState<any[]>([]);
 
   const login = (user: any) => {
     setUser(user);
@@ -151,14 +147,7 @@ export const ContextProvider = ({ children }: ContextProps) => {
     setListaCompras(newLista);
   };
 
-  const addNewAlerta = (alerta: any) => {
-    setAlertas((prev: any) => [...prev, { ...alerta }]);
-  };
 
-  const closeAlerta = (alerta: any) => {
-    const newAlertas = alertas.filter((e) => e.text !== alerta.text);
-    setAlertas(newAlertas);
-  };
 
   return (
     <Context.Provider
@@ -186,9 +175,6 @@ export const ContextProvider = ({ children }: ContextProps) => {
         mediosDePago,
         setMediosDePago,
         mediosDePagoTable,
-        alertas,
-        addNewAlerta,
-        closeAlerta,
       }}
     >
       {children}

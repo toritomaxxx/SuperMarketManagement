@@ -5,9 +5,11 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { Context } from "@renderer/context/Context";
 import { useContext, useEffect, useRef } from "react";
 import { useState } from "react";
+import { useSnackbar } from "notistack";
 
 export default function VentasInputs() {
-  const { products, addNewProduct ,addNewAlerta} = useContext(Context);
+  const { enqueueSnackbar } = useSnackbar();
+  const { products, addNewProduct } = useContext(Context);
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState("");
 
@@ -76,9 +78,10 @@ export default function VentasInputs() {
                   product.codBar === inputValue
               );
               if (product === undefined) {
-                addNewAlerta({
-                  text: "No se encontro el producto",
-                  severity: "warning",
+                enqueueSnackbar("Producto no encontrado", {
+                  variant: "error",
+                  autoHideDuration: 3000,
+                  preventDuplicate: true,
                 });
                 return;
               }

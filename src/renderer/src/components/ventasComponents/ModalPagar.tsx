@@ -6,6 +6,7 @@ import { useState } from "react";
 import Modal from "@mui/material/Modal";
 import { Context } from "@renderer/context/Context";
 import { useContext } from "react";
+import { useSnackbar } from "notistack";
 
 const style = {
   position: "absolute" as "absolute",
@@ -19,14 +20,9 @@ const style = {
 };
 
 export default function ModalPagar(props) {
-  const {
-    listaCompras,
-    substractProduct,
-    products,
-    user,
-    mediosDePago,
-    addNewAlerta,
-  } = useContext(Context);
+  const { enqueueSnackbar } = useSnackbar();
+  const { listaCompras, substractProduct, products, user, mediosDePago } =
+    useContext(Context);
   const { open, setOpen, valorTotal } = props;
   const [optionSelected, setOptionSelected] = useState({ value: "" });
   const [vuelto, setVuelto] = useState(0);
@@ -42,9 +38,10 @@ export default function ModalPagar(props) {
       const index = products.findIndex((p: any) => p.codBar === product.codBar);
       const newProducts = [...products];
       if (newProducts[index].cant === 0) {
-        addNewAlerta({
-          text: "No hay stock de " + product.name,
-          severity: "warning",
+        enqueueSnackbar("No hay stock de " + product.name, {
+          variant: "error",
+          autoHideDuration: 3000,
+          preventDuplicate: true,
         });
       }
       newProducts[index].cant = newProducts[index].cant - product.cant;
@@ -54,15 +51,18 @@ export default function ModalPagar(props) {
 
   function CargarVenta() {
     if (optionSelected.value === "") {
-      addNewAlerta({
-        text: "Por favor rellene todos los campos",
-        severity: "warning",
+      enqueueSnackbar("Por favor seleccione un medio de pago", {
+        variant: "error",
+        autoHideDuration: 3000,
+        preventDuplicate: true,
       });
+
       return;
     } else if (optionSelected.value === "Efectivo" && efectivo === "") {
-      addNewAlerta({
-        text: "Por favor rellene todos los campos",
-        severity: "warning",
+      enqueueSnackbar("Por favor ingrese el efectivo", {
+        variant: "error",
+        autoHideDuration: 3000,
+        preventDuplicate: true,
       });
     } else {
       window.electron.ipcRenderer
@@ -77,9 +77,10 @@ export default function ModalPagar(props) {
         })
         .then((res: any) => {
           if (res) {
-            addNewAlerta({
-              text: "Venta cargada correctamente",
-              severity: "success",
+            enqueueSnackbar("Venta realizada con exito", {
+              variant: "success",
+              autoHideDuration: 3000,
+              preventDuplicate: true,
             });
           }
         });

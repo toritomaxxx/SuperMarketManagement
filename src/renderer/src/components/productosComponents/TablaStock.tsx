@@ -9,6 +9,7 @@ import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { useSnackbar } from "notistack";
 
 const localizedTextsMap = {
   noRowsLabel: "Sin filas",
@@ -187,10 +188,11 @@ const localizedTextsMap = {
 };
 
 export default function TablaStock() {
-  const { productsTable, products, user, addNewAlerta } = useContext(Context);
+  const { productsTable, products, user } = useContext(Context);
   const [open, setOpen] = useState(false);
   const nombreCompleto = user?.name + " " + user?.lastName;
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const { enqueueSnackbar } = useSnackbar();
 
   function cambiarColor(props) {
     if (props <= 0) {
@@ -294,10 +296,12 @@ export default function TablaStock() {
                 .invoke("delete-product", { _id: params.row._id })
                 .then((res: any) => {
                   if (res) {
-                    addNewAlerta({
-                      text: "Producto eliminado",
-                      severity: "success",
+                    enqueueSnackbar("Producto eliminado", {
+                      variant: "success",
+                      autoHideDuration: 3000,
+                      preventDuplicate: true,
                     });
+
                     productsTable();
                   }
                 });
@@ -328,8 +332,6 @@ export default function TablaStock() {
         margin: "auto",
       }}
     >
-    
-
       <div
         style={{
           display: "flex",
@@ -508,10 +510,12 @@ export default function TablaStock() {
                     })
                     .then((res: any) => {
                       if (res) {
-                        addNewAlerta({
-                          text: "Producto actualizado",
-                          severity: "success",
+                        enqueueSnackbar("Producto actualizado", {
+                          variant: "success",
+                          autoHideDuration: 3000,
+                          preventDuplicate: true,
                         });
+
                         productsTable();
                         setOpen(false);
                       }

@@ -3,15 +3,12 @@ import { Paper, Typography, TextField, Button } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import { Context } from "@renderer/context/Context";
 import { useContext } from "react";
+import { useSnackbar } from "notistack";
 
 export default function modalAgregarMedioPago(props: any) {
-  const {
-    openAdd,
-    handleCloseAdd,
-    titulo,
-    edit,
-  } = props;
-  const { mediosDePago, mediosDePagoTable,addNewAlerta } = useContext(Context);
+  const { enqueueSnackbar } = useSnackbar();
+  const { openAdd, handleCloseAdd, titulo, edit } = props;
+  const { mediosDePago, mediosDePagoTable } = useContext(Context);
   const [paymentMethod, setPaymentMethod] = useState({
     value: "",
     label: "",
@@ -24,10 +21,11 @@ export default function modalAgregarMedioPago(props: any) {
 
   function addPaymentMethod() {
     if (paymentMethod.label === "") {
-        addNewAlerta({
-            text: "El campo no puede estar vacio",
-            severity: "error",
-        });
+      enqueueSnackbar("El campo no puede estar vacio", {
+        variant: "error",
+        autoHideDuration: 3000,
+        preventDuplicate: true,
+      });
       return;
     }
     if (
@@ -35,10 +33,12 @@ export default function modalAgregarMedioPago(props: any) {
         (e) => e.label.toLowerCase() === paymentMethod.label.toLowerCase()
       )
     ) {
-        addNewAlerta({
-            text: "El medio de pago ya existe",
-            severity: "error",
-        });
+      enqueueSnackbar("El medio de pago ya existe", {
+        variant: "error",
+        autoHideDuration: 3000,
+        preventDuplicate: true,
+      });
+
       return;
     }
 
@@ -46,10 +46,12 @@ export default function modalAgregarMedioPago(props: any) {
       .invoke("create-mediopago", paymentMethod)
       .then((res: any) => {
         if (res) {
-            addNewAlerta({
-                text: "Medio de pago agregado correctamente",
-                severity: "success",
-            });
+          enqueueSnackbar("Medio de pago creado correctamente", {
+            variant: "success", 
+            autoHideDuration: 3000,
+            preventDuplicate: true,
+          });
+
           mediosDePagoTable();
           handleCloseAdd();
         }
@@ -58,9 +60,10 @@ export default function modalAgregarMedioPago(props: any) {
 
   function editPaymentMethod() {
     if (paymentMethod.label === "") {
-      addNewAlerta({
-        text: "El campo no puede estar vacio",
-        severity: "error",
+      enqueueSnackbar("El campo no puede estar vacio", {
+        variant: "error",
+        autoHideDuration: 3000,
+        preventDuplicate: true,
       });
       return;
     }
@@ -69,9 +72,10 @@ export default function modalAgregarMedioPago(props: any) {
         (e) => e.label.toLowerCase() === paymentMethod.label.toLowerCase()
       )
     ) {
-      addNewAlerta({
-        text: "El medio de pago ya existe",
-        severity: "error",
+      enqueueSnackbar("El medio de pago ya existe", {
+        variant: "error",
+        autoHideDuration: 3000,
+        preventDuplicate: true,
       });
       return;
     }
@@ -80,9 +84,10 @@ export default function modalAgregarMedioPago(props: any) {
       .invoke("update-mediopago", paymentMethod)
       .then((res: any) => {
         if (res) {
-          addNewAlerta({
-            text: "Medio de pago editado correctamente",
-            severity: "success",
+          enqueueSnackbar("Medio de pago editado correctamente", {
+            variant: "success",
+            autoHideDuration: 3000,
+            preventDuplicate: true,
           });
           mediosDePagoTable();
           handleCloseAdd();

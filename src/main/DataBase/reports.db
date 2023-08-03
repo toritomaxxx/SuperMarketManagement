@@ -1,0 +1,4 @@
+{"fecha":"3/8/2023","hora":"08:57:00","accion":"Nuevo","usuario":{"nombreCompleto":"admin admin"},"producto":"papas","codBar":"Sin codigo de barras","cantidad":0,"precio":"200","_id":"lJAcixHWGdMOjR5f"}
+{"fecha":"3/8/2023","hora":"08:57:20","accion":"Nuevo","usuario":{"nombreCompleto":"admin admin"},"producto":"papas","codBar":"1000","cantidad":0,"precio":"200","_id":"4vyKAWPWKvhl4trr"}
+{"fecha":"3/8/2023","hora":"08:57:35","accion":"Eliminado","usuario":{"nombreCompleto":"admin admin"},"producto":"papas","codBar":"Sin codigo de barras","cantidad":0,"precio":"200","_id":"reR0LlukqNxVaQZu"}
+{"fecha":"3/8/2023","hora":"08:57:36","accion":"Eliminado","usuario":{"nombreCompleto":"admin admin"},"producto":"papas","codBar":"1000","cantidad":0,"precio":"200","_id":"bJq0QdvzImo9dEZY"}

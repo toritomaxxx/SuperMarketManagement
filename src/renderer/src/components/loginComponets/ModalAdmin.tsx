@@ -8,10 +8,12 @@ import { Context } from "@renderer/context/Context";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useSnackbar } from "notistack";
 
 export default function ModalAdmin(props) {
+  const {enqueueSnackbar} = useSnackbar();
   const navigate = useNavigate();
-  const { login,addNewAlerta} = useContext(Context);
+  const { login} = useContext(Context);
 
   const { open, setOpen } = props;
   const [codigo, setCodigo] = useState("");
@@ -21,7 +23,11 @@ export default function ModalAdmin(props) {
 
   const handleSubmit = (e: any) => {
     if (codigo === "") {
-      addNewAlerta({ text: "Por favor rellene todos los campos", severity: "warning" });
+      enqueueSnackbar("Los campos no pueden estar vacio", {
+        variant: "error",
+        autoHideDuration: 3000,
+        preventDuplicate: true,
+      });
       return;
     }
 

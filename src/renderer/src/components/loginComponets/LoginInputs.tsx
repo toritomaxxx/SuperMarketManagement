@@ -11,10 +11,12 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../../context/Context";
 import { useContext } from "react";
 import ModalAdmin from "./ModalAdmin";
+import { useSnackbar } from "notistack";
 
 export default function LoginInputs() {
+  const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState(false);
-  const { login, addNewAlerta } = useContext(Context);
+  const { login } = useContext(Context);
   const [mostrarContraseña, setMostrarContraseña] = useState(false);
   const [user, setUser] = useState({
     email: "admin@admin",
@@ -25,7 +27,11 @@ export default function LoginInputs() {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (user.email === "" || user.password === "") {
-      addNewAlerta({ text: "Rellene todos los campos", severity: "warning" });
+      enqueueSnackbar("Rellene todos los campos", {
+        variant: "warning",
+        autoHideDuration: 3000,
+        preventDuplicate: true,
+      });
       return;
     }
     window.electron.ipcRenderer
@@ -37,9 +43,10 @@ export default function LoginInputs() {
         }
       })
       .catch(() => {
-        addNewAlerta({
-          text: "Usuario o contraseña incorrectos",
-          severity: "error",
+        enqueueSnackbar("Usuario o contraseña incorrectos", {
+          variant: "error",
+          autoHideDuration: 3000,
+          preventDuplicate: true,
         });
       });
   };

@@ -14,6 +14,7 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useContext } from "react";
 import { Context } from "@renderer/context/Context";
+import { useSnackbar } from "notistack";
 
 export default function ModalModificarUsuario(props: any) {
   const {
@@ -22,7 +23,8 @@ export default function ModalModificarUsuario(props: any) {
     user,
     usersTable,
   } = props;
-  const { login ,addNewAlerta} = useContext(Context);
+  const { enqueueSnackbar } = useSnackbar();
+  const { login } = useContext(Context);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -44,9 +46,17 @@ export default function ModalModificarUsuario(props: any) {
       userUpdate.password === "" ||
       userUpdate.confirmPassword === ""
     ) {
-      addNewAlerta({ text: "Por favor rellene todos los campos", severity: "warning" });
+      enqueueSnackbar("Los campos no pueden estar vacios", {
+        variant: "error",
+        autoHideDuration: 3000,
+        preventDuplicate: true,
+      });
     } else if (userUpdate.password !== userUpdate.confirmPassword) {
-      addNewAlerta({ text: "Las contraseñas no coinciden", severity: "warning" });
+      enqueueSnackbar("Las contraseñas no coinciden", {
+        variant: "error",
+        autoHideDuration: 3000,
+        preventDuplicate: true,
+      });
     } else {
       window.electron.ipcRenderer
         .invoke("update-user", {
@@ -62,7 +72,11 @@ export default function ModalModificarUsuario(props: any) {
           usersTable();
           login(userUpdate);
           handleClose();
-          addNewAlerta({ text: "Usuario modificado correctamente", severity: "success" });
+          enqueueSnackbar("Usuario modificado correctamente", {
+            variant: "success",
+            autoHideDuration: 3000,
+            preventDuplicate: true,
+          });
         });
     }
   }
