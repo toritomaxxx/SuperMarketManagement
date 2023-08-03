@@ -91,6 +91,7 @@ export default function modalAgregarMedioPago(props: any) {
           });
           mediosDePagoTable();
           handleCloseAdd();
+          paymentMethod.label = "";
         }
       });
   }

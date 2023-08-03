@@ -9,7 +9,6 @@ import BoxMediosPago from "@renderer/components/ajustesComponentes/boxMediosPago
 import TablaUsuarios from "@renderer/components/ajustesComponentes/tablaUsuarios";
 import { useState } from "react";
 
-
 export default function Ajustes() {
   const { user, userList, usersTable, mediosDePago } = useContext(Context);
   const [open, setOpen] = useState(false);
@@ -32,8 +31,6 @@ export default function Ajustes() {
 
   return (
     <>
-
-
       <Header title="Ajustes" />
       <ModalModificarUsuario
         open={open}
@@ -41,7 +38,6 @@ export default function Ajustes() {
         user={user}
         userList={userList}
         usersTable={usersTable}
-
       />
       <ModalAgregarMedioPago
         openAdd={openAdd}
@@ -60,11 +56,9 @@ export default function Ajustes() {
           flexDirection: "column",
           gap: "1rem",
           padding: "2rem",
-      
+
           height: "94vh",
-          justifyContent:"center"
-
-
+          justifyContent: "center",
         }}
       >
         <div
@@ -72,7 +66,7 @@ export default function Ajustes() {
             display: "flex",
             flexDirection: "row",
             gap: "1rem",
-            width: "100%",      
+            width: "100%",
           }}
         >
           <BoxUserData handleOpen={handleOpen} />
@@ -81,15 +75,14 @@ export default function Ajustes() {
             mediosDePago={mediosDePago}
             handleOpenAdd1={handleOpenAdd1}
             setEdit={setEdit}
-  
-            
           />
         </div>
 
         {user?.isAdmin && (
-          <TablaUsuarios userList={userList} usersTable={usersTable} 
- 
-          />
+          <>
+            <TablaUsuarios userList={userList} usersTable={usersTable} />
+        
+          </>
         )}
       </Box>
     </>

@@ -31,9 +31,15 @@ export default function Inputs() {
     }
   }
 
-  function coincideAlgunCampo(name: string, codBar: string): boolean {
+  function coincideAlgunCampo(
+    name: string,
+    codBar: string
+  ): boolean | undefined {
     for (const product of products) {
-      if (product.nameProduct === name || product.codBar === codBar) {
+      if (
+        product.nameProduct === name ||
+        (codBar !== "Sin codigo de barras" && product.codBar === codBar)
+      ) {
         return true;
       }
     }
@@ -43,9 +49,10 @@ export default function Inputs() {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if (
-      values.nameProduct === "" ||
-      values.codBar === "" ||
-      values.price === ""
+      (values.nameProduct === "" ||
+        values.codBar === "" ||
+        values.price === "") &&
+      state
     ) {
       enqueueSnackbar("Los campos no pueden estar vacios", {
         variant: "error",
@@ -61,43 +68,43 @@ export default function Inputs() {
         preventDuplicate: true,
       });
       return;
-    }
-
-    window.electron.ipcRenderer
-      .invoke("create-product", values)
-      .then((res: any) => {
-        if (res) {
-          enqueueSnackbar("Producto agregado", {
-            variant: "success",
+    } else {
+      window.electron.ipcRenderer
+        .invoke("create-product", values)
+        .then((res: any) => {
+          if (res) {
+            enqueueSnackbar("Producto agregado", {
+              variant: "success",
+              autoHideDuration: 3000,
+              preventDuplicate: true,
+            });
+          }
+          productsTable();
+        })
+        .catch(() => {
+          enqueueSnackbar("Error al agregar el producto", {
+            variant: "error",
             autoHideDuration: 3000,
             preventDuplicate: true,
           });
-          productsTable();
-        }
-      })
-      .catch(() => {
-        enqueueSnackbar("Error al agregar el producto", {
-          variant: "error",
-          autoHideDuration: 3000,
-          preventDuplicate: true,
         });
-      });
 
-    window.electron.ipcRenderer
-      .invoke("create-report", {
-        fecha: new Date().toLocaleDateString(),
-        hora: new Date().toLocaleTimeString(),
-        accion: "Nuevo",
-        usuario: { nombreCompleto },
-        producto: values.nameProduct,
-        codBar: values.codBar,
-        cantidad: values.cant,
-        precio: values.price,
-      })
-      // @ts-ignore
-      .then((res: any) => {
-        
-      })
+      window.electron.ipcRenderer
+        .invoke("create-report", {
+          fecha: new Date().toLocaleDateString(),
+          hora: new Date().toLocaleTimeString(),
+          accion: "Nuevo",
+          usuario: { nombreCompleto },
+          producto: values.nameProduct,
+          codBar: values.codBar,
+          cantidad: values.cant,
+          precio: values.price,
+        })
+        // @ts-ignore
+        .then((res: any) => {
+          console.log(res);
+        });
+    }
   };
 
   return (
