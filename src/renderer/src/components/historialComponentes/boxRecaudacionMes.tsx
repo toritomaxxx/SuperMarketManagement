@@ -87,7 +87,12 @@ export default function BoxRecaudacionMes() {
             </div>
           ))
         ) : (
-          <Typography variant="h6" align="center">
+          <Typography variant="h6" align="center"
+            style={{
+              width: "100%",
+              padding: "10px",
+            }}
+          >
             No hay ventas en este mes
           </Typography>
         )}

@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { Context } from "@renderer/context/Context";
 import { useContext, useEffect } from "react";
@@ -9,6 +9,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import SearchIcon from '@mui/icons-material/Search';
+import BuscadorPorFecha from "./../BuscadorPorFecha";
+import { useState } from "react";
 
 
 function createData(
@@ -44,6 +47,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
 
 export default function TablaProducts() {
   const { reportsProducts, reportsTableProducts } = useContext(Context);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     reportsTableProducts();
@@ -56,6 +60,11 @@ export default function TablaProducts() {
         boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
       }}
     >
+      <BuscadorPorFecha 
+        open={open}
+        handleClose={() => setOpen(false)}
+
+      />
       <Typography
         variant="h5"
         fontWeight="bold"
@@ -69,6 +78,21 @@ export default function TablaProducts() {
         }}
       >
         Historial de Productos
+        <IconButton
+          aria-label="refresh"
+          onClick={() => reportsTableProducts()}
+          style={{
+            float: "right",
+          }}
+        >
+          <SearchIcon 
+          style={{
+            color: "#000000",
+            fontSize: "30px",
+            marginTop: "-5px",
+          }}
+          />
+        </IconButton>
       </Typography>
 
       <TableContainer

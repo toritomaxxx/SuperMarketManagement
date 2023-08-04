@@ -2,7 +2,7 @@ import Header from "@renderer/components/Header";
 import Grid from "@mui/material/Grid";
 import TablaProducts from "@renderer/components/historialComponentes/tablaProducts";
 import TablaVentas from "@renderer/components/historialComponentes/tablaVentas";
-import BoxRecaudacionMes from "@renderer/components/ajustesComponentes/boxRecaudacionMes";
+import BoxRecaudacionMes from "@renderer/components/historialComponentes/boxRecaudacionMes";
 
 export default function Historial() {
   return (
