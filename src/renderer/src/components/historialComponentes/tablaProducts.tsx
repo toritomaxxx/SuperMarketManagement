@@ -9,10 +9,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 import BuscadorPorFecha from "./../BuscadorPorFecha";
 import { useState } from "react";
-
 
 function createData(
   fecha: string,
@@ -39,7 +38,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
         <TableCell align="center">{row.hora}</TableCell>
         <TableCell align="center">{row.usuario.nombreCompleto}</TableCell>
         <TableCell align="center">{row.accion}</TableCell>
-        <TableCell align="center">{(row.producto).substring(0,30)}</TableCell>
+        <TableCell align="center">{row.producto.substring(0, 30)}</TableCell>
       </TableRow>
     </>
   );
@@ -60,11 +59,7 @@ export default function TablaProducts() {
         boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
       }}
     >
-      <BuscadorPorFecha 
-        open={open}
-        handleClose={() => setOpen(false)}
-
-      />
+      <BuscadorPorFecha open={open} setOpen={setOpen} />
       <Typography
         variant="h5"
         fontWeight="bold"
@@ -80,17 +75,17 @@ export default function TablaProducts() {
         Historial de Productos
         <IconButton
           aria-label="refresh"
-          onClick={() => reportsTableProducts()}
+          onClick={() => setOpen(true)}
           style={{
             float: "right",
           }}
         >
-          <SearchIcon 
-          style={{
-            color: "#000000",
-            fontSize: "30px",
-            marginTop: "-5px",
-          }}
+          <SearchIcon
+            style={{
+              color: "#000000",
+              fontSize: "30px",
+              marginTop: "-5px",
+            }}
           />
         </IconButton>
       </Typography>
