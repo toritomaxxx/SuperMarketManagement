@@ -4,13 +4,27 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { Button } from "@mui/material";
+import { Context } from "@renderer/context/Context";
+import { useContext } from "react";
 
 export default function BuscadorPorFecha(props) {
-  const { open, setOpen } = props;
-  const [fechaD, setFechaD] = useState("");
+  const { open, setOpen, nameBdd, result } = props;
+  const [fechaI, setFechaI] = useState("");
+  const [fechaF, setFechaF] = useState("");
+  const fechaCampo = "fecha";
 
-  const [fechaH, setFechaH] = useState(""
-  );
+  function buscarPorFecha() {
+    window.electron.ipcRenderer
+      .invoke("buscar-por-rango-de-fecha", {
+        fechaI,
+        fechaF,
+        nameBdd,
+        fechaCampo,
+      })
+      .then((res) => {
+        result(res);
+      });
+  }
 
   return (
     <Modal
@@ -44,9 +58,8 @@ export default function BuscadorPorFecha(props) {
             id="date"
             label="Desde"
             type="date"
-            value={fechaD}
-            onChange={(e) => setFechaD(e.target.value)}
-
+            value={fechaI}
+            onChange={(e) => setFechaI(e.target.value)}
             sx={{ width: "100%", marginTop: "20px" }}
             InputLabelProps={{
               shrink: true,
@@ -56,10 +69,8 @@ export default function BuscadorPorFecha(props) {
             id="date"
             label="Hasta"
             type="date"
-            value={fechaH}
-            onChange={(e) => setFechaH(e.target.value)}
-
-
+            value={fechaF}
+            onChange={(e) => setFechaF(e.target.value)}
             sx={{ width: "100%", marginTop: "20px" }}
             InputLabelProps={{
               shrink: true,
@@ -69,7 +80,8 @@ export default function BuscadorPorFecha(props) {
             variant="contained"
             sx={{ width: "100%", marginTop: "20px" }}
             onClick={() => {
-              console.log(fechaD, fechaH);
+              buscarPorFecha();
+              setOpen(false);
             }}
           >
             Buscar

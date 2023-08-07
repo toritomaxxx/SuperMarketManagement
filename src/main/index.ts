@@ -19,7 +19,8 @@ import {
   getMedioPagosIpc,
   deleteMedioPagoIpc,
   updateMedioPagoIpc,
-  cargarMedioPagosIpc
+  cargarMedioPagosIpc,
+  buscarPorRangoDeFechaIpc,
   
 } from "./IpcFunctions";
 
@@ -95,4 +96,5 @@ app.whenReady().then(() => {
   deleteMedioPagoIpc();
   updateMedioPagoIpc();
   cargarMedioPagosIpc();
+  buscarPorRangoDeFechaIpc();
 });

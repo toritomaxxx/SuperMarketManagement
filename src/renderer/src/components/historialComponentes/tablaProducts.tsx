@@ -45,7 +45,8 @@ function Row(props: { row: ReturnType<typeof createData> }) {
 }
 
 export default function TablaProducts() {
-  const { reportsProducts, reportsTableProducts } = useContext(Context);
+  const { reportsProducts, reportsTableProducts, setReportsProducts } =
+    useContext(Context);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -59,7 +60,14 @@ export default function TablaProducts() {
         boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
       }}
     >
-      <BuscadorPorFecha open={open} setOpen={setOpen} />
+      <BuscadorPorFecha
+        open={open}
+        setOpen={setOpen}
+        nameBdd="reportsDB"
+        result={(res) => {
+          setReportsProducts(res);
+        }}
+      />
       <Typography
         variant="h5"
         fontWeight="bold"
@@ -74,7 +82,7 @@ export default function TablaProducts() {
       >
         Historial de Productos
         <IconButton
-          aria-label="refresh"
+          aria-label="find"
           onClick={() => setOpen(true)}
           style={{
             float: "right",

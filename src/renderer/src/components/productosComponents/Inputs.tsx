@@ -47,6 +47,9 @@ export default function Inputs() {
   }
 
   const handleSubmit = (e: any) => {
+    const fechaCompleta = new Date().toISOString();
+    const fecha = fechaCompleta.split("T")[0];
+    const hora = fechaCompleta.split("T")[1].split(".")[0];
     e.preventDefault();
     if (
       (values.nameProduct === "" ||
@@ -78,8 +81,8 @@ export default function Inputs() {
               autoHideDuration: 3000,
               preventDuplicate: true,
             });
+            productsTable();
           }
-          productsTable();
         })
         .catch(() => {
           enqueueSnackbar("Error al agregar el producto", {
@@ -91,8 +94,8 @@ export default function Inputs() {
 
       window.electron.ipcRenderer
         .invoke("create-report", {
-          fecha: new Date().toLocaleDateString(),
-          hora: new Date().toLocaleTimeString(),
+          fecha: fecha,
+          hora: hora,
           accion: "Nuevo",
           usuario: { nombreCompleto },
           producto: values.nameProduct,
@@ -100,10 +103,7 @@ export default function Inputs() {
           cantidad: values.cant,
           precio: values.price,
         })
-        // @ts-ignore
-        .then((res: any) => {
-          console.log(res);
-        });
+        
     }
   };
 

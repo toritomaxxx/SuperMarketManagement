@@ -49,6 +49,9 @@ export default function ModalPagar(props) {
   }
 
   function CargarVenta() {
+    const fechaCompleta = new Date().toISOString();
+    const fecha = fechaCompleta.split("T")[0];
+    const hora = fechaCompleta.split("T")[1].split(".")[0];
     if (optionSelected.value === "") {
       enqueueSnackbar("Por favor seleccione un medio de pago", {
         variant: "error",
@@ -66,8 +69,8 @@ export default function ModalPagar(props) {
     } else {
       window.electron.ipcRenderer
         .invoke("create-sale", {
-          fecha: new Date().toLocaleDateString(),
-          hora: new Date().toLocaleTimeString(),
+          fecha: fecha,
+          hora: hora,
           usuario: user?.name + " " + user?.lastName,
           productos: listaCompras,
           total: valorTotal,
@@ -193,6 +196,9 @@ export default function ModalPagar(props) {
                 fullWidth
                 onClick={() => {
                   CargarVenta();
+                  const fechaCompleta = new Date().toISOString();
+                  const fecha = fechaCompleta.split("T")[0];
+                  const hora = fechaCompleta.split("T")[1].split(".")[0];
                 }}
               >
                 Pagar

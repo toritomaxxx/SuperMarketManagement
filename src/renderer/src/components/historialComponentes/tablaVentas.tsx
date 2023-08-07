@@ -14,6 +14,8 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { formatCurrency } from "@renderer/utils/functions";
+import SearchIcon from "@mui/icons-material/Search";
+import BuscadorPorFecha from "./../BuscadorPorFecha";
 
 function createData(
   fecha: string,
@@ -113,7 +115,8 @@ function Row(props: { row: ReturnType<typeof createData> }) {
 }
 
 export default function TablaVentas() {
-  const { reportsSales, reportsTableSales } = useContext(Context);
+  const { reportsSales, reportsTableSales,setReportsSales } = useContext(Context);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     reportsTableSales();
@@ -126,6 +129,14 @@ export default function TablaVentas() {
         boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
       }}
     >
+      <BuscadorPorFecha
+        open={open}
+        setOpen={setOpen}
+        nameBdd="salesDB"
+        result={(res) => {
+          setReportsSales(res);
+        }}
+      />
       <Typography
         variant="h5"
         fontWeight="bold"
@@ -139,6 +150,21 @@ export default function TablaVentas() {
         }}
       >
         Historial de ventas
+        <IconButton
+          aria-label="find"
+          onClick={() => setOpen(true)}
+          style={{
+            float: "right",
+          }}
+        >
+          <SearchIcon
+            style={{
+              color: "#000000",
+              fontSize: "30px",
+              marginTop: "-5px",
+            }}
+          />
+        </IconButton>
       </Typography>
 
       <TableContainer

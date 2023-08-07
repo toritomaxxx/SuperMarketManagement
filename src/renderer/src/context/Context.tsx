@@ -31,6 +31,8 @@ type contextProps = {
   mediosDePago: any;
   setMediosDePago: any;
   mediosDePagoTable: () => void;
+  setReportsProducts: any;
+  setReportsSales: any;
 };
 
 export const Context = createContext({} as contextProps);
@@ -83,12 +85,32 @@ export const ContextProvider = ({ children }: ContextProps) => {
   };
 
   const reportsTableProducts = () => {
-    window.electron.ipcRenderer.invoke("get-reports").then((res: any) => {
+    let fechaI: string|Date = new Date();
+    fechaI.setDate(fechaI.getDate() - 30);
+    fechaI = fechaI.toISOString();
+    const fechaF = new Date().toISOString();
+    window.electron.ipcRenderer.invoke("buscar-por-rango-de-fecha",{
+      fechaI,
+      fechaF,
+      nameBdd: "reportsDB",
+      fechaCampo : "fecha"
+    }).then((res: any) => {
       setReportsProducts(res);
+
+
     });
   };
   const reportsTableSales = () => {
-    window.electron.ipcRenderer.invoke("get-sales").then((res: any) => {
+    let fechaI: string|Date = new Date();
+    fechaI.setDate(fechaI.getDate() - 30);
+    fechaI = fechaI.toISOString();
+    const fechaF = new Date().toISOString();
+    window.electron.ipcRenderer.invoke("buscar-por-rango-de-fecha",{
+      fechaI,
+      fechaF,
+      nameBdd: "salesDB",
+      fechaCampo : "fecha"
+    }).then((res: any) => {
       setReportsSales(res);
     });
   };
@@ -173,6 +195,8 @@ export const ContextProvider = ({ children }: ContextProps) => {
         mediosDePago,
         setMediosDePago,
         mediosDePagoTable,
+        setReportsProducts,
+        setReportsSales,
       }}
     >
       {children}

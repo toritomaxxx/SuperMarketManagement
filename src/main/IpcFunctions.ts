@@ -81,7 +81,6 @@ export const updateUserIpc = () => {
   // @ts-ignore
   ipcMain.handle("update-user", (event, args) => {
     return new Promise((resolve, reject) => {
-      
       usersDB.update(
         { _id: args._id },
         {
@@ -117,24 +116,14 @@ export const createProductIpc = () => {
           reject("Product already exists");
           return;
         }
-      });
-      productsDB.find({ codBar: args.codBar }, (err, docs) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        if (docs.length > 0) {
-          reject("Product already exists");
-          return;
-        }
-      });
 
-      productsDB.insert(args, (err, doc) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(doc);
+        productsDB.insert(args, (err, doc) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+          resolve(doc);
+        });
       });
     });
   });
@@ -196,7 +185,6 @@ export const updateProductIpc = () => {
   // @ts-ignore
   ipcMain.handle("update-product", (event, args) => {
     return new Promise((resolve, reject) => {
-    
       productsDB.update(
         { _id: args._id },
         {
@@ -324,9 +312,7 @@ export const deleteMedioPagoIpc = () => {
 export const updateMedioPagoIpc = () => {
   // @ts-ignore
   ipcMain.handle("update-mediopago", (event, args) => {
-    
     return new Promise((resolve, reject) => {
-      
       medioPagosDB.update(
         { _id: args._id },
         {
@@ -346,11 +332,9 @@ export const updateMedioPagoIpc = () => {
 };
 
 export const cargarMedioPagosIpc = () => {
-
   if (
     medioPagosDB.count({}, (err, count) => {
       if (err) {
-        
         return;
       }
       if (count === 0) {
@@ -358,6 +342,32 @@ export const cargarMedioPagosIpc = () => {
       }
     })
   ) {
-
   }
+};
+
+const bdds = {
+  salesDB,
+  reportsDB,
+  medioPagosDB,
+  productsDB,
+};
+
+export const buscarPorRangoDeFechaIpc = () => {
+  // @ts-ignore
+  ipcMain.handle("buscar-por-rango-de-fecha", (event, args) => {
+    
+    return new Promise((resolve, reject) => {
+      bdds[args.nameBdd].find(
+        { [args.fechaCampo]: { $gte: args.fechaI, $lte: args.fechaF } },
+        (err, docs) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+          resolve(docs);
+        }
+      );
+      
+    });
+  });
 };
