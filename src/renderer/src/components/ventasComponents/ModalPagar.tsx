@@ -196,9 +196,7 @@ export default function ModalPagar(props) {
                 fullWidth
                 onClick={() => {
                   CargarVenta();
-                  const fechaCompleta = new Date().toISOString();
-                  const fecha = fechaCompleta.split("T")[0];
-                  const hora = fechaCompleta.split("T")[1].split(".")[0];
+                  
                 }}
               >
                 Pagar

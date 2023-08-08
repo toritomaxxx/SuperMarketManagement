@@ -11,14 +11,12 @@ import { useContext, useEffect, useState } from "react";
 
 export default function Routers() {
   const { revisarUsers } = useContext(Context);
-
-  const [hasUsers, setHasUsers] = useState(true);
   const [search, setSearch] = useState(false);
 
   useEffect(() => {
-    revisarUsers().then((res) => {
+    revisarUsers().then(() => {
       setSearch(true);
-      setHasUsers(res);
+     
     });
   }, []);
 

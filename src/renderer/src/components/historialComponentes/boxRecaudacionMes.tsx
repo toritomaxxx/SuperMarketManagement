@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { Context } from "../../context/Context";
 import { useContext, useEffect, useState } from "react";
 

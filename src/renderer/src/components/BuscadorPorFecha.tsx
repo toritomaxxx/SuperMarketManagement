@@ -4,8 +4,7 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { Button } from "@mui/material";
-import { Context } from "@renderer/context/Context";
-import { useContext } from "react";
+
 
 export default function BuscadorPorFecha(props) {
   const { open, setOpen, nameBdd, result } = props;

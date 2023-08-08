@@ -19,8 +19,8 @@ export default function LoginInputs() {
   const { login } = useContext(Context);
   const [mostrarContraseña, setMostrarContraseña] = useState(false);
   const [user, setUser] = useState({
-    email: "admin@admin",
-    password: "1234",
+    email: "",
+    password: "",
   });
   const navigate = useNavigate();
 
