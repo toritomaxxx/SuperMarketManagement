@@ -1,6 +1,7 @@
 import { app, shell, BrowserWindow } from "electron";
 import { join } from "path";
 import { electronApp, optimizer, is } from "@electron-toolkit/utils";
+
 import {
   registerIpc,
   loginIpc,
@@ -21,6 +22,7 @@ import {
   updateMedioPagoIpc,
   cargarMedioPagosIpc,
   buscarPorRangoDeFechaIpc,
+ 
   
 } from "./IpcFunctions";
 
@@ -97,4 +99,9 @@ app.whenReady().then(() => {
   updateMedioPagoIpc();
   cargarMedioPagosIpc();
   buscarPorRangoDeFechaIpc();
+  
+
+
+
+
 });

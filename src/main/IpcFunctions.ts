@@ -1,24 +1,40 @@
 import { ipcMain } from "electron";
 import Datastore from "nedb";
+const os = require("os");
+
+export const cambiarUbicacionDeBdd = (nameBdd: string) => {
+  const platform = os.platform();
+  const user = os.userInfo().username;
+
+  if (platform === "win32") {
+    return "C:/Users/" + user + "/Documentos/SuperMarketManegerBDD/" + nameBdd;
+  } else {
+    return "/home/" + user + "/Documents/SuperMarketManegerBDD/" + nameBdd;
+  }
+};
 
 const usersDB = new Datastore({
-  filename: "./src/main/DataBase/users.db",
+  filename: cambiarUbicacionDeBdd("usersDB"),
   autoload: true,
 });
+
 const productsDB = new Datastore({
-  filename: "./src/main/DataBase/products.db",
+  filename: cambiarUbicacionDeBdd("productsDB"),
   autoload: true,
 });
+
 const salesDB = new Datastore({
-  filename: "./src/main/DataBase/sales.db",
+  filename: cambiarUbicacionDeBdd("salesDB"),
   autoload: true,
 });
+
 const reportsDB = new Datastore({
-  filename: "./src/main/DataBase/reports.db",
+  filename: cambiarUbicacionDeBdd("reportsDB"),
   autoload: true,
 });
+
 const medioPagosDB = new Datastore({
-  filename: "./src/main/DataBase/medioPagos.db",
+  filename: cambiarUbicacionDeBdd("medioPagosDB"),
   autoload: true,
 });
 
@@ -355,7 +371,6 @@ const bdds = {
 export const buscarPorRangoDeFechaIpc = () => {
   // @ts-ignore
   ipcMain.handle("buscar-por-rango-de-fecha", (event, args) => {
-    
     return new Promise((resolve, reject) => {
       bdds[args.nameBdd].find(
         { [args.fechaCampo]: { $gte: args.fechaI, $lte: args.fechaF } },
@@ -367,7 +382,7 @@ export const buscarPorRangoDeFechaIpc = () => {
           resolve(docs);
         }
       );
-      
     });
   });
 };
+
