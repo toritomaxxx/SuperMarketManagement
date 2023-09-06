@@ -1,6 +1,6 @@
-# v2
+# SuperMarketMangement
 
-An Electron application with React and TypeScript
+Es una aplicacion de gestion de supermercado con gestion de cuentas,registro de ventas,y carga de stock ,fue realizada con typescript con electron con una bdd hecha en nDb siempre buscando un simple manejo al cliente
 
 ## Recommended IDE Setup
 
