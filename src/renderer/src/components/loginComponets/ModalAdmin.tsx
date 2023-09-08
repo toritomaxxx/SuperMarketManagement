@@ -23,7 +23,7 @@ export default function ModalAdmin(props) {
 
   const handleSubmit = (e: any) => {
     if (codigo === "") {
-      enqueueSnackbar("Los campos no pueden estar vacio", {
+      enqueueSnackbar("Los campos no pueden estar vacío", {
         variant: "error",
         autoHideDuration: 3000,
         preventDuplicate: true,
