@@ -11,9 +11,9 @@ import { useState } from "react";
 import { useSnackbar } from "notistack";
 
 export default function ModalAdmin(props) {
-  const {enqueueSnackbar} = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
-  const { login} = useContext(Context);
+  const { login } = useContext(Context);
 
   const { open, setOpen } = props;
   const [codigo, setCodigo] = useState("");
@@ -33,18 +33,17 @@ export default function ModalAdmin(props) {
 
     e.preventDefault();
     window.electron.ipcRenderer
-      .invoke("login", {
-        email: "admin@admin",
+      .invoke("loginAdm", {
         password: codigo,
       })
       .then((res: any) => {
         if (res) {
           login(res);
           navigate("/register");
-        } 
+        }
       })
       .catch(() => {
-      
+
         setCodigo("");
       });
   };
@@ -53,7 +52,7 @@ export default function ModalAdmin(props) {
     <div>
       <Modal open={open} onClose={handleClose}>
         <>
-          
+
 
           <Fade in={open}>
             <Box

@@ -166,6 +166,24 @@ export const loginIpc = () => {
     });
   });
 };
+export const loginAdmIpc = () => {
+  //@ts-ignore
+  ipcMain.handle("loginAdm", (event, args) => {
+    return new Promise((resolve, reject) => {
+      usersDB.find({ isAdmin: true, password: args.password }, (err, docs) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        if (docs.length === 0) {
+          reject("Codigo invalido");
+          return;
+        }
+        resolve(docs[0]);
+      });
+    });
+  });
+};
 
 export const getProductsIpc = () => {
   // @ts-ignore
