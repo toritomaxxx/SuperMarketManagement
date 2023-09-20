@@ -56,7 +56,7 @@ export default function Ajustes() {
           flexDirection: "column",
           gap: "1rem",
           padding: "2rem",
-          height: "100vh",
+          height: "90vh",
           justifyContent: "center",
         }}
       >

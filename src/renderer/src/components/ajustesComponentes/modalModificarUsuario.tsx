@@ -103,14 +103,14 @@ export default function ModalModificarUsuario(props: any) {
           gap: "1rem",
           boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
         }}
-      >
+        >
         <div
           style={{
             display: "flex",
             flexDirection: "column",
             gap: "1rem",
           }}
-        >
+          >
           <Typography variant="h4" align="center">
             Modificar Usuario
           </Typography>

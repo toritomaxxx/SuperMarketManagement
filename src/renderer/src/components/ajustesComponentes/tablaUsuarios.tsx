@@ -16,25 +16,15 @@ import { useState } from "react";
 
 export default function TablaUsuarios(props: any) {
   const { userList, usersTable, setAlert7 } = props;
-  const [userAct, setUserAct] = useState<any>(null)
+  const [userAct, setUserAct] = useState({});
   const { user } = useContext(Context);
 
   const [open, setOpen] = useState(false);
 
-  const handleOpen = (id) => {
-    constFindUser(id);
-    setOpen(true);
-  }
 
   const handleClose = () => setOpen(false);
 
-  const constFindUser = (id: string) => {
-    window.electron.ipcRenderer
-      .invoke("find-user", { _id: id })
-      .then((res: any) => {
-        setUserAct(res);
-      });
-  };
+
 
 
   function createData(
@@ -53,7 +43,10 @@ export default function TablaUsuarios(props: any) {
     const { row } = props;
     return (
       <>
-        <TableRow>
+        <TableRow
+          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+          
+        >
           <TableCell align="center">{row.name}</TableCell>
           <TableCell align="center">{row.lastName}</TableCell>
           <TableCell align="center">
@@ -65,15 +58,22 @@ export default function TablaUsuarios(props: any) {
 
             user?.email !== row.email ?
               (
-                <TableCell align="center">
+                <TableCell align="right">
                   <IconButton
-                    style={{ alignSelf: "flex-end", margin: "10px" }}
+                    style={{ alignSelf: "flex-end"}}
                     onClick={() => {
-                      handleOpen(row._id);
+                      window.electron.ipcRenderer
+                        .invoke("find-user", {
+                          _id: row._id,
+                        })
+                        .then((res) => {
+                          setUserAct(res);
+                          setOpen(true);
+                        });
                     }}>
                     <ModeEditOutlineIcon style={{ fontSize: "2rem" }} />
                   </IconButton>
-                  {/* <IconButton
+                   <IconButton
                 aria-label="delete"
                 size="large"
                 sx={{ cursor: "pointer" }}
@@ -89,16 +89,29 @@ export default function TablaUsuarios(props: any) {
                 }}
               >
                 <DeleteIcon />
-              </IconButton> */}
+              </IconButton> 
                 </TableCell>
               ) : (
-                <TableCell align="center">
+                <TableCell align="right">
+                  <IconButton
+                    style={{ alignSelf: "flex-end" }}
+                    onClick={() => {
+                      window.electron.ipcRenderer
+                        .invoke("find-user", {
+                          _id: row._id,
+                        })
+                        .then((res) => {
+                          setUserAct(res);
+                          setOpen(true);
+                        });
+                      
+                    }}>
+                    <ModeEditOutlineIcon style={{ fontSize: "2rem" }} />
+                  </IconButton>
                   <IconButton
                     aria-label="delete"
                     size="large"
-                    sx={{
-                      cursor: "none"
-                    }}
+                    sx={{ cursor: "default" }}
                   >
                     <PersonIcon />
                   </IconButton>
@@ -150,13 +163,19 @@ export default function TablaUsuarios(props: any) {
           Gestion de Usuarios
         </Typography>
         <TableContainer
+          component={Paper}
           sx={{
-            height: "50vh",
+            height: "30vh",
           }}
         >
-          <Table size="small">
+          <Table 
+          size="small"
+          aria-label="a dense table"
+          >
             <TableHead>
-              <TableRow>
+              <TableRow
+               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
                 <TableCell
                   align="center"
                   sx={{
@@ -200,7 +219,9 @@ export default function TablaUsuarios(props: any) {
             <TableBody
             >
               {userList?.map((row: any) => (
+                
                 <Row key={row._id} row={row} />
+                
               ))}
             </TableBody>
           </Table>

@@ -102,7 +102,7 @@ export const findUserIpc = () => {
           reject(err);
           return;
         }
-        resolve(docs);
+        resolve(docs[0]);
       });
     });
   });
