@@ -103,7 +103,7 @@ export default function Inputs() {
           cantidad: values.cant,
           precio: values.price,
         })
-        
+
     }
   };
 
@@ -153,6 +153,23 @@ export default function Inputs() {
           label="Nombre del producto"
           variant="outlined"
         />
+
+        <FormControl
+          sx={{
+            width: "230px",
+            paddingBottom: "20px",
+          }}
+        >
+          <InputLabel htmlFor="outlined-adornment-amount">Precio</InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-amount"
+            onChange={(e) => {
+              setValues({ ...values, price: e.target.value });
+            }}
+            startAdornment={<InputAdornment position="start">$</InputAdornment>}
+            label="Amount"
+          />
+        </FormControl>
         <div
           style={{
             display: "flex",
@@ -188,22 +205,6 @@ export default function Inputs() {
             />
           )}
         </div>
-        <FormControl
-          sx={{
-            width: "230px",
-            paddingBottom: "20px",
-          }}
-        >
-          <InputLabel htmlFor="outlined-adornment-amount">Precio</InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-amount"
-            onChange={(e) => {
-              setValues({ ...values, price: e.target.value });
-            }}
-            startAdornment={<InputAdornment position="start">$</InputAdornment>}
-            label="Amount"
-          />
-        </FormControl>
         <Button
           variant="contained"
           type="submit"
