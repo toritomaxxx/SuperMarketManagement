@@ -126,10 +126,11 @@ export default function Inputs() {
           flexDirection: "column",
           alignItems: "center",
           width: "350px",
-          backgroundColor: "#ffffff",
+          backgroundColor: "#FFFFFF+",
           borderRadius: "10px",
           boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
           padding: "20px",
+
         }}
       >
         <Typography
@@ -158,16 +159,18 @@ export default function Inputs() {
           sx={{
             width: "230px",
             paddingBottom: "20px",
+            paddingTop: "20px",
+
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">Precio</InputLabel>
           <OutlinedInput
             id="outlined-adornment-amount"
             onChange={(e) => {
               setValues({ ...values, price: e.target.value });
             }}
             startAdornment={<InputAdornment position="start">$</InputAdornment>}
-            label="Amount"
+
+
           />
         </FormControl>
         <div
@@ -175,8 +178,8 @@ export default function Inputs() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            backgroundColor: "#FFFFFF",
-            padding: "20px",
+            paddingBottom: "20px",
+
           }}
         >
           <Typography variant="h6">Tiene codigo de barras?</Typography>
@@ -199,9 +202,7 @@ export default function Inputs() {
               }}
               label="Codigo de barras"
               variant="outlined"
-              style={{
-                paddingBottom: "10px",
-              }}
+              
             />
           )}
         </div>
