@@ -23,15 +23,13 @@ import {
   cargarMedioPagosIpc,
   buscarPorRangoDeFechaIpc,
   loginAdmIpc,
-
-
+  findUserIpc,
 } from "./IpcFunctions";
 
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    fullscreen: true,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === "linux" ? {} : {}),
@@ -75,7 +73,7 @@ app.whenReady().then(() => {
 
   createWindow();
 
-  app.on("activate", function() {
+  app.on("activate", function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
@@ -101,8 +99,5 @@ app.whenReady().then(() => {
   cargarMedioPagosIpc();
   buscarPorRangoDeFechaIpc();
   loginAdmIpc();
-
-
-
-
+  findUserIpc();
 });

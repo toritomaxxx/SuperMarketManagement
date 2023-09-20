@@ -7,12 +7,35 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import PersonIcon from "@mui/icons-material/Person";
 import { IconButton, Table, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
+import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
+import ModalModificarUsuario from "@renderer/components/ajustesComponentes/modalModificarUsuario";
+
 import { Context } from "@renderer/context/Context";
 import { useContext } from "react";
+import { useState } from "react";
 
 export default function TablaUsuarios(props: any) {
-  const { userList, usersTable,setAlert7 } = props;
+  const { userList, usersTable, setAlert7 } = props;
+  const [userAct, setUserAct] = useState<any>(null)
   const { user } = useContext(Context);
+
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = (id) => {
+    constFindUser(id);
+    setOpen(true);
+  }
+
+  const handleClose = () => setOpen(false);
+
+  const constFindUser = (id: string) => {
+    window.electron.ipcRenderer
+      .invoke("find-user", { _id: id })
+      .then((res: any) => {
+        setUserAct(res);
+      });
+  };
+
 
   function createData(
     name: string,
@@ -38,17 +61,23 @@ export default function TablaUsuarios(props: any) {
           </TableCell>
           <TableCell align="center">{row.email}</TableCell>
 
-          { 
+          {
 
-          user?.email !== row.email ?
-          (
-            <TableCell align="center">
-              <IconButton
+            user?.email !== row.email ?
+              (
+                <TableCell align="center">
+                  <IconButton
+                    style={{ alignSelf: "flex-end", margin: "10px" }}
+                    onClick={() => {
+                      handleOpen(row._id);
+                    }}>
+                    <ModeEditOutlineIcon style={{ fontSize: "2rem" }} />
+                  </IconButton>
+                  {/* <IconButton
                 aria-label="delete"
                 size="large"
                 sx={{ cursor: "pointer" }}
                 onClick={() => {
-             
                   window.electron.ipcRenderer
                     .invoke("delete-user", {
                       _id: row._id,
@@ -60,19 +89,21 @@ export default function TablaUsuarios(props: any) {
                 }}
               >
                 <DeleteIcon />
-              </IconButton>
-            </TableCell>
-          ) : (
-            <TableCell align="center">
-              <IconButton
-                aria-label="delete"
-                size="large"
-                sx={{ cursor: "default" }}
-              >
-                <PersonIcon />
-              </IconButton>
-            </TableCell>
-          )}
+              </IconButton> */}
+                </TableCell>
+              ) : (
+                <TableCell align="center">
+                  <IconButton
+                    aria-label="delete"
+                    size="large"
+                    sx={{
+                      cursor: "none"
+                    }}
+                  >
+                    <PersonIcon />
+                  </IconButton>
+                </TableCell>
+              )}
         </TableRow>
       </>
     );
@@ -89,6 +120,13 @@ export default function TablaUsuarios(props: any) {
         borderRadius: "10px",
       }}
     >
+      <ModalModificarUsuario
+        open={open}
+        handleClose={handleClose}
+        user={userAct}
+        userList={userList}
+        usersTable={usersTable}
+      />
       <div
         style={{
           display: "flex",
@@ -159,7 +197,7 @@ export default function TablaUsuarios(props: any) {
                 ></TableCell>
               </TableRow>
             </TableHead>
-            <TableBody 
+            <TableBody
             >
               {userList?.map((row: any) => (
                 <Row key={row._id} row={row} />

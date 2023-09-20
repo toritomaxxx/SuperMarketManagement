@@ -56,8 +56,7 @@ export default function Ajustes() {
           flexDirection: "column",
           gap: "1rem",
           padding: "2rem",
-
-          height: "94vh",
+          height: "100vh",
           justifyContent: "center",
         }}
       >
@@ -81,7 +80,7 @@ export default function Ajustes() {
         {user?.isAdmin && (
           <>
             <TablaUsuarios userList={userList} usersTable={usersTable} />
-        
+
           </>
         )}
       </Box>

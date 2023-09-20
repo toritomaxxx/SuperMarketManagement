@@ -93,6 +93,21 @@ export const deleteUserIpc = () => {
   });
 };
 
+export const findUserIpc = () => {
+  // @ts-ignore
+  ipcMain.handle("find-user", (event, args) => {
+    return new Promise((resolve, reject) => {
+      usersDB.find({ _id: args._id }, (err, docs) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(docs);
+      });
+    });
+  });
+};
+
 export const updateUserIpc = () => {
   // @ts-ignore
   ipcMain.handle("update-user", (event, args) => {
@@ -403,4 +418,3 @@ export const buscarPorRangoDeFechaIpc = () => {
     });
   });
 };
-
